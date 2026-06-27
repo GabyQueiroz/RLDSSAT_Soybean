@@ -1,0 +1,73 @@
+﻿split,year,policy,policy_label,reward,yield_kg_ha,irrigation_mm
+test,2022,early_sep25_moderate_irrig,"Irrigated
+Sep 25",0.0166666666666666,1834.0,120.0
+test,2022,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",0.03,1890.0,120.0
+test,2022,late_nov10_moderate_irrig,"Irrigated
+Nov 10",-0.0026190476190475,1753.0,120.0
+test,2022,ppo_policy,PPO,0.2093809523809524,1144.0,18.0
+test,2022,rainfed_calendar_oct15,"Rainfed
+Oct 15",0.2719047619047619,1142.0,0.0
+test,2023,early_sep25_moderate_irrig,"Irrigated
+Sep 25",0.9727619047619048,5144.0,72.0
+test,2023,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",0.855952380952381,5359.0,120.0
+test,2023,late_nov10_moderate_irrig,"Irrigated
+Nov 10",0.7352380952380952,4852.0,120.0
+test,2023,ppo_policy,PPO,1.166047619047619,5015.0,8.0
+test,2023,rainfed_calendar_oct15,"Rainfed
+Oct 15",1.1347619047619049,4766.0,0.0
+test,2024,early_sep25_moderate_irrig,"Irrigated
+Sep 25",-0.3071428571428571,474.0,120.0
+test,2024,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",-0.2321428571428571,789.0,120.0
+test,2024,late_nov10_moderate_irrig,"Irrigated
+Nov 10",-0.084047619047619,1411.0,120.0
+test,2024,ppo_policy,PPO,0.0675238095238095,607.0,22.0
+test,2024,rainfed_calendar_oct15,"Rainfed
+Oct 15",0.1611904761904762,677.0,0.0
+test,2025,early_sep25_moderate_irrig,"Irrigated
+Sep 25",0.0138095238095238,1822.0,120.0
+test,2025,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",-0.0059523809523809,1739.0,120.0
+test,2025,late_nov10_moderate_irrig,"Irrigated
+Nov 10",-0.0773809523809523,1439.0,120.0
+test,2025,ppo_policy,PPO,0.1743809523809524,997.0,18.0
+test,2025,rainfed_calendar_oct15,"Rainfed
+Oct 15",0.199047619047619,836.0,0.0
+valid,2018,early_sep25_moderate_irrig,"Irrigated
+Sep 25",-0.315,0.0,90.0
+valid,2018,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",-0.252,0.0,72.0
+valid,2018,late_nov10_moderate_irrig,"Irrigated
+Nov 10",-0.189,0.0,54.0
+valid,2018,ppo_policy,PPO,-0.014,0.0,4.0
+valid,2018,rainfed_calendar_oct15,"Rainfed
+Oct 15",0.0,0.0,0.0
+valid,2019,early_sep25_moderate_irrig,"Irrigated
+Sep 25",1.0036190476190476,5009.0,54.0
+valid,2019,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",0.9834761904761904,5189.0,72.0
+valid,2019,late_nov10_moderate_irrig,"Irrigated
+Nov 10",0.9782380952380952,5167.0,72.0
+valid,2019,ppo_policy,PPO,1.193095238095238,5011.0,0.0
+valid,2019,rainfed_calendar_oct15,"Rainfed
+Oct 15",1.2354761904761904,5189.0,0.0
+valid,2020,early_sep25_moderate_irrig,"Irrigated
+Sep 25",1.0596190476190477,4715.0,18.0
+valid,2020,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",0.8766190476190475,4211.0,36.0
+valid,2020,late_nov10_moderate_irrig,"Irrigated
+Nov 10",0.5270476190476191,3272.0,72.0
+valid,2020,ppo_policy,PPO,1.045952380952381,4393.0,0.0
+valid,2020,rainfed_calendar_oct15,"Rainfed
+Oct 15",1.0026190476190475,4211.0,0.0
+valid,2021,early_sep25_moderate_irrig,"Irrigated
+Sep 25",0.1119047619047619,2234.0,120.0
+valid,2021,fixed_calendar_oct15_moderate_irrig,"Irrigated
+Oct 15",0.164047619047619,2453.0,120.0
+valid,2021,late_nov10_moderate_irrig,"Irrigated
+Nov 10",0.2023809523809523,2614.0,120.0
+valid,2021,ppo_policy,PPO,0.2217619047619047,1196.0,18.0
+valid,2021,rainfed_calendar_oct15,"Rainfed
+Oct 15",0.2873809523809524,1207.0,0.0

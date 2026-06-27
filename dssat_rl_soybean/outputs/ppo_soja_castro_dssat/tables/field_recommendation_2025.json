@@ -1,0 +1,18 @@
+{
+  "year": 2025,
+  "backend": "dssat",
+  "recommendation": {
+    "planting_date": "2025-09-27",
+    "irrigation_trigger_dryness_proxy_mm": 90.0,
+    "irrigation_event_mm": 2.0,
+    "season_irrigation_cap_mm": 36.26254081726074
+  },
+  "expected_simulated_outcome": {
+    "yield_kg_ha": 4017.2854263325085,
+    "irrigation_mm": 0.0,
+    "rain_mm": 623.0,
+    "reward": 0.9564965300791687,
+    "n_irrigation_events": 0
+  },
+  "note": "Use em campo exige previsao meteorologica atualizada, solo calibrado e cultivar DSSAT validada localmente."
+}

@@ -1,0 +1,12 @@
+DSSATTools>=3.0.0
+gymnasium>=0.29
+stable-baselines3[extra]>=2.3
+torch>=2.2
+pandas>=2.2
+numpy>=1.26
+matplotlib>=3.8
+seaborn>=0.13
+scikit-learn>=1.4
+pyyaml>=6.0
+tqdm>=4.66
+tabulate>=0.9

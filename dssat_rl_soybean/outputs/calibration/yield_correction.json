@@ -1,0 +1,57 @@
+{
+  "intercept": 3154.2762947807296,
+  "coefficients": {
+    "year_since_2000": 14.106593965183858,
+    "year_since_2000_sq": 0.6068126253904419,
+    "raw_yield_kg_ha": -0.0064577310974412985,
+    "raw_yield_kg_ha_sq": -0.7870401718216067,
+    "rain_mm": 0.011720205374350572,
+    "rain_mm_sq": 0.25494729972024593,
+    "irrigation_mm": -0.10587832869890286,
+    "planting_doy": -2.220460234050645e-05,
+    "planting_doy_sq": -0.06271595812501458,
+    "temp_mean_c": 14.145496267091477,
+    "srad_mj_m2_day": -6.128003073498241,
+    "raw_rain_interaction": 0.0362408080681517,
+    "rain_irrigation_interaction": -0.360610366816026
+  },
+  "base_features": [
+    "year",
+    "raw_yield_kg_ha",
+    "rain_mm",
+    "irrigation_mm",
+    "planting_doy",
+    "temp_mean_c",
+    "srad_mj_m2_day"
+  ],
+  "features": [
+    "year_since_2000",
+    "year_since_2000_sq",
+    "raw_yield_kg_ha",
+    "raw_yield_kg_ha_sq",
+    "rain_mm",
+    "rain_mm_sq",
+    "irrigation_mm",
+    "planting_doy",
+    "planting_doy_sq",
+    "temp_mean_c",
+    "srad_mj_m2_day",
+    "raw_rain_interaction",
+    "rain_irrigation_interaction"
+  ],
+  "clip_min": 0.0,
+  "clip_max": 7000.0,
+  "metrics": {
+    "selected_alpha": 200.0,
+    "selected_by": "lowest validation MAE after validation intercept correction",
+    "validation_intercept_adjustment": 136.3960262478754,
+    "fit_all_final": false,
+    "fit_metrics": {
+      "mae": 227.66082760987968,
+      "rmse": 289.4513421100758,
+      "r2": 0.3490509121531644,
+      "n": 60,
+      "alpha": 200.0
+    }
+  }
+}

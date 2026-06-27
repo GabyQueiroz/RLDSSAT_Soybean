@@ -1,0 +1,360 @@
+\section{Metodologia}
+\label{sec:metodologia}
+
+O estudo foi organizado em seis etapas: construção da base agrícola, consolidação
+da base meteorológica, preparação das séries diárias para o DSSAT, calibração da
+produtividade simulada, formulação do ambiente de aprendizado por reforço e
+treinamento do agente PPO. O fluxo foi implementado em Python e a simulação das
+safras foi realizada com o DSSAT-CSM por meio do pacote
+\texttt{Py\_DSSATTools}. A calibração e a avaliação foram feitas por divisão
+temporal, de modo que os anos usados para teste não participassem do ajuste do
+modelo.
+
+\subsection{Base de produtividade agrícola}
+\label{subsec:base_produtividade}
+
+Os dados agrícolas foram obtidos na Tabela 1612 do Sistema IBGE de Recuperação
+Automática (SIDRA), disponível em
+\url{https://sidra.ibge.gov.br/tabela/1612}. A consulta foi feita para lavouras
+temporárias em escala municipal, mantendo os municípios disponíveis na base
+oficial. O arquivo exportado continha oito tabelas, cada uma com 5.563 linhas e
+30 colunas, totalizando 1.335.120 valores antes da etapa de recorte e
+normalização.
+
+Foram mantidas as oito variáveis disponíveis na consulta:
+\begin{enumerate}
+    \item área plantada, em hectares;
+    \item área plantada como percentual do total geral;
+    \item área colhida, em hectares;
+    \item área colhida como percentual do total geral;
+    \item quantidade produzida, em toneladas;
+    \item rendimento médio da produção, em kg ha$^{-1}$;
+    \item valor da produção, na unidade monetária indicada pelo SIDRA em cada ano;
+    \item valor da produção como percentual do total geral.
+\end{enumerate}
+
+A variável de valor da produção foi preservada com a unidade original informada
+pelo SIDRA, sem conversão entre moedas. Essa variável não foi usada como alvo do
+modelo, mas foi mantida na base final para rastreabilidade. A cultura de
+interesse para a simulação foi soja em grão. A série agrícola da consulta
+abrangeu o período de 1974 a 2024. Para este experimento, foram extraídos os
+registros dos municípios de Castro (PR) e Ponta Grossa (PR), preservando ano,
+município, produto, variável, valor original e valor numérico quando disponível.
+Valores ausentes ou marcados na fonte como sem informação foram mantidos como
+ausentes, sem imputação.
+
+A base agrícola consolidada resultou em 8.640 registros em formato longo. Para a
+calibração e avaliação da produtividade simulada, foi usado o rendimento médio
+da produção de soja em grão em Castro, expresso em kg ha$^{-1}$.
+
+\subsection{Base meteorológica}
+\label{subsec:base_meteorologica}
+
+Os dados meteorológicos foram obtidos no portal de dados históricos do Instituto
+Nacional de Meteorologia (INMET), disponível em
+\url{https://portal.inmet.gov.br/dadoshistoricos}. Foi usada a estação
+automática A819, localizada em Castro, Paraná. As séries horárias incluíram
+precipitação, temperatura do ar, temperatura máxima e mínima na hora anterior,
+radiação global, umidade relativa, pressão atmosférica, direção e velocidade do
+vento.
+
+Foram lidos os arquivos anuais disponíveis entre 2006 e 2026. O arquivo
+\texttt{dados\_A819\_H\_2006-07-08\_2026-01-01.csv} foi usado como fonte
+complementar quando havia lacunas no histórico anual. A consolidação manteve os
+registros horários dos arquivos anuais e adicionou apenas os horários ausentes.
+Esse procedimento incluiu 8.784 linhas da fonte complementar: 24 horas de 8 de
+julho de 2006 e 8.760 horas referentes ao ano de 2022. A base meteorológica
+final ficou com 174.432 registros horários, sem duplicidade em
+\texttt{data\_hora}, no intervalo de 8 de julho de 2006 a 31 de maio de 2026.
+
+Antes da agregação diária, valores sentinela usados nos arquivos meteorológicos
+para indicar ausência de observação foram convertidos para ausentes. Valores
+menores ou iguais a $-90$ foram tratados como ausentes nas variáveis numéricas.
+Também foram removidos valores fisicamente inconsistentes, como precipitação
+negativa, temperaturas fora do intervalo de $-20$ a $50\,^\circ$C e radiação
+global horária negativa ou superior a 6000 kJ m$^{-2}$.
+
+A agregação diária foi feita a partir das observações horárias válidas. A
+precipitação diária foi calculada pela soma horária; a temperatura máxima e
+mínima diárias foram obtidas pelos extremos horários; a temperatura média foi
+calculada pela média das observações horárias; a radiação global diária foi
+calculada pela soma horária e convertida de kJ m$^{-2}$ para MJ m$^{-2}$.
+Para reduzir o efeito de dias incompletos, dias com menos de 18 observações de
+precipitação tiveram a chuva diária tratada como ausente; dias com menos de 18
+observações de temperatura tiveram as temperaturas tratadas como ausentes; dias
+com menos de 6 observações de radiação tiveram a radiação tratada como ausente.
+
+As falhas de precipitação foram preenchidas pela média climatológica do dia do
+ano, com média mensal como alternativa quando necessário. A radiação ausente ou
+inferior a 0,5 MJ m$^{-2}$ dia$^{-1}$ foi estimada pelo método de Hargreaves, a
+partir da amplitude térmica diária e da radiação extraterrestre calculada para a
+latitude da estação. Essa estimativa foi usada apenas quando a observação do
+INMET não estava disponível em condição adequada para alimentar o DSSAT.
+
+\subsection{Divisão temporal}
+\label{subsec:divisao_temporal}
+
+Cada safra foi definida pelo ano de plantio e pela janela meteorológica de
+setembro do ano corrente a abril do ano seguinte. A divisão temporal usada no
+experimento foi:
+\begin{itemize}
+    \item treinamento: 2006--2017;
+    \item validação: 2018--2021;
+    \item teste: 2022--2024 para comparação com produtividade observada;
+    \item simulação climática adicional: 2025, sem produtividade SIDRA observada
+    na base disponível no momento da análise.
+\end{itemize}
+
+Essa separação foi adotada para evitar que uma mesma safra participasse do
+ajuste e da avaliação final. Os anos de validação foram usados para seleção da
+correção estatística e para acompanhamento do treinamento PPO. Os anos de teste
+foram usados apenas na avaliação final da produtividade.
+
+\subsection{Simulação da cultura no DSSAT}
+\label{subsec:dssat}
+
+O DSSAT (\textit{Decision Support System for Agrotechnology Transfer}) foi usado
+como ambiente mecanístico de simulação da cultura. Diferentemente de uma
+regressão ajustada diretamente sobre os dados históricos, o DSSAT simula o ciclo
+da soja a partir de processos diários de desenvolvimento fenológico, crescimento,
+balanço hídrico do solo, acúmulo de biomassa e formação de grãos. Assim, cada
+combinação de clima, solo, cultivar, data de plantio e irrigação gera uma safra
+simulada.
+
+Foi usado o módulo de soja do DSSAT, \texttt{CRGRO-Soybean}. A integração com
+Python foi feita com \texttt{Py\_DSSATTools}, que cria os arquivos de entrada,
+executa o DSSAT-CSM e lê os resultados de saída. Para cada simulação, o código
+gera um tratamento contendo:
+\begin{enumerate}
+    \item série meteorológica diária da estação A819;
+    \item perfil de solo no formato DSSAT;
+    \item cultivar de soja;
+    \item data de plantio;
+    \item população, espaçamento e profundidade de semeadura;
+    \item eventos de irrigação;
+    \item controles de simulação e arquivos de saída.
+\end{enumerate}
+
+A estação foi parametrizada com latitude $-24{,}77999999$, longitude
+$-50{,}04638888$ e altitude de 1.016 m. O arquivo meteorológico diário fornecido
+ao DSSAT continha radiação solar, temperatura máxima, temperatura mínima e
+precipitação. A cultivar configurada foi \texttt{990005}, disponível no arquivo
+\texttt{SBGRO048.CUL}. A população foi fixada em 30 plantas m$^{-2}$, com
+espaçamento entre linhas de 45 cm e profundidade de semeadura de 5 cm.
+
+Na versão computacional usada neste estudo, o solo foi representado por um perfil
+argiloso padrão para Castro, com cinco camadas até 150 cm. O perfil contém limite
+inferior de água, capacidade de campo, saturação, densidade do solo, carbono
+orgânico, textura e fator de crescimento radicular. Esse perfil permite executar
+o fluxo completo com DSSAT real. Para aplicação local em campo, recomenda-se
+substituir esse perfil por um \texttt{SOIL.SOL} medido ou calibrado para a área
+experimental.
+
+\subsection{Calibração da produtividade simulada}
+\label{subsec:calibracao_dssat}
+
+Como o DSSAT depende de solo, cultivar e parâmetros de manejo que nem sempre
+estão disponíveis em escala municipal, foi adicionada uma etapa de correção
+estatística da produtividade simulada. O objetivo dessa etapa foi alinhar a
+produtividade simulada pelo DSSAT ao rendimento médio municipal observado no
+SIDRA, mantendo o DSSAT como gerador da resposta agronômica de cada manejo.
+
+Para cada ano dos conjuntos de treinamento, validação e teste, o DSSAT foi
+executado em cinco datas de plantio: 25 de setembro, 5 de outubro, 15 de
+outubro, 25 de outubro e 5 de novembro. Nessas simulações de calibração, foi
+usada uma política fixa de irrigação com gatilho de déficit hídrico igual a
+45 mm, lâmina de 20 mm por evento e limite sazonal de 120 mm. Para cada
+simulação foram registrados produtividade bruta do DSSAT, precipitação,
+irrigação, dia juliano de plantio, temperatura média e radiação média da safra.
+
+A correção foi ajustada por regressão ridge. O vetor de entrada incluiu ano,
+produtividade bruta do DSSAT, precipitação, irrigação, dia juliano de plantio,
+temperatura média, radiação média e termos quadráticos e de interação derivados
+dessas variáveis. O modelo geral pode ser escrito como:
+\begin{equation}
+    \hat{Y}_{\mathrm{corr}} =
+    \beta_0 + \sum_{j=1}^{p} \beta_j x_j,
+\end{equation}
+em que $\hat{Y}_{\mathrm{corr}}$ é a produtividade corrigida, $x_j$ são as
+variáveis derivadas da simulação DSSAT e $\beta_j$ são os coeficientes estimados.
+Os coeficientes foram obtidos pela minimização:
+\begin{equation}
+    \min_{\boldsymbol{\beta}}
+    \sum_{i=1}^{n}
+    \left(Y_i - \hat{Y}_{i,\mathrm{corr}}\right)^2
+    + \alpha \sum_{j=1}^{p}\beta_j^2,
+\end{equation}
+em que $Y_i$ é a produtividade observada no SIDRA e $\alpha$ é o parâmetro de
+regularização.
+
+A busca de $\alpha$ foi feita no conjunto
+\[
+\{0{,}05,\ 0{,}10,\ 0{,}50,\ 1,\ 2{,}5,\ 5,\ 10,\ 25,\ 50,\ 100,\ 200,\ 300,\ 500\}.
+\]
+O ajuste dos coeficientes foi feito com os anos de treinamento. Para cada valor
+de $\alpha$, o modelo foi aplicado às simulações da validação, as previsões foram
+agregadas por ano, e o erro médio de validação foi calculado. Em seguida, foi
+aplicado um ajuste de intercepto igual ao viés médio observado na validação. O
+parâmetro final selecionado foi $\alpha = 200$, por apresentar o menor erro
+absoluto médio após o ajuste de intercepto na validação. O modelo final de
+correção foi salvo em \texttt{outputs/calibration/yield\_correction.json} e
+passou a ser aplicado automaticamente após cada simulação DSSAT.
+
+\subsection{Ambiente de aprendizado por reforço}
+\label{subsec:ambiente_rl}
+
+O ambiente foi implementado com a interface \texttt{Gymnasium}. Cada episódio
+representa uma safra completa. No início do episódio, um ano meteorológico é
+selecionado dentro do conjunto em uso. O agente observa estatísticas climáticas
+da safra e escolhe, em uma única ação, a data de plantio e os parâmetros de
+irrigação. Em seguida, o ambiente constrói o tratamento DSSAT, executa a
+simulação e retorna produtividade, água aplicada e recompensa.
+
+O estado observado pelo agente foi:
+\begin{equation}
+    s =
+    \left[
+    \frac{P}{1800},
+    \frac{\bar{T}}{35},
+    \frac{T_{\max}}{45},
+    \frac{T_{\min}}{20},
+    \frac{\bar{R}_{s}}{30},
+    \frac{n_{\mathrm{dias}}}{366},
+    0,
+    0,
+    1
+    \right],
+\end{equation}
+em que $P$ é a precipitação acumulada da safra, $\bar{T}$ é a temperatura média,
+$T_{\max}$ e $T_{\min}$ são os extremos térmicos, $\bar{R}_{s}$ é a radiação
+solar média diária e $n_{\mathrm{dias}}$ é o número de dias da janela
+meteorológica.
+
+A ação foi definida como um vetor contínuo $a \in [-1,1]^4$:
+\begin{equation}
+    a = [a_1, a_2, a_3, a_4].
+\end{equation}
+O primeiro componente define o deslocamento da data de plantio dentro da janela
+de 15 de setembro a 20 de dezembro. Os demais componentes definem o manejo de
+irrigação:
+\begin{align}
+    d_{\mathrm{plantio}} &=
+    \left\lfloor
+    \frac{a_1 + 1}{2} W
+    \right\rceil, \\
+    \theta_{\mathrm{def}} &=
+    10 + \frac{a_2 + 1}{2}\cdot 80, \\
+    I_{\mathrm{evento}} &=
+    2 + \frac{a_3 + 1}{2}\cdot 35, \\
+    I_{\mathrm{max}} &=
+    20 + \frac{a_4 + 1}{2}\cdot 240,
+\end{align}
+em que $W$ é o tamanho da janela de plantio em dias,
+$\theta_{\mathrm{def}}$ é o gatilho de déficit hídrico, $I_{\mathrm{evento}}$ é a
+lâmina por evento e $I_{\mathrm{max}}$ é o limite sazonal de irrigação. A
+política de irrigação foi avaliada a cada 12 dias durante 150 dias após o
+plantio.
+
+A recompensa combinou produtividade e uso de água:
+\begin{equation}
+    r =
+    \frac{Y}{Y_{\mathrm{ref}}}
+    -
+    \lambda I,
+\end{equation}
+em que $Y$ é a produtividade corrigida da simulação DSSAT, $Y_{\mathrm{ref}} =
+4200$ kg ha$^{-1}$, $I$ é a irrigação sazonal em mm e $\lambda = 0{,}0015$ é o
+peso da penalização da água. Simulações com falha de execução receberam
+recompensa igual a $-2$.
+
+\subsection{Treinamento com PPO}
+\label{subsec:ppo}
+
+O agente foi treinado com Proximal Policy Optimization (PPO), usando a
+implementação da biblioteca \texttt{stable-baselines3}. A política e a função de
+valor foram representadas por redes neurais multicamadas com três camadas
+ocultas de 128, 128 e 64 neurônios, com ativação tangente hiperbólica. A política
+produz uma distribuição gaussiana sobre as quatro ações contínuas.
+
+A função objetivo do PPO usa a razão de probabilidades entre a política nova e a
+política usada na coleta das trajetórias:
+\begin{equation}
+    L^{\mathrm{CLIP}}(\theta) =
+    \mathbb{E}_{t}
+    \left[
+    \min
+    \left(
+    \rho_t(\theta)\hat{A}_t,
+    \mathrm{clip}
+    \left(
+    \rho_t(\theta), 1-\epsilon, 1+\epsilon
+    \right)\hat{A}_t
+    \right)
+    \right],
+\end{equation}
+em que $\rho_t(\theta)$ é a razão entre probabilidades de ação,
+$\hat{A}_t$ é a estimativa de vantagem e $\epsilon$ é o limite de alteração da
+política em cada atualização.
+
+Os hiperparâmetros usados no treinamento estão na
+Tabela~\ref{tab:hiperparametros_ppo}.
+
+\begin{table}[htbp]
+\centering
+\caption{Hiperparâmetros usados no treinamento PPO.}
+\label{tab:hiperparametros_ppo}
+\begin{tabular}{ll}
+\hline
+Parâmetro & Valor \\
+\hline
+Etapas totais & 500.000 \\
+Ambientes paralelos & 8 \\
+Passos por coleta & 256 \\
+Tamanho do lote & 512 \\
+Épocas por atualização & 10 \\
+Taxa de aprendizado & 0,0002 \\
+Fator de desconto $\gamma$ & 0,99 \\
+GAE $\lambda$ & 0,95 \\
+Intervalo de clip & 0,15 \\
+Coeficiente de entropia & 0,01 \\
+Coeficiente da função de valor & 0,50 \\
+Norma máxima do gradiente & 0,50 \\
+Semente aleatória & 42 \\
+\hline
+\end{tabular}
+\end{table}
+
+Durante o treinamento, a política foi avaliada no conjunto de validação a cada
+10.000 etapas. O modelo com maior recompensa média de validação foi salvo como
+melhor política. Quando a recompensa de validação não aumentava por oito
+avaliações consecutivas, o treinamento era encerrado. Ao final, a política salva
+foi avaliada nos conjuntos de validação e teste com ações determinísticas.
+
+\subsection{Políticas de referência e saídas}
+\label{subsec:baselines_saidas}
+
+O desempenho do agente foi comparado com quatro políticas de referência:
+\begin{enumerate}
+    \item plantio em 15 de outubro sem irrigação;
+    \item plantio em 15 de outubro com irrigação moderada;
+    \item plantio antecipado em 25 de setembro com irrigação moderada;
+    \item plantio tardio em 10 de novembro com irrigação moderada.
+\end{enumerate}
+
+As saídas computacionais foram gravadas em \texttt{outputs/}. A calibração final
+foi armazenada em \texttt{outputs/calibration\_v4\_row\_bias\_corrected/},
+incluindo tabelas de erro por ano, busca de $\alpha$, métricas por conjunto e
+figuras em inglês. O treinamento PPO foi armazenado em
+\texttt{outputs/ppo\_soja\_castro\_dssat/}, contendo modelo treinado, curva de
+validação, tabelas de avaliação, comparação com políticas de referência e
+figuras para discussão dos resultados.
+
+\subsection{Reprodutibilidade}
+\label{subsec:reprodutibilidade}
+
+O fluxo final foi executado por um script único em PowerShell. A rotina primeiro
+verifica se o DSSAT real executa com os arquivos de clima, solo e cultivar. Em
+seguida, executa a calibração da produtividade contra o SIDRA e salva o modelo
+de correção. Por fim, inicia o treinamento PPO com DSSAT real. Essa organização
+mantém separados os arquivos de entrada, a calibração, o treinamento e as saídas
+usadas nas tabelas e figuras do artigo.

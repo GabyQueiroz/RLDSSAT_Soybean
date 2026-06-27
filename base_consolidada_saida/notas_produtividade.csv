@@ -1,0 +1,331 @@
+﻿arquivo,aba,linha,texto
+tabela1984ate1989.xlsx,Notas,1,Notas
+tabela1984ate1989.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela1984ate1989.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela1984ate1989.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela1984ate1989.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela1984ate1989.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela1984ate1989.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela1984ate1989.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela1984ate1989.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela1984ate1989.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela1984ate1989.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela1984ate1989.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela1984ate1989.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela1984ate1989.xlsx,Notas,15,Legenda
+tabela1984ate1989.xlsx,Notas,16,Símbolo | Significado
+tabela1984ate1989.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela1984ate1989.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela1984ate1989.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela1984ate1989.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela1984ate1989.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela1984ate1989.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela1991ate1995.xlsx,Notas,1,Notas
+tabela1991ate1995.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela1991ate1995.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela1991ate1995.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela1991ate1995.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela1991ate1995.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela1991ate1995.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela1991ate1995.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela1991ate1995.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela1991ate1995.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela1991ate1995.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela1991ate1995.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela1991ate1995.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela1991ate1995.xlsx,Notas,15,Legenda
+tabela1991ate1995.xlsx,Notas,16,Símbolo | Significado
+tabela1991ate1995.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela1991ate1995.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela1991ate1995.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela1991ate1995.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela1991ate1995.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela1991ate1995.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela1996ate2001.xlsx,Notas,1,Notas
+tabela1996ate2001.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela1996ate2001.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela1996ate2001.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela1996ate2001.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela1996ate2001.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela1996ate2001.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela1996ate2001.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela1996ate2001.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela1996ate2001.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela1996ate2001.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela1996ate2001.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela1996ate2001.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela1996ate2001.xlsx,Notas,15,Legenda
+tabela1996ate2001.xlsx,Notas,16,Símbolo | Significado
+tabela1996ate2001.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela1996ate2001.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela1996ate2001.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela1996ate2001.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela1996ate2001.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela1996ate2001.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela2002ate2006.xlsx,Notas,1,Notas
+tabela2002ate2006.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela2002ate2006.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela2002ate2006.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela2002ate2006.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela2002ate2006.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela2002ate2006.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela2002ate2006.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela2002ate2006.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela2002ate2006.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela2002ate2006.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela2002ate2006.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela2002ate2006.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela2002ate2006.xlsx,Notas,15,Legenda
+tabela2002ate2006.xlsx,Notas,16,Símbolo | Significado
+tabela2002ate2006.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela2002ate2006.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela2002ate2006.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela2002ate2006.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela2002ate2006.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela2002ate2006.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela2008ate2013.xlsx,Notas,1,Notas
+tabela2008ate2013.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela2008ate2013.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela2008ate2013.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela2008ate2013.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela2008ate2013.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela2008ate2013.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela2008ate2013.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela2008ate2013.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela2008ate2013.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela2008ate2013.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela2008ate2013.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela2008ate2013.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela2008ate2013.xlsx,Notas,15,Legenda
+tabela2008ate2013.xlsx,Notas,16,Símbolo | Significado
+tabela2008ate2013.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela2008ate2013.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela2008ate2013.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela2008ate2013.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela2008ate2013.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela2008ate2013.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela2014ate2019.xlsx,Notas,1,Notas
+tabela2014ate2019.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela2014ate2019.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela2014ate2019.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela2014ate2019.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela2014ate2019.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela2014ate2019.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela2014ate2019.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela2014ate2019.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela2014ate2019.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela2014ate2019.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela2014ate2019.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela2014ate2019.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela2014ate2019.xlsx,Notas,15,Legenda
+tabela2014ate2019.xlsx,Notas,16,Símbolo | Significado
+tabela2014ate2019.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela2014ate2019.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela2014ate2019.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela2014ate2019.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela2014ate2019.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela2014ate2019.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela20242025.xlsx,Notas,1,Notas
+tabela20242025.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela20242025.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela20242025.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela20242025.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela20242025.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela20242025.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela20242025.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela20242025.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela20242025.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela20242025.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela20242025.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela20242025.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela20242025.xlsx,Notas,15,Legenda
+tabela20242025.xlsx,Notas,16,Símbolo | Significado
+tabela20242025.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela20242025.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela20242025.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela20242025.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela20242025.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela20242025.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela22-21-20.xlsx,Notas,1,Notas
+tabela22-21-20.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela22-21-20.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela22-21-20.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela22-21-20.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela22-21-20.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela22-21-20.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela22-21-20.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela22-21-20.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela22-21-20.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela22-21-20.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela22-21-20.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela22-21-20.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela22-21-20.xlsx,Notas,15,Legenda
+tabela22-21-20.xlsx,Notas,16,Símbolo | Significado
+tabela22-21-20.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela22-21-20.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela22-21-20.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela22-21-20.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela22-21-20.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela22-21-20.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela74ate78.xlsx,Notas,1,Notas
+tabela74ate78.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela74ate78.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela74ate78.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela74ate78.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela74ate78.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela74ate78.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela74ate78.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela74ate78.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela74ate78.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela74ate78.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela74ate78.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela74ate78.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela74ate78.xlsx,Notas,15,Legenda
+tabela74ate78.xlsx,Notas,16,Símbolo | Significado
+tabela74ate78.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela74ate78.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela74ate78.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela74ate78.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela74ate78.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela74ate78.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabela79ate83.xlsx,Notas,1,Notas
+tabela79ate83.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabela79ate83.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabela79ate83.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabela79ate83.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabela79ate83.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabela79ate83.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabela79ate83.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabela79ate83.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabela79ate83.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabela79ate83.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabela79ate83.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabela79ate83.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabela79ate83.xlsx,Notas,15,Legenda
+tabela79ate83.xlsx,Notas,16,Símbolo | Significado
+tabela79ate83.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabela79ate83.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabela79ate83.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabela79ate83.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabela79ate83.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabela79ate83.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"
+tabelas1990-2007-2023.xlsx,Notas,1,Notas
+tabelas1990-2007-2023.xlsx,Notas,2,1 - Os municípios sem informação para pelo menos um produto da lavoura temporária não aparecem nas listas;
+tabelas1990-2007-2023.xlsx,Notas,3,2 - A partir do ano de 2001 as quantidades produzidas dos produtos melancia e melão passam a ser expressas em toneladas. Nos anos anteriores eram expressas em mil frutos. O rendimento médio passa a ser expresso em Kg/ha. Nos anos anteriores era expresso em frutos/ha.
+tabelas1990-2007-2023.xlsx,Notas,4,3 - Veja o documento AlteracoesUnidadesMedidaFrutas.pdf com as alterações de unidades de medida das frutíferas ocorridas em 2001 e a tabela de conversão fruto x quilograma.
+tabelas1990-2007-2023.xlsx,Notas,5,4 - Os produtos girassol e triticale só apresentam informação a partir de 2005.
+tabelas1990-2007-2023.xlsx,Notas,6,5 - A quantidade produzida de abacaxi é expressa em mil frutos e o rendimento médio em frutos/ha.
+tabelas1990-2007-2023.xlsx,Notas,7,"6 - Valores para a categoria Total indisponíveis para as variáveis Quantidade produzida e Rendimento médio, pois as unidades de medida diferem para determinados produtos."
+tabelas1990-2007-2023.xlsx,Notas,8,"7 - Subentende a possibilidade de cultivos sucessivos ou simultâneos (simples, associados e/ou intercalados) no mesmo ano e no mesmo local, podendo, por isto, a área informada da cultura exceder a área geográfica do município."
+tabelas1990-2007-2023.xlsx,Notas,9,"8 - As culturas de abacaxi, cana-de-açúcar, mamona e mandioca são consideradas culturas temporárias de longa duração. Elas costumam ter ciclo vegetativo que ultrapassa 12 meses e, por isso, as informações são computadas nas colheitas realizadas dentro de cada ano civil (12 meses).
+Nestas culturas a área plantada refere-se a área destinada à colheita no ano."
+tabelas1990-2007-2023.xlsx,Notas,10,9 - A diferença entre a área plantada e a área colhida na lavoura temporária é considerada como área perdida.
+tabelas1990-2007-2023.xlsx,Notas,11,10 - A variável Área plantada só passou a ser informada a partir de 1988.
+tabelas1990-2007-2023.xlsx,Notas,12,"11 - Valor da produção: Variável derivada calculada pela média ponderada das informações de quantidade e preço médio corrente pago ao produtor, de acordo com os períodos de colheita e comercialização de cada produto. As despesas de frete, taxas e impostos não são incluídas no preço."
+tabelas1990-2007-2023.xlsx,Notas,13,12 - Os dados do último ano divulgado são RESULTADOS PRELIMINARES e podem sofrer alterações até a próxima divulgação.
+tabelas1990-2007-2023.xlsx,Notas,15,Legenda
+tabelas1990-2007-2023.xlsx,Notas,16,Símbolo | Significado
+tabelas1990-2007-2023.xlsx,Notas,17,"- | Zero absoluto, não resultante de um cálculo ou arredondamento.
+Ex: Em determinado município não existem pessoas de 14 anos de idade sem instrução."
+tabelas1990-2007-2023.xlsx,Notas,18,"0 | Zero resultante de um cálculo ou arredondamento.
+Ex: A inflação do feijão em determinada Região Metropolitana foi 0.
+Determinado município produziu 400 kg de sementes de girassol e os dados da tabela são expressos em toneladas."
+tabelas1990-2007-2023.xlsx,Notas,19,"X | Valor inibido para não identificar o informante.
+Ex: Determinado município só possui uma empresa produtora de cimento, logo o valor de sua produção deve ser inibido."
+tabelas1990-2007-2023.xlsx,Notas,20,".. | Valor não se aplica.
+Ex: Não se pode obter o total da produção agrícola em determinado município quando os produtos agrícolas são contabilizados com unidades de medida distintas."
+tabelas1990-2007-2023.xlsx,Notas,21,"... | Valor não disponível.
+Ex: A produção de feijão em determinado município não foi pesquisada ou determinado município não existia no ano da pesquisa."
+tabelas1990-2007-2023.xlsx,Notas,22,"A a Z
+(exceto X) | Significa uma faixa de valores. Varia em função da tabela (se for o caso).
+Ex: O nível de precisão da produção estimada de combustíveis está na faixa A (95 a 100%)"

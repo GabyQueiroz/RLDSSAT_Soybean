@@ -1,0 +1,86 @@
+{
+  "config": {
+    "seed": 42,
+    "backend": "dssat",
+    "data": {
+      "weather_csv": "../base_consolidada_saida/clima_castro_horario.csv",
+      "productivity_csv": "../base_consolidada_saida/produtividade_castro_ponta_grossa_longa.csv",
+      "city": "Castro (PR)",
+      "crop_product": "Soja (em grão)",
+      "train_years": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017
+      ],
+      "valid_years": [
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "test_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    },
+    "agronomy": {
+      "planting_window_start": "09-15",
+      "planting_window_end": "12-20",
+      "season_length_days": 150,
+      "irrigation_check_days": 12,
+      "max_single_irrigation_mm": 35,
+      "max_season_irrigation_mm": 240,
+      "soybean_cultivar": "990005",
+      "plant_population_m2": 30,
+      "row_spacing_cm": 45,
+      "planting_depth_cm": 5
+    },
+    "reward": {
+      "target_yield_kg_ha": 4200,
+      "water_penalty_per_mm": 0.0035,
+      "failed_run_penalty": -2.0
+    },
+    "ppo": {
+      "total_timesteps": 500000,
+      "eval_freq": 10000,
+      "patience_evals": 8,
+      "n_envs": 8,
+      "n_steps": 256,
+      "batch_size": 512,
+      "n_epochs": 10,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "learning_rate": 0.0002,
+      "clip_range": 0.15,
+      "ent_coef": 0.01,
+      "vf_coef": 0.5,
+      "max_grad_norm": 0.5
+    },
+    "dssat": {
+      "run_root": "C:/DSSAT_RL_RUNS",
+      "keep_failed_runs": true,
+      "keep_success_runs": false,
+      "use_default_soil": true,
+      "soil_file": null,
+      "soil_id": null,
+      "latitude": -24.77999999,
+      "longitude": -50.04638888,
+      "elevation_m": 1016
+    },
+    "_config_path": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean\\configs\\experiment.yaml",
+    "_project_dir": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean"
+  },
+  "best_validation_reward": 0.6991116071428571,
+  "output_dir": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean\\outputs\\ppo_soja_castro_dssat"
+}

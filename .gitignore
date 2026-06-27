@@ -1,0 +1,44 @@
+# Python/runtime artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and local installs
+.venv/
+venv/
+env/
+
+# Editor/OS files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# DSSAT/PPO transient outputs
+dssat_rl_soybean/outputs/dssat_runs/
+dssat_rl_soybean/outputs/**/tensorboard/
+dssat_rl_soybean/outputs/smoke_mock*/
+dssat_rl_soybean/outputs/calibration_check_current/
+dssat_rl_soybean/outputs/calibration_v2/
+dssat_rl_soybean/outputs/calibration_v3_bias_corrected/
+dssat_rl_soybean/outputs/yield_calibration*/
+dssat_rl_soybean/outputs/yield_calibration_annual/
+
+# Superseded figures kept locally only
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/curva_treinamento_validacao.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/fronteira_produtividade_agua.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/produtividade_por_conjunto.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/ppo_vs_baselines_reward.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/policy_irrigation_comparison_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/policy_reward_comparison_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/policy_yield_comparison_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/ppo_annual_outcomes_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/validation_model_selection_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/validation_yield_irrigation_en.png
+dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/yield_water_tradeoff_en.png
+
+# Local DSSAT run folders may contain temporary executable data
+DSSAT_RL_RUNS/
