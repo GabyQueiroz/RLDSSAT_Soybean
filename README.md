@@ -1,32 +1,30 @@
 # RLDSSAT Soybean
 
-Pipeline para simular soja em Castro (PR) com DSSAT-CSM e treinar um agente PPO
-para decisão de data de plantio e manejo de irrigação.
+Pipeline to simulate soybean crops in Castro (PR) using DSSAT-CSM and to train a PPO agent
+for planting date and irrigation management decisions.
 
-## Conteúdo
+## Contents
 
-- `dssat_rl_soybean/`: código Python, configuração, scripts de execução e saídas finais.
-- `base_consolidada_saida/`: base consolidada usada no experimento.
-- `*.xlsx`: planilhas SIDRA/IBGE usadas na construção da base agrícola.
-- `INMET_*.CSV` e `dados_A819_H_2006-07-08_2026-01-01.csv`: dados meteorológicos INMET usados na consolidação.
-- `metodologia_rl_dssat.tex`: seção de metodologia em LaTeX.
-- `resultados_rl_dssat.tex`: seção de resultados em LaTeX.
+- `dssat_rl_soybean/`: Python code, configuration, execution scripts, and final outputs.
+- `base_consolidada_saida/`: Consolidated dataset used in the experiment.
+- `*.xlsx`: SIDRA/IBGE spreadsheets used to build the agricultural dataset.
+- `INMET_*.CSV` and `dados_A819_H_2006-07-08_2026-01-01.csv`: INMET weather data used for consolidation.
 
-## Execução principal
+## Main Execution
 
-No Windows/PowerShell:
+On Windows/PowerShell:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\run_dssat_training.ps1"
+powershell -ExecutionPolicy Bypass -File "PATH"
 ```
 
-O script verifica o DSSAT real, calibra a produtividade simulada contra o SIDRA e
-inicia o treinamento PPO.
+The script verifies the actual DSSAT simulation, calibrates simulated yield against SIDRA data,
+and initiates PPO training.
 
-## Resultados finais
+## Final Results
 
-- Calibração final: `dssat_rl_soybean/outputs/calibration_v4_row_bias_corrected/`
-- Modelo de correção usado pelo DSSAT: `dssat_rl_soybean/outputs/calibration/yield_correction.json`
-- Avaliação PPO: `dssat_rl_soybean/outputs/ppo_soja_castro_dssat/`
+- Final calibration: `dssat_rl_soybean/outputs/calibration_v4_row_bias_corrected/`
+- Correction model used by DSSAT: `dssat_rl_soybean/outputs/calibration/yield_correction.json`
+- PPO evaluation: `dssat_rl_soybean/outputs/ppo_soja_castro_dssat/`
 
-Arquivos de ambiente virtual, caches e saídas temporárias não são versionados.
+Virtual environment files, caches, and temporary outputs are not version-controlled.
