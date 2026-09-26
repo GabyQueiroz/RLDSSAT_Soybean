@@ -29,26 +29,30 @@ def build_irrigation_schedule(
     max_season_irrigation_mm: float,
     check_days: int,
 ) -> pd.DataFrame:
+    empty_schedule = pd.DataFrame(columns=["idate", "irval", "irop"])
+    if amount_mm <= 0 or max_season_irrigation_mm <= 0:
+        return empty_schedule
+
     season = daily[
         (daily["date"].dt.date >= planting_date)
         & (daily["date"].dt.date < planting_date + timedelta(days=season_length_days))
     ].copy()
     if season.empty:
-        return pd.DataFrame(columns=["idate", "irval", "irop"])
+        return empty_schedule
 
     water_balance = 0.0
     total_irrig = 0.0
     events = []
     for i, row in enumerate(season.itertuples(index=False)):
-        evap_proxy = max(0.0, 0.16 * float(row.srad) + 0.08 * max(float(row.temp_mean) - 10.0, 0.0))
-        water_balance += evap_proxy - float(row.rain)
-        water_balance = max(0.0, water_balance)
         if i % max(check_days, 1) == 0 and water_balance >= trigger_dryness and total_irrig < max_season_irrigation_mm:
             applied = min(float(amount_mm), max_season_irrigation_mm - total_irrig)
             if applied > 0:
                 events.append({"idate": row.date.date(), "irval": round(applied, 1), "irop": "IR001"})
                 total_irrig += applied
                 water_balance = max(0.0, water_balance - applied)
+        evap_proxy = max(0.0, 0.16 * float(row.srad) + 0.08 * max(float(row.temp_mean) - 10.0, 0.0))
+        water_balance += evap_proxy - float(row.rain)
+        water_balance = max(0.0, water_balance)
     return pd.DataFrame(events)
 
 

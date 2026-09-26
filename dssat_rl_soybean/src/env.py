@@ -31,7 +31,7 @@ class SoybeanDSSATEnv(gym.Env):
         window_days = (end - start).days
         planting_offset = int(round(((float(action[0]) + 1.0) / 2.0) * window_days))
         trigger_dryness = 10.0 + ((float(action[1]) + 1.0) / 2.0) * 80.0
-        amount_mm = 2.0 + ((float(action[2]) + 1.0) / 2.0) * ag["max_single_irrigation_mm"]
+        amount_mm = ((float(action[2]) + 1.0) / 2.0) * ag["max_single_irrigation_mm"]
         max_irrig = 20.0 + ((float(action[3]) + 1.0) / 2.0) * ag["max_season_irrigation_mm"]
         return {
             "planting_offset_days": planting_offset,
