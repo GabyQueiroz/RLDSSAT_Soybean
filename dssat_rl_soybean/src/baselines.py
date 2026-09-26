@@ -5,13 +5,13 @@ from datetime import timedelta
 import numpy as np
 import pandas as pd
 
-from .data import build_year_weather, load_weather, planting_date_for_year
+from .data import build_year_weather_with_context, load_weather, planting_date_for_year
 from .dssat_adapter import MockDSSATRunner, PyDSSATRunner, build_irrigation_schedule
 
 
 def evaluate_baselines(cfg, paths, split: str = "test") -> pd.DataFrame:
     daily = load_weather(paths.project_dir, cfg)
-    years = build_year_weather(daily, cfg["data"][f"{split}_years"])
+    years = build_year_weather_with_context(daily, cfg["data"][f"{split}_years"], cfg)
     runner = PyDSSATRunner(cfg, paths.project_dir) if cfg["backend"] == "dssat" else MockDSSATRunner(cfg)
     ag = cfg["agronomy"]
     rng = np.random.default_rng(cfg["seed"] + 30_000)

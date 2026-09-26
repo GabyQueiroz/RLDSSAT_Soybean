@@ -13,7 +13,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from .callbacks import ValidationEarlyStopCallback
 from .baselines import evaluate_baselines
 from .config import load_config, make_paths
-from .data import build_year_weather, load_observed_soybean_yield, load_weather, summarize_weather_splits
+from .data import build_year_weather_with_context, load_observed_soybean_yield, load_weather, summarize_weather_splits
 from .dssat_adapter import MockDSSATRunner, PyDSSATRunner
 from .env import SoybeanDSSATEnv
 from .report import build_report
@@ -50,8 +50,8 @@ def main():
     summarize_weather_splits(daily, cfg).to_csv(paths.tables_dir / "weather_splits.csv", index=False, encoding="utf-8-sig")
     observed.to_csv(paths.tables_dir / "observed_soybean_yield_castro.csv", index=False, encoding="utf-8-sig")
 
-    train_years = build_year_weather(daily, cfg["data"]["train_years"])
-    valid_years = build_year_weather(daily, cfg["data"]["valid_years"])
+    train_years = build_year_weather_with_context(daily, cfg["data"]["train_years"], cfg)
+    valid_years = build_year_weather_with_context(daily, cfg["data"]["valid_years"], cfg)
     runner = make_runner(cfg, paths.project_dir)
 
     def make_env(i: int):

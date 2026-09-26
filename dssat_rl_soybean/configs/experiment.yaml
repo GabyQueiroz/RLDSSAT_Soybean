@@ -21,6 +21,14 @@ agronomy:
   plant_population_m2: 30
   row_spacing_cm: 45
   planting_depth_cm: 5
+decision:
+  # Current published diagnostic run used realized_season.
+  # Use pre_season_t0 for the final operational experiment.
+  context_mode: realized_season
+  decision_month_day: "09-01"
+  observations_end_offset_days: -1
+  climatology_start_year: 2006
+  climatology_end_year: 2017
 reward:
   target_yield_kg_ha: 4200
   water_penalty_per_mm: 0.0015

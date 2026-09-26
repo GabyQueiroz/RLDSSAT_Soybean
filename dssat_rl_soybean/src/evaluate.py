@@ -7,7 +7,7 @@ import pandas as pd
 from stable_baselines3 import PPO
 
 from .config import load_config, make_paths
-from .data import build_year_weather, load_observed_soybean_yield, load_weather
+from .data import build_year_weather_with_context, load_observed_soybean_yield, load_weather
 from .dssat_adapter import MockDSSATRunner, PyDSSATRunner
 from .env import SoybeanDSSATEnv
 from .report import build_report
@@ -39,7 +39,7 @@ def _attach_observed(paths, cfg, out: pd.DataFrame, split: str) -> pd.DataFrame:
 
 def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: int = 1) -> pd.DataFrame:
     daily = load_weather(paths.project_dir, cfg)
-    years = build_year_weather(daily, cfg["data"][f"{split}_years"])
+    years = build_year_weather_with_context(daily, cfg["data"][f"{split}_years"], cfg)
     runner = PyDSSATRunner(cfg, paths.project_dir) if cfg["backend"] == "dssat" else MockDSSATRunner(cfg)
     env = SoybeanDSSATEnv(cfg, years, runner, cfg["seed"] + 20_000)
     default_model = paths.models_dir / "best_model"

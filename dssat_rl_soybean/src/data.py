@@ -133,6 +133,11 @@ def load_observed_soybean_yield(project_dir: Path, cfg: dict) -> pd.DataFrame:
 
 
 def build_year_weather(daily: pd.DataFrame, years: list[int]) -> list[YearWeather]:
+    return build_year_weather_with_context(daily, years, {"decision": {"context_mode": "realized_season"}})
+
+
+def build_year_weather_with_context(daily: pd.DataFrame, years: list[int], cfg: dict) -> list[YearWeather]:
+    mode = cfg.get("decision", {}).get("context_mode", "realized_season")
     result: list[YearWeather] = []
     for year in years:
         start = pd.Timestamp(year=year, month=9, day=1)
@@ -140,21 +145,69 @@ def build_year_weather(daily: pd.DataFrame, years: list[int]) -> list[YearWeathe
         y = daily[(daily["date"] >= start) & (daily["date"] <= end)].copy()
         if y.empty:
             continue
-        features = np.array(
-            [
-                y["rain"].sum() / 1800.0,
-                y["temp_mean"].mean() / 35.0,
-                y["tmax"].max() / 45.0,
-                y["tmin"].min() / 20.0,
-                y["srad"].mean() / 30.0,
-                len(y) / 366.0,
-            ],
-            dtype=np.float32,
-        )
+        if mode == "pre_season_t0":
+            features = _preseason_features(daily, year, cfg)
+        else:
+            features = np.array(
+                [
+                    y["rain"].sum() / 1800.0,
+                    y["temp_mean"].mean() / 35.0,
+                    y["tmax"].max() / 45.0,
+                    y["tmin"].min() / 20.0,
+                    y["srad"].mean() / 30.0,
+                    len(y) / 366.0,
+                ],
+                dtype=np.float32,
+            )
         result.append(YearWeather(year=year, daily=y, features=np.nan_to_num(features)))
     if not result:
         raise ValueError(f"Nenhum ano disponível na base climática para {years}.")
     return result
+
+
+def _preseason_features(daily: pd.DataFrame, year: int, cfg: dict) -> np.ndarray:
+    decision_cfg = cfg.get("decision", {})
+    month, day = map(int, decision_cfg.get("decision_month_day", "09-01").split("-"))
+    t0 = pd.Timestamp(year=year, month=month, day=day)
+    obs_end = t0 + timedelta(days=int(decision_cfg.get("observations_end_offset_days", -1)))
+
+    def window(days: int) -> pd.DataFrame:
+        start = obs_end - timedelta(days=days - 1)
+        return daily[(daily["date"] >= start) & (daily["date"] <= obs_end)]
+
+    w30 = window(30)
+    w60 = window(60)
+    w90 = window(90)
+    clim_start = int(decision_cfg.get("climatology_start_year", 2006))
+    clim_end = int(decision_cfg.get("climatology_end_year", max(clim_start, year - 1)))
+    clim_rows = []
+    for clim_year in range(clim_start, clim_end + 1):
+        if clim_year == year:
+            continue
+        start = pd.Timestamp(year=clim_year, month=9, day=1)
+        end = pd.Timestamp(year=clim_year + 1, month=4, day=30)
+        season = daily[(daily["date"] >= start) & (daily["date"] <= end)]
+        if not season.empty:
+            clim_rows.append(
+                {
+                    "rain": season["rain"].sum(),
+                    "temp": season["temp_mean"].mean(),
+                }
+            )
+    clim = pd.DataFrame(clim_rows)
+    clim_rain = float(clim["rain"].mean()) if not clim.empty else float(w90["rain"].sum())
+    clim_temp = float(clim["temp"].mean()) if not clim.empty else float(w90["temp_mean"].mean())
+    return np.array(
+        [
+            float(w30["rain"].sum()) / 300.0,
+            float(w60["rain"].sum()) / 600.0,
+            float(w90["rain"].sum()) / 900.0,
+            float(w30["temp_mean"].mean()) / 35.0,
+            clim_rain / 1800.0,
+            clim_temp / 35.0,
+        ],
+        dtype=np.float32,
+    )
 
 
 def planting_date_for_year(year: int, month_day: str, offset_days: int) -> date:

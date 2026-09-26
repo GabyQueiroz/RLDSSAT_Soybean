@@ -7,7 +7,7 @@ import numpy as np
 from stable_baselines3 import PPO
 
 from .config import load_config, make_paths
-from .data import build_year_weather, load_weather
+from .data import build_year_weather_with_context, load_weather
 from .dssat_adapter import MockDSSATRunner, PyDSSATRunner, build_irrigation_schedule
 from .env import SoybeanDSSATEnv
 
@@ -25,7 +25,7 @@ def main():
         cfg["backend"] = args.backend
     paths = make_paths(cfg, args.run_name)
     daily = load_weather(paths.project_dir, cfg)
-    years = build_year_weather(daily, [args.year])
+    years = build_year_weather_with_context(daily, [args.year], cfg)
     runner = PyDSSATRunner(cfg, paths.project_dir) if cfg["backend"] == "dssat" else MockDSSATRunner(cfg)
     env = SoybeanDSSATEnv(cfg, years, runner, cfg["seed"] + 40_000)
     env.current = years[0]
