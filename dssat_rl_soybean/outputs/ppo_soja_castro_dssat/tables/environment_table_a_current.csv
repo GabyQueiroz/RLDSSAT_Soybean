@@ -1,0 +1,2 @@
+﻿environment,period,soil_texture,available_water_capacity_0_150cm_mm,cultivar,maturity_group,mean_seasonal_rainfall_mm,irrigation_availability,field_validation_observations,phenology_rmse_days,raw_yield_rmse_kg_ha,temporal_split,validation_status
+Castro_A819,2006-2025,synthetic clayey profile,198.0,990005,"5, generic DSSAT cultivar",949.9724438578851,optional supplemental irrigation in simulation,0,,,train 2006-2017; validation 2018-2021; diagnostic 2022-2025,not agronomically validated

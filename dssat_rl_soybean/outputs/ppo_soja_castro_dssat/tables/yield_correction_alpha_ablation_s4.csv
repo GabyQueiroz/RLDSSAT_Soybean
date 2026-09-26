@@ -1,0 +1,6 @@
+﻿source_file,alpha,train_mae,valid_mae,valid_bias_corrected_mae,valid_bias_corrected_rmse,validation_intercept_adjustment
+outputs\calibration_v4_row_bias_corrected\tables\yield_correction_alpha_search.csv,200.0,227.66082760987968,149.57755397132223,109.05874292968132,138.6265078582617,136.3960262478754
+outputs\calibration_v4_row_bias_corrected\tables\yield_correction_alpha_search.csv,300.0,238.0221277650975,198.61917644850223,112.64085505433876,138.19569559169497,198.61917644850223
+outputs\calibration_v4_row_bias_corrected\tables\yield_correction_alpha_search.csv,500.0,249.8067117800853,264.5758866989157,116.41778092962988,139.1840092360424,264.5758866989157
+outputs\calibration_v4_row_bias_corrected\tables\yield_correction_alpha_search.csv,100.0,205.9543644096918,120.29815348545628,120.29815348545628,144.11272999243587,18.727543956927438
+outputs\calibration_v4_row_bias_corrected\tables\yield_correction_alpha_search.csv,50.0,182.19818431997436,142.04817253309045,139.78363831995705,157.49060820426342,-96.24995274739888

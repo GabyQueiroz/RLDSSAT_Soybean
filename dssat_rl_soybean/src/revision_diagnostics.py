@@ -11,7 +11,13 @@ import pandas as pd
 import seaborn as sns
 
 from .config import load_config, make_paths
-from .data import WEATHER_RENAME, build_year_weather, load_observed_soybean_yield, load_weather
+from .data import (
+    WEATHER_RENAME,
+    build_year_weather,
+    load_observed_soybean_yield,
+    load_weather,
+    summarize_weather_splits,
+)
 
 
 def _read_numeric(series: pd.Series) -> pd.Series:
@@ -57,12 +63,16 @@ def weather_completeness(project_dir: Path, cfg: dict) -> pd.DataFrame:
         .sort_values("date")
     )
     daily_qc["date"] = pd.to_datetime(daily_qc["date"])
+    daily_qc = daily_qc[(daily_qc["date"].dt.month >= 9) | (daily_qc["date"].dt.month <= 4)].copy()
     daily_qc["season_year"] = _season_year(daily_qc["date"])
     daily_qc["rain_valid_day"] = daily_qc["rain_obs"] >= 18
     daily_qc["temp_valid_day"] = daily_qc["temp_obs"] >= 18
     daily_qc["srad_valid_day"] = daily_qc["srad_obs"] >= 6
 
     daily_final = load_weather(project_dir, cfg).copy()
+    daily_final = daily_final[
+        (pd.to_datetime(daily_final["date"]).dt.month >= 9) | (pd.to_datetime(daily_final["date"]).dt.month <= 4)
+    ].copy()
     daily_final["season_year"] = _season_year(daily_final["date"])
     seasonal = (
         daily_final.groupby("season_year", as_index=False)
@@ -94,6 +104,70 @@ def weather_completeness(project_dir: Path, cfg: dict) -> pd.DataFrame:
     return out
 
 
+def default_soil_profile_table(cfg: dict) -> pd.DataFrame:
+    """Export the synthetic fallback profile defined in dssat_adapter.py."""
+    rows = [
+        {"layer_bottom_cm": 15, "slll": 0.18, "sdul": 0.32, "ssat": 0.48, "srgf": 1.00, "sbdm": 1.18, "sloc": 2.2, "slcl": 60, "slsi": 25},
+        {"layer_bottom_cm": 30, "slll": 0.20, "sdul": 0.34, "ssat": 0.47, "srgf": 0.80, "sbdm": 1.22, "sloc": 1.8, "slcl": 62, "slsi": 24},
+        {"layer_bottom_cm": 60, "slll": 0.22, "sdul": 0.35, "ssat": 0.46, "srgf": 0.55, "sbdm": 1.27, "sloc": 1.3, "slcl": 65, "slsi": 22},
+        {"layer_bottom_cm": 100, "slll": 0.23, "sdul": 0.36, "ssat": 0.45, "srgf": 0.30, "sbdm": 1.32, "sloc": 0.9, "slcl": 66, "slsi": 21},
+        {"layer_bottom_cm": 150, "slll": 0.24, "sdul": 0.37, "ssat": 0.44, "srgf": 0.15, "sbdm": 1.36, "sloc": 0.6, "slcl": 68, "slsi": 20},
+    ]
+    table = pd.DataFrame(rows)
+    table.insert(0, "layer_top_cm", [0] + table["layer_bottom_cm"].iloc[:-1].tolist())
+    table["thickness_cm"] = table["layer_bottom_cm"] - table["layer_top_cm"]
+    table["available_water_mm"] = (table["sdul"] - table["slll"]) * table["thickness_cm"] * 10.0
+    table["soil_profile_name"] = "CASTRO0001"
+    table["soil_source"] = "synthetic fallback profile defined in dssat_adapter.py"
+    table["latitude"] = cfg["dssat"]["latitude"]
+    table["longitude"] = cfg["dssat"]["longitude"]
+    return table[
+        [
+            "soil_profile_name",
+            "soil_source",
+            "layer_top_cm",
+            "layer_bottom_cm",
+            "thickness_cm",
+            "slll",
+            "sdul",
+            "ssat",
+            "sbdm",
+            "sloc",
+            "slcl",
+            "slsi",
+            "srgf",
+            "available_water_mm",
+            "latitude",
+            "longitude",
+        ]
+    ]
+
+
+def environment_table(cfg: dict, weather_split_summary: pd.DataFrame, soil_table: pd.DataFrame) -> pd.DataFrame:
+    rainfall = float(weather_split_summary["rain_mean_mm_year"].mean())
+    years = cfg["data"]["train_years"] + cfg["data"]["valid_years"] + cfg["data"]["test_years"]
+    available_water = float(soil_table["available_water_mm"].sum())
+    return pd.DataFrame(
+        [
+            {
+                "environment": "Castro_A819",
+                "period": f"{min(years)}-{max(years)}",
+                "soil_texture": "synthetic clayey profile",
+                "available_water_capacity_0_150cm_mm": available_water,
+                "cultivar": cfg["agronomy"]["soybean_cultivar"],
+                "maturity_group": "5, generic DSSAT cultivar",
+                "mean_seasonal_rainfall_mm": rainfall,
+                "irrigation_availability": "optional supplemental irrigation in simulation",
+                "field_validation_observations": 0,
+                "phenology_rmse_days": np.nan,
+                "raw_yield_rmse_kg_ha": np.nan,
+                "temporal_split": "train 2006-2017; validation 2018-2021; diagnostic 2022-2025",
+                "validation_status": "not agronomically validated",
+            }
+        ]
+    )
+
+
 def season_sidra_pairing(project_dir: Path, cfg: dict) -> pd.DataFrame:
     obs = load_observed_soybean_yield(project_dir, cfg).rename(columns={"ano": "sidra_year"})
     obs_map = dict(zip(obs["sidra_year"].astype(int), obs["observed_yield_kg_ha"].astype(float)))
@@ -113,6 +187,28 @@ def season_sidra_pairing(project_dir: Path, cfg: dict) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+def correction_alpha_summary(project_dir: Path) -> pd.DataFrame:
+    candidates = sorted((project_dir / "outputs").glob("calibration*/tables/yield_correction_alpha_search.csv"))
+    if not candidates:
+        return pd.DataFrame()
+    preferred = [p for p in candidates if "calibration_v4" in str(p)]
+    source = preferred[-1] if preferred else candidates[-1]
+    alpha = pd.read_csv(source)
+    keep = alpha.sort_values("valid_bias_corrected_mae").head(5).copy()
+    keep.insert(0, "source_file", str(source.relative_to(project_dir)))
+    return keep[
+        [
+            "source_file",
+            "alpha",
+            "train_mae",
+            "valid_mae",
+            "valid_bias_corrected_mae",
+            "valid_bias_corrected_rmse",
+            "validation_intercept_adjustment",
+        ]
+    ]
 
 
 def _load_policy_outputs(paths) -> pd.DataFrame:
@@ -300,7 +396,19 @@ def run_diagnostics(config: str, run_name: str):
 
     weather = weather_completeness(paths.project_dir, cfg)
     weather.to_csv(tables / "weather_completeness_by_season.csv", index=False, encoding="utf-8-sig")
+    daily = load_weather(paths.project_dir, cfg)
+    weather_split_summary = summarize_weather_splits(daily, cfg)
+    weather_split_summary.to_csv(tables / "weather_splits.csv", index=False, encoding="utf-8-sig")
+    weather_split_summary.to_markdown(tables / "weather_splits.md", index=False)
+    soil = default_soil_profile_table(cfg)
+    soil.to_csv(tables / "synthetic_soil_profile_s2.csv", index=False, encoding="utf-8-sig")
+    environment_table(cfg, weather_split_summary, soil).to_csv(
+        tables / "environment_table_a_current.csv", index=False, encoding="utf-8-sig"
+    )
     season_sidra_pairing(paths.project_dir, cfg).to_csv(tables / "season_sidra_pairing_audit.csv", index=False, encoding="utf-8-sig")
+    alpha = correction_alpha_summary(paths.project_dir)
+    if not alpha.empty:
+        alpha.to_csv(tables / "yield_correction_alpha_ablation_s4.csv", index=False, encoding="utf-8-sig")
 
     seed_summary, action, saturation = seed_and_action_diagnostics(paths, cfg)
     seed_summary.to_csv(tables / "seed_performance_summary.csv", index=False, encoding="utf-8-sig")
