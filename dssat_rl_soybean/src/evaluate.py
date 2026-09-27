@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import argparse
+import sys
 
 import numpy as np
 import pandas as pd
+from gymnasium import spaces
 from stable_baselines3 import PPO
 
 from .config import load_config, make_paths
@@ -45,7 +47,24 @@ def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: 
     default_model = paths.models_dir / "best_model"
     if not (default_model.with_suffix(".zip")).exists():
         default_model = paths.models_dir / "final_model"
-    model = PPO.load(model_path or default_model)
+    # Some saved SB3 models were pickled with NumPy 2 module paths.  The
+    # project runtime may use NumPy 1.26, where these modules live under
+    # numpy.core.  Register aliases before cloudpickle deserializes the model.
+    import numpy.core as np_core
+    import numpy.core.numeric as np_numeric
+
+    sys.modules.setdefault("numpy._core", np_core)
+    sys.modules.setdefault("numpy._core.numeric", np_numeric)
+    custom_objects = {
+        "observation_space": spaces.Box(low=-5.0, high=5.0, shape=(9,), dtype=np.float32),
+        "action_space": spaces.Box(low=-1.0, high=1.0, shape=(4,), dtype=np.float32),
+        "_last_obs": None,
+        "_last_episode_starts": None,
+        "_last_original_obs": None,
+        "ep_info_buffer": None,
+        "ep_success_buffer": None,
+    }
+    model = PPO.load(model_path or default_model, custom_objects=custom_objects)
     rows = []
     for yw in years:
         env.current = yw
