@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import csv
+from datetime import datetime, timedelta
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import yaml
@@ -19,6 +21,7 @@ def main():
     parser.add_argument("--timesteps", type=int, default=None)
     parser.add_argument("--backend", choices=["mock", "dssat"], default=None)
     parser.add_argument("--use-frozen-split", action="store_true")
+    parser.add_argument("--log-file", default=None)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -28,6 +31,15 @@ def main():
     generated_dir = cfg_path.parent / "_generated_multiseed"
     generated_dir.mkdir(parents=True, exist_ok=True)
     manifest_rows = []
+    log_path = Path(args.log_file) if args.log_file else generated_dir / f"{args.run_prefix}_run.log"
+
+    def log(message: str) -> None:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        line = f"[{timestamp}] {message}"
+        print(line, flush=True)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write(line + "\n")
 
     for seed in seeds:
         run_cfg = dict(cfg)
@@ -90,15 +102,53 @@ def main():
                 "command": " ".join(portable_cmd),
             }
         )
-        print(" ".join(cmd))
-        if not args.dry_run:
-            subprocess.run(cmd, check=True)
-    manifest_path = generated_dir / f"{args.run_prefix}_manifest.csv"
-    with manifest_path.open("w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=list(manifest_rows[0]))
-        writer.writeheader()
-        writer.writerows(manifest_rows)
-    print(f"Manifest written to {manifest_path}")
+        log("Prepared command: " + " ".join(portable_cmd))
+        manifest_path = generated_dir / f"{args.run_prefix}_manifest.csv"
+        with manifest_path.open("w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.DictWriter(f, fieldnames=list(manifest_rows[0]))
+            writer.writeheader()
+            writer.writerows(manifest_rows)
+    if args.dry_run:
+        log(f"Manifest written to {manifest_path}")
+        return
+
+    log(f"Manifest written to {manifest_path}")
+    log(f"Starting multi-seed run with {len(manifest_rows)} seeds. Log file: {log_path}")
+    completed_durations: list[float] = []
+    overall_start = time.monotonic()
+    for index, row in enumerate(manifest_rows, start=1):
+        seed = row["seed"]
+        cmd = row["command"].replace("python -m", f"{sys.executable} -m", 1).split()
+        if completed_durations:
+            avg_seconds = sum(completed_durations) / len(completed_durations)
+            remaining_seconds = avg_seconds * (len(manifest_rows) - index + 1)
+            eta = datetime.now() + timedelta(seconds=remaining_seconds)
+            log(
+                f"Starting seed {seed} ({index}/{len(manifest_rows)}). "
+                f"Mean completed seed time: {timedelta(seconds=int(avg_seconds))}. "
+                f"Estimated remaining: {timedelta(seconds=int(remaining_seconds))}; ETA {eta:%Y-%m-%d %H:%M:%S}."
+            )
+        else:
+            log(f"Starting seed {seed} ({index}/{len(manifest_rows)}). ETA will be estimated after the first seed finishes.")
+        seed_start = time.monotonic()
+        with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1) as proc:
+            assert proc.stdout is not None
+            for line in proc.stdout:
+                with log_path.open("a", encoding="utf-8") as f:
+                    f.write(line)
+            return_code = proc.wait()
+        seed_seconds = time.monotonic() - seed_start
+        if return_code != 0:
+            log(f"Seed {seed} failed after {timedelta(seconds=int(seed_seconds))} with return code {return_code}.")
+            raise subprocess.CalledProcessError(return_code, cmd)
+        completed_durations.append(seed_seconds)
+        elapsed = time.monotonic() - overall_start
+        log(
+            f"Finished seed {seed} in {timedelta(seconds=int(seed_seconds))}. "
+            f"Completed {index}/{len(manifest_rows)}; elapsed {timedelta(seconds=int(elapsed))}."
+        )
+    total_elapsed = time.monotonic() - overall_start
+    log(f"Finished all seeds in {timedelta(seconds=int(total_elapsed))}.")
 
 
 if __name__ == "__main__":
