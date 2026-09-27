@@ -164,7 +164,7 @@ The diagnostic simulation started on the sowing date with default initial soil w
 Hourly meteorological observations are obtained from INMET automatic station A819 in Castro, Paraná, Brazil, available at
 \url{https://portal.inmet.gov.br/dadoshistoricos} (accessed on 26 September 2026). Annual files from July 2006 to May 2026 are consolidated, the 2022 records and the first day of the series are taken from the complementary station export \path{dados_A819_H_2006-07-08_2026-01-01.csv}, used only to fill absent timestamps. The consolidated hourly file contains 174,432 records and covers the period from 8 July 2006 00:00 to 31 May 2026 23:00. Sentinel values are converted to missing, values $\leq -90$, negative precipitation, temperatures outside $-20$ to $50\,^{\circ}$C, and radiation below zero or above 6000 kJ m$^{-2}$ h$^{-1}$ are removed. Daily precipitation and radiation are hourly sums (radiation converted to MJ m$^{-2}$), daily maximum and minimum temperature are hourly extremes. Days with fewer than 18 valid precipitation or temperature hours, or fewer than 6 valid radiation hours, are set to missing. Missing precipitation is filled with the day-of-year climatological mean (monthly mean as fallback), missing or sub-0.5 MJ m$^{-2}$ d$^{-1}$ radiation is estimated by the Hargreaves method and bounded to 1--35 MJ m$^{-2}$ d$^{-1}$, missing extremes are replaced by the daily mean and interpolated. The numerical thresholds used in this version are implementation rules of the current workflow; their institutional source or sensitivity analysis remains to be completed before submission.
 
-Filling missing precipitation with a climatological mean can remove a real dry spell and reduce the simulated need for irrigation in exactly the seasons that matter for the decision. The diagnostic script now exports the weather-completeness table by season to \texttt{weather\_completeness\_by\_season.csv} and regenerated \texttt{weather\_splits.md} from the cleaned daily series; these files are summarized in Section~\ref{subres_validity} and belong to Supplementary Material S3. \textcolor{red}{\textbf{FAZER:} Reprocessar as safras com precipitação de estação vizinha ou reanálise, repetir a política e as linhas de base sob as duas estratégias de imputação e reportar a estabilidade das ações na Seção~\ref{subres_validity}.}
+Filling missing precipitation with a climatological mean can remove a real dry spell and reduce the simulated need for irrigation in exactly the seasons that matter for the decision. The diagnostic script exports the weather-completeness table by season to \texttt{weather\_completeness\_by\_season.csv} and regenerated \texttt{weather\_splits.md} from the cleaned daily series; these files are summarized in Section~\ref{subres_validity} and belong to Supplementary Material S3. Because no neighbour-station or reanalysis precipitation series is available in the repository, the executable sensitivity analysis uses only the Castro A819 record and compares four internal precipitation-imputation strategies: day-of-year climatology (the current workflow), monthly climatology, interpolation of short gaps followed by day-of-year climatology, and zero filling as a dry lower-bound diagnostic. The script \texttt{src/weather\_imputation\_sensitivity.py} exports \texttt{weather\_imputation\_by\_season.csv}, \texttt{weather\_imputation\_sensitivity\_summary.csv}, \texttt{weather\_imputation\_action\_exposure.csv}, and \texttt{weather\_imputation\_action\_sensitivity\_summary.csv}. These diagnostics quantify the stability of the weather inputs and of the previously evaluated policy and baseline windows; they do not constitute a DSSAT retraining or a reanalysis-based rerun.
 
 %===============================================================
 \subsubsection{Municipal yield series (contextual verification only)}
@@ -540,6 +540,37 @@ Diagnostic & 2022--2025 & 178.8 & 178.8 & 979.8 & 18.7 \\
 \hline
 \end{tabular}
 \end{table}
+
+\emph{Precipitation-imputation sensitivity.} Since no neighbouring station or reanalysis series was available in the repository, the sensitivity analysis was restricted to alternative imputations of the Castro A819 series. Compared with the current day-of-year climatology, monthly climatology changed September--April rainfall by only 1.63 mm on average in validation seasons and 2.74 mm in diagnostic seasons. Short-gap interpolation followed by day-of-year climatology changed seasonal rainfall by 3.20 mm on average in validation and 24.76 mm in diagnostic seasons, with the largest diagnostic difference in 2024 (72.22 mm). The zero-fill diagnostic produced much larger reductions, especially in seasons with many invalid precipitation days, and is interpreted only as a dry lower bound, not as a realistic reconstruction.
+
+\begin{table}[!h]
+\centering
+\scriptsize
+\caption{Sensitivity of September--April rainfall to precipitation-imputation strategy. Differences are relative to the day-of-year climatology used in the current workflow. Zero filling is a dry lower-bound diagnostic.}
+\label{tab_weather_imputation_sensitivity}
+\begin{tabular}{llrrrr}
+\hline
+Split & Strategy & Seasons & Mean diff. & Mean abs. diff. & Max abs. diff. \\
+      &          &         & (mm)       & (mm)            & (mm) \\
+\hline
+Validation & Monthly climatology & 4 & 0.98 & 1.63 & 5.23 \\
+Validation & Short-gap interpolation & 4 & -3.20 & 3.20 & 8.84 \\
+Validation & Zero missing & 4 & -311.87 & 311.87 & 937.70 \\
+Diagnostic & Monthly climatology & 4 & -0.62 & 2.74 & 4.24 \\
+Diagnostic & Short-gap interpolation & 4 & 16.79 & 24.76 & 72.22 \\
+Diagnostic & Zero missing & 4 & -697.81 & 697.81 & 937.70 \\
+\hline
+\end{tabular}
+\end{table}
+
+For the previously evaluated PPO policy, the rainfall accumulated between the selected sowing date and the simulated window end changed by 2.59--3.35 mm on average under monthly climatology and by 6.61 mm in validation and 16.39 mm in diagnostic seasons under short-gap interpolation. For the constructed baselines, the corresponding mean absolute changes were 2.74--4.61 mm under monthly climatology and 4.47--19.65 mm under short-gap interpolation. The recorded management actions themselves were not recomputed because DSSATTools was not available in the verification environment and no new weather source was introduced. The diagnostic therefore indicates that, among imputations feasible with the existing A819 data, monthly climatology leaves the evaluated weather exposure almost unchanged, whereas the 2024 diagnostic season is more sensitive to the short-gap interpolation choice.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.95\linewidth]{dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/weather_imputation_delta_en.png}
+\caption{Difference in September--April rainfall under alternative precipitation-imputation strategies relative to day-of-year climatology.}
+\label{fig_weather_imputation_delta}
+\end{figure}
 
 \emph{Current run (development environment).} With the generic configuration, the raw DSSAT yield ranged from 1,918 to 5,925 kg ha$^{-1}$ across sowing dates and seasons, its annual absolute deviation from the municipal series was 208--2,300 kg ha$^{-1}$ and its correlation with that series 0.04 over 95 rows (19 seasons $\times$ 5 sowing dates). The statistical correction was fitted on 60 rows (12 training seasons $\times$ 5 dates) with $\alpha = 200$ selected among $\{0.05,\dots,500\}$ and an intercept adjustment of $+136.40$ kg ha$^{-1}$ (fitted coefficients in Supplementary Table S4, $Y_{\text{ref}} = 4200$ kg ha$^{-1}$ in the outcome). Its fitted coefficient for the raw yield was $-0.0065$, the correlation between raw and corrected yield was 0.07, within a season the five sowing dates spanned up to 1,578 kg ha$^{-1}$ of raw yield but only 2--48 kg ha$^{-1}$ of corrected yield, and its irrigation coefficients were negative ($-0.106$ per mm, rain--irrigation interaction $-0.361$), so irrigation lowered the corrected yield independently of $\kappa$. The correction reproduced the municipal series with MAE of 229.56, 109.06, and 111.82 kg ha$^{-1}$ in training, validation, and the 2022--2024 diagnostic seasons (validation bias zero by construction), by compressing the interannual variance toward the trend, the largest training deviation was 2009 (+865 kg ha$^{-1}$) and the 2018 error was +2.47 kg ha$^{-1}$ (Appendix Tables~\ref{tab_metricas_calibracao}--\ref{tab_calibracao_ano}, Figs.~\ref{fig:dssat_obs_pred}--\ref{fig:dssat_erro_ano}). The regularization ablation exported as \texttt{yield\_correction\_alpha\_ablation\_s4.csv} selected $\alpha=200$ by validation MAE after intercept adjustment (109.1 kg ha$^{-1}$); neighbouring values $\alpha=300$ and $\alpha=500$ yielded 112.6 and 116.4 kg ha$^{-1}$. These figures describe the correction, not the crop model, a low MAPE here is not evidence of crop-model quality. The correction is therefore excluded from any agronomic claim; an agronomic policy evaluation would require raw DSSAT yield from a field-validated crop-model configuration, or at most a monotonic bias/scale correction justified during development.
 
