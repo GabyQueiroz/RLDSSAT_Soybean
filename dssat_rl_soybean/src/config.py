@@ -21,7 +21,13 @@ def load_config(path: str | Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
     cfg["_config_path"] = str(path.resolve())
-    cfg["_project_dir"] = str(path.resolve().parents[1])
+    resolved = path.resolve()
+    project_dir = resolved.parents[1]
+    for parent in resolved.parents:
+        if (parent / "src").is_dir() and (parent / "configs").is_dir():
+            project_dir = parent
+            break
+    cfg["_project_dir"] = str(project_dir)
     return cfg
 
 
