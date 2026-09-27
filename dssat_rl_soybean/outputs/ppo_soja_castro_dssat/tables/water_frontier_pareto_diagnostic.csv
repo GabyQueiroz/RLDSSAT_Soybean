@@ -1,0 +1,11 @@
+﻿split,policy,policy_label,mean_yield_kg_ha,mean_irrigation_mm,pareto_efficient
+test,rainfed_calendar_oct15,Rainfed Oct 15,3945.7576458885055,0.0,True
+test,ppo_policy,PPO,3950.509377145554,0.5,True
+test,early_sep25_moderate_irrig,Irrigated Sep 25,3944.880297582934,13.5,False
+test,fixed_calendar_oct15_moderate_irrig,Irrigated Oct 15,3926.6916911151293,36.0,False
+test,late_nov10_moderate_irrig,Irrigated Nov 10,3926.781033373651,49.5,False
+valid,ppo_policy,PPO,3808.070477262873,0.0,True
+valid,rainfed_calendar_oct15,Rainfed Oct 15,3805.806681538833,0.0,False
+valid,late_nov10_moderate_irrig,Irrigated Nov 10,3801.419256052973,22.5,False
+valid,early_sep25_moderate_irrig,Irrigated Sep 25,3800.0201274421447,22.5,False
+valid,fixed_calendar_oct15_moderate_irrig,Irrigated Oct 15,3796.9859954693934,27.0,False

@@ -1,0 +1,9 @@
+﻿split,policy,policy_label,seasons,mean_delta_yield_vs_rainfed_kg_ha,mean_delta_irrigation_vs_rainfed_mm
+test,ppo_policy,PPO,4,4.751731257048505,0.5
+test,early_sep25_moderate_irrig,Irrigated Sep 25,4,-0.8773483055713314,13.5
+test,late_nov10_moderate_irrig,Irrigated Nov 10,4,-18.976612514854196,49.5
+test,fixed_calendar_oct15_moderate_irrig,Irrigated Oct 15,4,-19.065954773376347,36.0
+valid,ppo_policy,PPO,4,2.2637957240398237,0.0
+valid,late_nov10_moderate_irrig,Irrigated Nov 10,4,-4.3874254858599215,22.5
+valid,early_sep25_moderate_irrig,Irrigated Sep 25,4,-5.786554096688292,22.5
+valid,fixed_calendar_oct15_moderate_irrig,Irrigated Oct 15,4,-8.820686069439603,27.0
