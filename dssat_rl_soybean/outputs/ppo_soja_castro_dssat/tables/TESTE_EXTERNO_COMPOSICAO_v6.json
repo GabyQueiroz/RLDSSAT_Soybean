@@ -1,0 +1,251 @@
+{
+  "evaluation_design": {
+    "current_run_role": "diagnostic_not_final",
+    "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+    "registry_version": 1,
+    "registry_date": "2026-09-27",
+    "environment": "Castro_A819",
+    "crop": "soybean",
+    "city": "Castro (PR)",
+    "rule": "The frozen evaluation years must not be used to choose context variables, action bounds, correction models, water penalty, PPO hyperparameters, checkpoint, baselines, or manuscript interpretation before the final run.",
+    "development_train_years": [
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016
+    ],
+    "development_validation_years": [
+      2017,
+      2018,
+      2019,
+      2020
+    ],
+    "frozen_evaluation_years": [
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "illustration_years": [
+      2025
+    ],
+    "observed_yield_required_for_evaluation": true,
+    "exclude_frozen_years_from_development": true
+  },
+  "validation": [
+    "ok"
+  ],
+  "blocks": [
+    {
+      "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+      "registry_version": 1,
+      "registry_date": "2026-09-27",
+      "environment": "Castro_A819",
+      "block": "development_train",
+      "years": "2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016",
+      "n_years": 11,
+      "role": "model fitting and policy learning"
+    },
+    {
+      "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+      "registry_version": 1,
+      "registry_date": "2026-09-27",
+      "environment": "Castro_A819",
+      "block": "development_validation",
+      "years": "2017,2018,2019,2020",
+      "n_years": 4,
+      "role": "checkpoint and development choices"
+    },
+    {
+      "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+      "registry_version": 1,
+      "registry_date": "2026-09-27",
+      "environment": "Castro_A819",
+      "block": "frozen_evaluation",
+      "years": "2021,2022,2023,2024",
+      "n_years": 4,
+      "role": "opened once after final choices are frozen"
+    },
+    {
+      "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+      "registry_version": 1,
+      "registry_date": "2026-09-27",
+      "environment": "Castro_A819",
+      "block": "illustration",
+      "years": "2025",
+      "n_years": 1,
+      "role": "unobserved scenario; excluded from empirical metrics"
+    }
+  ],
+  "weather": [
+    {
+      "block": "development_train",
+      "years": "2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016",
+      "n_years": 11,
+      "rain_mean_mm": 892.7472294372295,
+      "rain_min_mm": 380.945641025641,
+      "rain_max_mm": 1270.8,
+      "temp_mean_c": 19.18408202216953,
+      "srad_mean_mj_m2_day": 17.214953938819356
+    },
+    {
+      "block": "development_validation",
+      "years": "2017,2018,2019,2020",
+      "n_years": 4,
+      "rain_mean_mm": 1024.7505494505494,
+      "rain_min_mm": 746.0,
+      "rain_max_mm": 1244.2,
+      "temp_mean_c": 19.65075482617394,
+      "srad_mean_mj_m2_day": 15.742889162158134
+    },
+    {
+      "block": "frozen_evaluation",
+      "years": "2021,2022,2023,2024",
+      "n_years": 4,
+      "rain_mean_mm": 980.1021125565611,
+      "rain_min_mm": 873.3788240680888,
+      "rain_max_mm": 1171.639010989011,
+      "temp_mean_c": 18.458167932463155,
+      "srad_mean_mj_m2_day": 17.53274810911794
+    },
+    {
+      "block": "illustration",
+      "years": "2025",
+      "n_years": 1,
+      "rain_mean_mm": 936.318836996337,
+      "rain_min_mm": 936.318836996337,
+      "rain_max_mm": 936.318836996337,
+      "temp_mean_c": 19.96922438535219,
+      "srad_mean_mj_m2_day": 17.43510421482526
+    }
+  ],
+  "coverage": [
+    {
+      "block": "development_train",
+      "year": 2006,
+      "observed_yield_kg_ha": 3000.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2007,
+      "observed_yield_kg_ha": 3300.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2008,
+      "observed_yield_kg_ha": 3126.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2009,
+      "observed_yield_kg_ha": 2578.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2010,
+      "observed_yield_kg_ha": 3245.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2011,
+      "observed_yield_kg_ha": 3496.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2012,
+      "observed_yield_kg_ha": 3546.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2013,
+      "observed_yield_kg_ha": 3690.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2014,
+      "observed_yield_kg_ha": 3542.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2015,
+      "observed_yield_kg_ha": 3727.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_train",
+      "year": 2016,
+      "observed_yield_kg_ha": 3381.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_validation",
+      "year": 2017,
+      "observed_yield_kg_ha": 4000.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_validation",
+      "year": 2018,
+      "observed_yield_kg_ha": 3750.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_validation",
+      "year": 2019,
+      "observed_yield_kg_ha": 3700.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "development_validation",
+      "year": 2020,
+      "observed_yield_kg_ha": 4050.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "frozen_evaluation",
+      "year": 2021,
+      "observed_yield_kg_ha": 3700.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "frozen_evaluation",
+      "year": 2022,
+      "observed_yield_kg_ha": 3923.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "frozen_evaluation",
+      "year": 2023,
+      "observed_yield_kg_ha": 4154.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "frozen_evaluation",
+      "year": 2024,
+      "observed_yield_kg_ha": 3827.0,
+      "has_observed_yield": true
+    },
+    {
+      "block": "illustration",
+      "year": 2025,
+      "observed_yield_kg_ha": NaN,
+      "has_observed_yield": false
+    }
+  ]
+}
