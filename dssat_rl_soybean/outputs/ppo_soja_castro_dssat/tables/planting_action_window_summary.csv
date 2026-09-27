@@ -1,0 +1,5 @@
+﻿source,split,actions,first_planting_month_day,last_planting_month_day,inside_coded_window_pct,inside_150d_no_may_window_pct,after_apr30_with_150d_pct
+PPO,test,4,09-27,10-02,100.0,100.0,0.0
+PPO,valid,4,09-27,10-02,100.0,100.0,0.0
+baseline,test,16,09-25,11-10,100.0,100.0,0.0
+baseline,valid,16,09-25,11-10,100.0,100.0,0.0
