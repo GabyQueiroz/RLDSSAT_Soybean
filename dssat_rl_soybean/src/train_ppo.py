@@ -32,6 +32,7 @@ def main():
     parser.add_argument("--run-name", default="ppo_soybean")
     parser.add_argument("--timesteps", type=int, default=None)
     parser.add_argument("--backend", choices=["mock", "dssat"], default=None)
+    parser.add_argument("--resume-model", default=None)
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -61,31 +62,39 @@ def main():
     eval_env = SoybeanDSSATEnv(cfg, valid_years, runner, seed + 10_000)
 
     policy_kwargs = dict(net_arch=dict(pi=[128, 128, 64], vf=[128, 128, 64]), activation_fn=torch.nn.Tanh)
-    model = PPO(
-        "MlpPolicy",
-        env,
-        seed=seed,
-        verbose=1,
-        n_steps=cfg["ppo"]["n_steps"],
-        batch_size=cfg["ppo"]["batch_size"],
-        n_epochs=cfg["ppo"]["n_epochs"],
-        gamma=cfg["ppo"]["gamma"],
-        gae_lambda=cfg["ppo"]["gae_lambda"],
-        learning_rate=cfg["ppo"]["learning_rate"],
-        clip_range=cfg["ppo"]["clip_range"],
-        ent_coef=cfg["ppo"]["ent_coef"],
-        vf_coef=cfg["ppo"]["vf_coef"],
-        max_grad_norm=cfg["ppo"]["max_grad_norm"],
-        tensorboard_log=str(paths.output_dir / "tensorboard"),
-        policy_kwargs=policy_kwargs,
-    )
+    if args.resume_model:
+        model = PPO.load(args.resume_model, env=env, seed=seed, tensorboard_log=str(paths.output_dir / "tensorboard"))
+    else:
+        model = PPO(
+            "MlpPolicy",
+            env,
+            seed=seed,
+            verbose=1,
+            n_steps=cfg["ppo"]["n_steps"],
+            batch_size=cfg["ppo"]["batch_size"],
+            n_epochs=cfg["ppo"]["n_epochs"],
+            gamma=cfg["ppo"]["gamma"],
+            gae_lambda=cfg["ppo"]["gae_lambda"],
+            learning_rate=cfg["ppo"]["learning_rate"],
+            clip_range=cfg["ppo"]["clip_range"],
+            ent_coef=cfg["ppo"]["ent_coef"],
+            vf_coef=cfg["ppo"]["vf_coef"],
+            max_grad_norm=cfg["ppo"]["max_grad_norm"],
+            tensorboard_log=str(paths.output_dir / "tensorboard"),
+            policy_kwargs=policy_kwargs,
+        )
     cb = ValidationEarlyStopCallback(
         eval_env,
         paths,
         eval_freq=cfg["ppo"]["eval_freq"],
         patience_evals=cfg["ppo"]["patience_evals"],
     )
-    model.learn(total_timesteps=cfg["ppo"]["total_timesteps"], callback=cb, progress_bar=True)
+    model.learn(
+        total_timesteps=cfg["ppo"]["total_timesteps"],
+        callback=cb,
+        progress_bar=True,
+        reset_num_timesteps=args.resume_model is None,
+    )
     model.save(paths.models_dir / "final_model")
     evaluate_policy(cfg, paths, "valid")
     evaluate_policy(cfg, paths, "test")

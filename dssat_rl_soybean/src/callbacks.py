@@ -20,6 +20,16 @@ class ValidationEarlyStopCallback(BaseCallback):
         self.history_path = paths.tables_dir / "validation_curve.csv"
 
     def _on_training_start(self) -> None:
+        if self.history_path.exists() and self.history_path.stat().st_size > 0:
+            try:
+                import pandas as pd
+
+                history = pd.read_csv(self.history_path)
+                if "mean_reward" in history and not history.empty:
+                    self.best_reward = float(history["mean_reward"].max())
+            except Exception:
+                pass
+            return
         with self.history_path.open("w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=["timesteps", "mean_reward", "std_reward", "mean_yield_kg_ha", "mean_irrigation_mm"])
             writer.writeheader()
@@ -48,6 +58,7 @@ class ValidationEarlyStopCallback(BaseCallback):
         with self.history_path.open("a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=list(row.keys()))
             writer.writerow(row)
+        self.model.save(self.paths.models_dir / "latest_model")
         if row["mean_reward"] > self.best_reward + 1e-4:
             self.best_reward = row["mean_reward"]
             self.bad_evals = 0
