@@ -23,12 +23,14 @@ def main():
     parser.add_argument("--use-frozen-split", action="store_true")
     parser.add_argument("--log-file", default=None)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--generated-dir", default=None, help="Folder (next to the config) for the per-seed configs.")
+    parser.add_argument("--skip-test", action="store_true")
     args = parser.parse_args()
 
     cfg_path = Path(args.config)
     cfg = load_config(str(cfg_path))
     seeds = [int(s.strip()) for s in args.seeds.split(",") if s.strip()]
-    generated_dir = cfg_path.parent / "_generated_multiseed"
+    generated_dir = cfg_path.parent / (args.generated_dir or "_generated_multiseed")
     generated_dir.mkdir(parents=True, exist_ok=True)
     manifest_rows = []
     log_path = Path(args.log_file) if args.log_file else generated_dir / f"{args.run_prefix}_run.log"
@@ -75,6 +77,8 @@ def main():
             cmd.extend(["--timesteps", str(args.timesteps)])
         if args.backend is not None:
             cmd.extend(["--backend", args.backend])
+        if args.skip_test:
+            cmd.append("--skip-test")
         portable_cmd = [
             "python",
             "-m",
@@ -88,6 +92,8 @@ def main():
             portable_cmd.extend(["--timesteps", str(args.timesteps)])
         if args.backend is not None:
             portable_cmd.extend(["--backend", args.backend])
+        if args.skip_test:
+            portable_cmd.append("--skip-test")
         manifest_rows.append(
             {
                 "seed": seed,

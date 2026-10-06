@@ -33,6 +33,7 @@ def evaluate_baselines(cfg, paths, split: str = "test") -> pd.DataFrame:
                 pol["amount"],
                 pol["max_irrig"],
                 ag["irrigation_check_days"],
+                ag.get("min_irrigation_event_mm", 0.0),
             )
             sim = runner.run(yw.daily, pdate, sched, rng)
             reward = sim.yield_kg_ha / cfg["reward"]["target_yield_kg_ha"] - cfg["reward"]["water_penalty_per_mm"] * sim.irrigation_mm

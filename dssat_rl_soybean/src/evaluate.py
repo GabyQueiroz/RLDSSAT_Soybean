@@ -9,7 +9,7 @@ from gymnasium import spaces
 from stable_baselines3 import PPO
 
 from .config import load_config, make_paths
-from .data import build_year_weather_with_context, load_observed_soybean_yield, load_weather
+from .data import build_year_weather_with_context, load_observed_soybean_yield, load_scaler, load_weather
 from .dssat_adapter import MockDSSATRunner, PyDSSATRunner
 from .env import SoybeanDSSATEnv
 from .report import build_report
@@ -43,7 +43,8 @@ def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: 
     daily = load_weather(paths.project_dir, cfg)
     years = build_year_weather_with_context(daily, cfg["data"][f"{split}_years"], cfg)
     runner = PyDSSATRunner(cfg, paths.project_dir) if cfg["backend"] == "dssat" else MockDSSATRunner(cfg)
-    env = SoybeanDSSATEnv(cfg, years, runner, cfg["seed"] + 20_000)
+    scaler = load_scaler(paths.models_dir / "context_scaler.json")
+    env = SoybeanDSSATEnv(cfg, years, runner, cfg["seed"] + 20_000, scaler)
     default_model = paths.models_dir / "best_model"
     if not (default_model.with_suffix(".zip")).exists():
         default_model = paths.models_dir / "final_model"
@@ -56,7 +57,7 @@ def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: 
     sys.modules.setdefault("numpy._core", np_core)
     sys.modules.setdefault("numpy._core.numeric", np_numeric)
     custom_objects = {
-        "observation_space": spaces.Box(low=-5.0, high=5.0, shape=(9,), dtype=np.float32),
+        "observation_space": env.observation_space,
         "action_space": spaces.Box(low=-1.0, high=1.0, shape=(4,), dtype=np.float32),
         "_last_obs": None,
         "_last_episode_starts": None,

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from datetime import date, timedelta
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -138,6 +140,7 @@ def build_year_weather(daily: pd.DataFrame, years: list[int]) -> list[YearWeathe
 
 def build_year_weather_with_context(daily: pd.DataFrame, years: list[int], cfg: dict) -> list[YearWeather]:
     mode = cfg.get("decision", {}).get("context_mode", "realized_season")
+    sim_cfg = cfg.get("simulation", {})
     result: list[YearWeather] = []
     for year in years:
         start = pd.Timestamp(year=year, month=9, day=1)
@@ -145,7 +148,17 @@ def build_year_weather_with_context(daily: pd.DataFrame, years: list[int], cfg: 
         y = daily[(daily["date"] >= start) & (daily["date"] <= end)].copy()
         if y.empty:
             continue
-        if mode == "pre_season_t0":
+        if sim_cfg.get("weather_start_month_day"):
+            month, day = map(int, sim_cfg["weather_start_month_day"].split("-"))
+            w_start = pd.Timestamp(year=year, month=month, day=day)
+            month, day = map(int, sim_cfg.get("weather_end_month_day", "06-30").split("-"))
+            w_end = pd.Timestamp(year=year + 1, month=month, day=day)
+            sim_daily = daily[(daily["date"] >= w_start) & (daily["date"] <= w_end)].copy()
+        else:
+            sim_daily = y
+        if mode == "pre_season_enso":
+            features = _preseason_enso_features(daily, year, cfg)
+        elif mode == "pre_season_t0":
             features = _preseason_features(daily, year, cfg)
         else:
             features = np.array(
@@ -159,7 +172,7 @@ def build_year_weather_with_context(daily: pd.DataFrame, years: list[int], cfg: 
                 ],
                 dtype=np.float32,
             )
-        result.append(YearWeather(year=year, daily=y, features=np.nan_to_num(features)))
+        result.append(YearWeather(year=year, daily=sim_daily, features=np.nan_to_num(features)))
     if not result:
         raise ValueError(f"Nenhum ano disponível na base climática para {years}.")
     return result
@@ -208,6 +221,71 @@ def _preseason_features(daily: pd.DataFrame, year: int, cfg: dict) -> np.ndarray
         ],
         dtype=np.float32,
     )
+
+
+@lru_cache(maxsize=4)
+def load_oni(path: str) -> pd.DataFrame:
+    """Read the NOAA/PSL ONI table (one row per year, 12 running 3-month seasons, DJF..NDJ)."""
+    path = Path(path)
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines()[1:]:
+        parts = line.split()
+        if len(parts) != 13 or not parts[0].isdigit():
+            continue
+        values = [float(v) for v in parts[1:]]
+        rows.append([int(parts[0]), *[np.nan if v <= -99 else v for v in values]])
+    seasons = ["DJF", "JFM", "FMA", "MAM", "AMJ", "MJJ", "JJA", "JAS", "ASO", "SON", "OND", "NDJ"]
+    return pd.DataFrame(rows, columns=["year", *seasons]).set_index("year")
+
+
+def _preseason_enso_features(daily: pd.DataFrame, year: int, cfg: dict) -> np.ndarray:
+    """Context known on t0: station rainfall/temperature before t0 and the last ONI published before t0.
+
+    The MJJ ONI is released by NOAA/CPC in early August, so it is available on September 1.
+    The JJA value is published only after t0 and is not used.
+    """
+    decision_cfg = cfg.get("decision", {})
+    month, day = map(int, decision_cfg.get("decision_month_day", "09-01").split("-"))
+    t0 = pd.Timestamp(year=year, month=month, day=day)
+    obs_end = t0 + timedelta(days=int(decision_cfg.get("observations_end_offset_days", -1)))
+
+    def window(days: int) -> pd.DataFrame:
+        start = obs_end - timedelta(days=days - 1)
+        return daily[(daily["date"] >= start) & (daily["date"] <= obs_end)]
+
+    oni = load_oni(str(_resolve(Path(cfg["_project_dir"]), cfg["data"]["oni_file"])))
+    oni_mjj = float(oni.loc[year, "MJJ"])
+    oni_fma = float(oni.loc[year, "FMA"])
+    return np.array(
+        [
+            float(window(30)["rain"].sum()),
+            float(window(90)["rain"].sum()),
+            float(window(30)["temp_mean"].mean()),
+            float(window(90)["srad"].mean()),
+            oni_mjj,
+            oni_mjj - oni_fma,
+        ],
+        dtype=np.float32,
+    )
+
+
+def context_scaler(years: list[YearWeather]) -> tuple[np.ndarray, np.ndarray]:
+    feats = np.vstack([y.features for y in years]).astype(np.float64)
+    std = feats.std(axis=0)
+    std[std < 1e-6] = 1.0
+    return feats.mean(axis=0).astype(np.float32), std.astype(np.float32)
+
+
+def save_scaler(path: Path, scaler: tuple[np.ndarray, np.ndarray]) -> None:
+    mean, std = scaler
+    path.write_text(json.dumps({"mean": mean.tolist(), "std": std.tolist()}, indent=2), encoding="utf-8")
+
+
+def load_scaler(path: Path) -> tuple[np.ndarray, np.ndarray] | None:
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return np.asarray(data["mean"], dtype=np.float32), np.asarray(data["std"], dtype=np.float32)
 
 
 def planting_date_for_year(year: int, month_day: str, offset_days: int) -> date:

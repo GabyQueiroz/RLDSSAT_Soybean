@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import os
+import sys
+import tempfile
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
@@ -28,9 +31,10 @@ def build_irrigation_schedule(
     amount_mm: float,
     max_season_irrigation_mm: float,
     check_days: int,
+    min_event_mm: float = 0.0,
 ) -> pd.DataFrame:
     empty_schedule = pd.DataFrame(columns=["idate", "irval", "irop"])
-    if amount_mm <= 0 or max_season_irrigation_mm <= 0:
+    if amount_mm <= 0 or amount_mm < min_event_mm or max_season_irrigation_mm <= 0:
         return empty_schedule
 
     season = daily[
@@ -46,7 +50,7 @@ def build_irrigation_schedule(
     for i, row in enumerate(season.itertuples(index=False)):
         if i % max(check_days, 1) == 0 and water_balance >= trigger_dryness and total_irrig < max_season_irrigation_mm:
             applied = min(float(amount_mm), max_season_irrigation_mm - total_irrig)
-            if applied > 0:
+            if applied > 0 and applied >= min_event_mm:
                 events.append({"idate": row.date.date(), "irval": round(applied, 1), "irop": "IR001"})
                 total_irrig += applied
                 water_balance = max(0.0, water_balance - applied)
@@ -54,6 +58,21 @@ def build_irrigation_schedule(
         water_balance += evap_proxy - float(row.rain)
         water_balance = max(0.0, water_balance)
     return pd.DataFrame(events)
+
+
+def _isolate_dssat_home(cfg: dict) -> None:
+    """DSSATTools rebuilds DSSAT_HOME inside the temp folder at import time.
+
+    Parallel workers would delete each other's files, so every worker process gets its own temp folder.
+    This only has an effect before DSSATTools is first imported in the process.
+    """
+    if "DSSATTools" in sys.modules or not cfg["dssat"].get("isolate_home_per_process", False):
+        return
+    home = Path(cfg["dssat"]["run_root"]) / "homes" / f"p{os.getpid()}"
+    home.mkdir(parents=True, exist_ok=True)
+    for var in ("TMP", "TEMP", "TMPDIR"):
+        os.environ[var] = str(home)
+    tempfile.tempdir = None
 
 
 class MockDSSATRunner:
@@ -104,10 +123,13 @@ class PyDSSATRunner:
     def __init__(self, cfg: dict, project_dir: Path):
         self.cfg = cfg
         self.project_dir = project_dir
+        _isolate_dssat_home(cfg)
         try:
             from DSSATTools.crop import Soybean
             from DSSATTools.filex import (
                 Field,
+                InitialConditions,
+                InitialConditionsLayer,
                 Irrigation,
                 IrrigationEvent,
                 Planting,
@@ -130,6 +152,8 @@ class PyDSSATRunner:
         self._api = {
             "Soybean": Soybean,
             "Field": Field,
+            "InitialConditions": InitialConditions,
+            "InitialConditionsLayer": InitialConditionsLayer,
             "Irrigation": Irrigation,
             "IrrigationEvent": IrrigationEvent,
             "Planting": Planting,
@@ -159,6 +183,8 @@ class PyDSSATRunner:
                 "Configure dssat.soil_file/dssat.soil_id ou deixe dssat.use_default_soil: true "
                 "para um teste inicial não calibrado."
             )
+        self._cache: dict[tuple, SimulationResult] = {}
+        self.n_dssat_calls = 0
         self.yield_correction = None
         if cfg.get("calibration", {}).get("enabled", False):
             model_path = Path(cfg["calibration"]["model_path"])
@@ -195,6 +221,28 @@ class PyDSSATRunner:
             long=self.cfg["dssat"]["longitude"],
         )
 
+    def _simulation_start(self, planting_date: date) -> date:
+        sim_cfg = self.cfg.get("simulation", {})
+        if not sim_cfg.get("spinup_start_month_day"):
+            return planting_date
+        month, day = map(int, sim_cfg["spinup_start_month_day"].split("-"))
+        return min(date(planting_date.year, month, day), planting_date)
+
+    def _initial_conditions(self, sdate: date):
+        """Soil water at the start of the spin-up, as a fraction of the plant-available range."""
+        sim_cfg = self.cfg.get("simulation", {})
+        if not sim_cfg.get("spinup_start_month_day"):
+            return None
+        frac = float(sim_cfg.get("initial_awc_fraction", 1.0))
+        layers = [
+            self._api["InitialConditionsLayer"](
+                icbl=float(layer["slb"]),
+                sh2o=round(float(layer["slll"]) + frac * (float(layer["sdul"]) - float(layer["slll"])), 3),
+            )
+            for layer in self.soil.table
+        ]
+        return self._api["InitialConditions"](pcr="MZ", icdat=sdate, icres=0, table=layers)
+
     def _weather_station(self, daily: pd.DataFrame):
         WeatherStation = self._api["WeatherStation"]
         WeatherRecord = self._api["WeatherRecord"]
@@ -225,8 +273,21 @@ class PyDSSATRunner:
         irrigation_schedule: pd.DataFrame,
         rng: np.random.Generator,
     ) -> SimulationResult:
+        key = (
+            planting_date,
+            tuple((r.idate, float(r.irval)) for r in irrigation_schedule.itertuples(index=False)),
+        )
+        if key in self._cache:
+            return self._cache[key]
+        result = self._run_dssat(daily, planting_date, irrigation_schedule)
+        self._cache[key] = result
+        return result
+
+    def _run_dssat(self, daily: pd.DataFrame, planting_date: date, irrigation_schedule: pd.DataFrame) -> SimulationResult:
         api = self._api
         ag = self.cfg["agronomy"]
+        sdate = self._simulation_start(planting_date)
+        daily = daily[daily["date"].dt.date >= sdate]
         weather = self._weather_station(daily)
         crop = api["Soybean"](ag["soybean_cultivar"])
         field = api["Field"](
@@ -257,7 +318,7 @@ class PyDSSATRunner:
         else:
             irrigation = None
         controls = api["SimulationControls"](
-            general=api["SCGeneral"](sdate=planting_date),
+            general=api["SCGeneral"](sdate=sdate),
             options=api["SCOptions"](water="Y", nitro="N"),
             methods=api["SCMethods"](),
             management=api["SCManagement"](plant="R", irrig="R" if irrigation else "N", ferti="N"),
@@ -267,20 +328,28 @@ class PyDSSATRunner:
         if not run_root.is_absolute():
             run_root = self.project_dir / run_root
         run_root.mkdir(parents=True, exist_ok=True)
-        dssat = api["DSSAT"](str(run_root / f"run_{pd.Timestamp.utcnow().value}"))
+        dssat = api["DSSAT"](str(run_root / f"run_{os.getpid()}_{pd.Timestamp.utcnow().value}"))
         ok = False
         try:
+            self.n_dssat_calls += 1
             result = dssat.run_treatment(
                 field=field,
                 cultivar=crop,
                 planting=planting,
                 irrigation=irrigation,
+                initial_conditions=self._initial_conditions(sdate),
                 simulation_controls=controls,
                 verbose=False,
             )
             ok = True
             yld = float(result.get("harwt", result.get("HARWT", np.nan)))
             rain = float(result.get("rain", result.get("RAIN", daily["rain"].sum())))
+            if sdate < planting_date:
+                in_season = daily[
+                    (daily["date"].dt.date >= planting_date)
+                    & (daily["date"].dt.date < planting_date + timedelta(days=int(result.get("mat") or ag["season_length_days"])))
+                ]
+                rain = float(in_season["rain"].sum())
             if not np.isfinite(yld):
                 raise RuntimeError(f"DSSAT executou, mas nao retornou produtividade valida. Summary={result}")
             irrig = float(irrigation_schedule["irval"].sum()) if not irrigation_schedule.empty else 0.0

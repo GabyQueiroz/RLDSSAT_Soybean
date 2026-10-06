@@ -8,7 +8,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 
 
 class ValidationEarlyStopCallback(BaseCallback):
-    def __init__(self, eval_env, paths, eval_freq: int, patience_evals: int, n_eval_episodes: int = 64):
+    def __init__(self, eval_env, paths, eval_freq: int, patience_evals: int, n_eval_episodes: int | None = None):
         super().__init__()
         self.eval_env = eval_env
         self.paths = paths
@@ -17,6 +17,8 @@ class ValidationEarlyStopCallback(BaseCallback):
         self.n_eval_episodes = n_eval_episodes
         self.best_reward = -np.inf
         self.bad_evals = 0
+        self._last_eval = 0
+        self.min_timesteps = 0
         self.history_path = paths.tables_dir / "validation_curve.csv"
 
     def _on_training_start(self) -> None:
@@ -35,9 +37,18 @@ class ValidationEarlyStopCallback(BaseCallback):
             writer.writeheader()
 
     def _evaluate(self) -> dict:
+        # DSSAT is deterministic, so each validation season is evaluated exactly once.
         rewards, yields, irrig = [], [], []
-        for _ in range(self.n_eval_episodes):
-            obs, _ = self.eval_env.reset()
+        if self.n_eval_episodes is None:
+            episodes = list(self.eval_env.years)
+        else:
+            episodes = [None] * self.n_eval_episodes
+        for yw in episodes:
+            if yw is None:
+                obs, _ = self.eval_env.reset()
+            else:
+                self.eval_env.current = yw
+                obs = self.eval_env._obs(yw)
             action, _ = self.model.predict(obs, deterministic=True)
             _, reward, _, _, info = self.eval_env.step(action)
             rewards.append(reward)
@@ -52,8 +63,9 @@ class ValidationEarlyStopCallback(BaseCallback):
         }
 
     def _on_step(self) -> bool:
-        if self.num_timesteps % self.eval_freq != 0:
+        if self.num_timesteps - self._last_eval < self.eval_freq:
             return True
+        self._last_eval = self.num_timesteps
         row = self._evaluate()
         with self.history_path.open("a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=list(row.keys()))
@@ -65,4 +77,4 @@ class ValidationEarlyStopCallback(BaseCallback):
             self.model.save(self.paths.models_dir / "best_model")
         else:
             self.bad_evals += 1
-        return self.bad_evals < self.patience_evals
+        return self.num_timesteps < self.min_timesteps or self.bad_evals < self.patience_evals
