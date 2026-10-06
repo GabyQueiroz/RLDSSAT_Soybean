@@ -1,0 +1,44 @@
+[2026-09-27 14:10:36] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_42.yaml --run-name ppo_castro_frozen_multiseed_seed_42 --backend dssat
+[2026-09-27 14:10:36] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_43.yaml --run-name ppo_castro_frozen_multiseed_seed_43 --backend dssat
+[2026-09-27 14:10:36] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_44.yaml --run-name ppo_castro_frozen_multiseed_seed_44 --backend dssat
+[2026-09-27 14:10:36] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_45.yaml --run-name ppo_castro_frozen_multiseed_seed_45 --backend dssat
+[2026-09-27 14:10:36] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_46.yaml --run-name ppo_castro_frozen_multiseed_seed_46 --backend dssat
+[2026-09-27 14:10:36] Manifest written to dssat_rl_soybean\configs\_generated_multiseed\ppo_castro_frozen_multiseed_manifest.csv
+[2026-09-27 15:21:40] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_42.yaml --run-name ppo_castro_frozen_multiseed_seed_42 --backend dssat
+[2026-09-27 15:21:40] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_43.yaml --run-name ppo_castro_frozen_multiseed_seed_43 --backend dssat
+[2026-09-27 15:21:40] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_44.yaml --run-name ppo_castro_frozen_multiseed_seed_44 --backend dssat
+[2026-09-27 15:21:40] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_45.yaml --run-name ppo_castro_frozen_multiseed_seed_45 --backend dssat
+[2026-09-27 15:21:40] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_46.yaml --run-name ppo_castro_frozen_multiseed_seed_46 --backend dssat
+[2026-09-27 15:21:40] Manifest written to dssat_rl_soybean\configs\_generated_multiseed\ppo_castro_frozen_multiseed_manifest.csv
+[2026-09-27 15:21:40] Starting multi-seed run with 5 seeds. Log file: C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\outputs\ppo_castro_frozen_multiseed_run.log
+[2026-09-27 15:21:40] Starting seed 42 (1/5). ETA will be estimated after the first seed finishes.
+2026-09-27 15:21:59.534571: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.5.0) or chardet (7.6.0)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Traceback (most recent call last):
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\src\train_ppo.py", line 101, in <module>
+    main()
+  File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\src\train_ppo.py", line 48, in main
+    daily = load_weather(paths.project_dir, cfg)
+  File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\src\data.py", line 34, in load_weather
+    df = pd.read_csv(path, low_memory=False)
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean\\base_consolidada_saida\\clima_castro_horario.csv'
+[2026-09-27 15:22:24] Seed 42 failed after 0:00:43 with return code 1.

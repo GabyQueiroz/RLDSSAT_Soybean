@@ -1,0 +1,4 @@
+PID=32664
+STARTED=2026-09-29 10:28:25
+STDOUT_LOG=C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\outputs\ppo_castro_frozen_multiseed_seed43_stdout.log
+STDERR_LOG=C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\outputs\ppo_castro_frozen_multiseed_seed43_stderr.log

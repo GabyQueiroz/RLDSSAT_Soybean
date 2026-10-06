@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\gabri\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\src\run_multiseed.py", line 155, in <module>
+    main()
+  File "C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\src\run_multiseed.py", line 143, in main
+    raise subprocess.CalledProcessError(return_code, cmd)
+subprocess.CalledProcessError: Command '['C:\\Users\\gabri\\AppData\\Local\\Programs\\Python\\Python310\\python.exe', '-m', 'dssat_rl_soybean.src.train_ppo', '--config', 'dssat_rl_soybean\\configs\\_generated_multiseed\\experiment_seed_42.yaml', '--run-name', 'ppo_castro_frozen_multiseed_seed_42', '--backend', 'dssat']' returned non-zero exit status 1073807364.

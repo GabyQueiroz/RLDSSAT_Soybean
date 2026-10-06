@@ -1,0 +1,9 @@
+[2026-09-27 15:23:59] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_42.yaml --run-name ppo_castro_frozen_multiseed_seed_42 --backend dssat
+[2026-09-27 15:23:59] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_43.yaml --run-name ppo_castro_frozen_multiseed_seed_43 --backend dssat
+[2026-09-27 15:23:59] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_44.yaml --run-name ppo_castro_frozen_multiseed_seed_44 --backend dssat
+[2026-09-27 15:23:59] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_45.yaml --run-name ppo_castro_frozen_multiseed_seed_45 --backend dssat
+[2026-09-27 15:23:59] Prepared command: python -m dssat_rl_soybean.src.train_ppo --config dssat_rl_soybean\configs\_generated_multiseed\experiment_seed_46.yaml --run-name ppo_castro_frozen_multiseed_seed_46 --backend dssat
+[2026-09-27 15:23:59] Manifest written to dssat_rl_soybean\configs\_generated_multiseed\ppo_castro_frozen_multiseed_manifest.csv
+[2026-09-27 15:23:59] Starting multi-seed run with 5 seeds. Log file: C:\Users\gabri\Documents\UTFPR\ArtigoMarcella\dssat_rl_soybean\outputs\ppo_castro_frozen_multiseed_run_v2.log
+[2026-09-27 15:23:59] Starting seed 42 (1/5). ETA will be estimated after the first seed finishes.
+[2026-09-28 03:15:06] Seed 42 failed after 11:51:07 with return code 1073807364.

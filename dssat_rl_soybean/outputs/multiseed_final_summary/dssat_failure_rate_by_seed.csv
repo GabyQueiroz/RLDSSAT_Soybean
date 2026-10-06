@@ -1,0 +1,6 @@
+seed,run_name,policy_eval_rows,policy_eval_failures,policy_eval_failure_rate,best_checkpoint_timesteps,best_validation_reward,best_validation_yield_kg_ha,best_validation_irrigation_mm,run_metadata_exists,final_model_exists,latest_model_exists
+42,ppo_castro_frozen_multiseed_seed_42,8,0,0.0,100000,0.9028195994777392,3791.842317806505,0.0,True,True,True
+43,ppo_castro_frozen_multiseed_seed_43,8,0,0.0,240000,0.9034191023821893,3794.3602300051934,0.0,True,True,True
+44,ppo_castro_frozen_multiseed_seed_44,8,0,0.0,30000,0.9010463036380986,3784.394475280014,0.0,True,True,True
+45,ppo_castro_frozen_multiseed_seed_45,8,0,0.0,180000,0.9025051688970708,3790.5217093676974,0.0,True,True,True
+46,ppo_castro_frozen_multiseed_seed_46,8,0,0.0,110000,0.9029104307816156,3792.223809282785,0.0,True,True,True

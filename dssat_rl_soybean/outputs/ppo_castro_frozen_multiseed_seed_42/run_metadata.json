@@ -1,0 +1,162 @@
+{
+  "config": {
+    "seed": 42,
+    "backend": "dssat",
+    "data": {
+      "weather_csv": "../base_consolidada_saida/clima_castro_horario.csv",
+      "productivity_csv": "../base_consolidada_saida/produtividade_castro_ponta_grossa_longa.csv",
+      "city": "Castro (PR)",
+      "crop_product": "Soja (em grão)",
+      "train_years": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+      ],
+      "valid_years": [
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "test_years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ]
+    },
+    "evaluation_design": {
+      "current_run_role": "diagnostic_not_final",
+      "registry_name": "TESTE_EXTERNO_COMPOSICAO_v6",
+      "registry_version": 1,
+      "registry_date": "2026-09-27",
+      "environment": "Castro_A819",
+      "crop": "soybean",
+      "city": "Castro (PR)",
+      "rule": "The frozen evaluation years must not be used to choose context variables, action bounds, correction models, water penalty, PPO hyperparameters, checkpoint, baselines, or manuscript interpretation before the final run.",
+      "development_train_years": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+      ],
+      "development_validation_years": [
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "frozen_evaluation_years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "illustration_years": [
+        2025
+      ],
+      "observed_yield_required_for_evaluation": true,
+      "exclude_frozen_years_from_development": true,
+      "applied_to_generated_config": true
+    },
+    "agronomy": {
+      "planting_window_start": "09-15",
+      "planting_window_end": "12-20",
+      "season_length_days": 150,
+      "irrigation_check_days": 12,
+      "max_single_irrigation_mm": 35,
+      "max_season_irrigation_mm": 240,
+      "soybean_cultivar": "990005",
+      "plant_population_m2": 30,
+      "row_spacing_cm": 45,
+      "planting_depth_cm": 5
+    },
+    "decision": {
+      "context_mode": "realized_season",
+      "decision_month_day": "09-01",
+      "observations_end_offset_days": -1,
+      "climatology_start_year": 2006,
+      "climatology_end_year": 2017
+    },
+    "reward": {
+      "target_yield_kg_ha": 4200,
+      "water_penalty_per_mm": 0.0015,
+      "failed_run_penalty": -2.0
+    },
+    "calibration": {
+      "enabled": true,
+      "model_path": "outputs/calibration/yield_correction.json",
+      "train_years": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017
+      ],
+      "valid_years": [
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "test_years": [
+        2022,
+        2023,
+        2024
+      ]
+    },
+    "ppo": {
+      "total_timesteps": 500000,
+      "eval_freq": 10000,
+      "patience_evals": 8,
+      "n_envs": 8,
+      "n_steps": 256,
+      "batch_size": 512,
+      "n_epochs": 10,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "learning_rate": 0.0002,
+      "clip_range": 0.15,
+      "ent_coef": 0.01,
+      "vf_coef": 0.5,
+      "max_grad_norm": 0.5
+    },
+    "dssat": {
+      "run_root": "C:/DSSAT_RL_RUNS",
+      "keep_failed_runs": true,
+      "keep_success_runs": false,
+      "use_default_soil": true,
+      "soil_file": null,
+      "soil_id": null,
+      "latitude": -24.77999999,
+      "longitude": -50.04638888,
+      "elevation_m": 1016
+    },
+    "_config_path": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean\\configs\\_generated_multiseed\\experiment_seed_42.yaml",
+    "_project_dir": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean"
+  },
+  "best_validation_reward": 0.9028195994777393,
+  "output_dir": "C:\\Users\\gabri\\Documents\\UTFPR\\ArtigoMarcella\\dssat_rl_soybean\\outputs\\ppo_castro_frozen_multiseed_seed_42"
+}

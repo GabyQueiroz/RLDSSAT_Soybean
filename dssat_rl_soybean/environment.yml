@@ -1,0 +1,22 @@
+name: rldssat-soybean
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - pandas=2.3.3
+  - matplotlib=3.10.9
+  - seaborn=0.13.2
+  - scikit-learn=1.7.2
+  - scipy=1.15.3
+  - pyyaml=6.0.3
+  - tqdm=4.67.1
+  - tabulate=0.10.0
+  - pytorch=2.10.0
+  - pip:
+      - DSSATTools==3.0.2
+      - gymnasium==1.2.2
+      - stable-baselines3[extra]==2.7.1
+      - pypdf==6.10.2
