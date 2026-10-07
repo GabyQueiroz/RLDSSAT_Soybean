@@ -99,6 +99,26 @@ def run_training(cfg: dict, prefix: str, seeds: list[int], log_path: Path, rever
     log("ROLLING TRAINING FINISHED")
 
 
+def reevaluate(cfg: dict, prefix: str, seeds: list[int]) -> None:
+    """Re-run the test evaluation of finished runs whose test seasons differ from the current fold definition."""
+    from .evaluate import evaluate_policy
+
+    project_dir = Path(cfg["_project_dir"])
+    gen_dir = project_dir / "configs" / f"_generated_{prefix}"
+    for fold in folds(cfg):
+        for seed in seeds:
+            run_name = f"{prefix}/{fold['fold']}_seed_{seed}"
+            done = project_dir / "outputs" / run_name / "tables" / "policy_evaluation_test.csv"
+            if not done.exists() or sorted(pd.read_csv(done)["year"].unique()) == fold["test"]:
+                continue
+            run_cfg = fold_config(cfg, fold, seed)
+            cfg_path = gen_dir / f"{fold['fold']}_seed_{seed}.yaml"
+            cfg_path.write_text(yaml.safe_dump(run_cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
+            run_cfg = load_config(cfg_path)
+            evaluate_policy(run_cfg, make_paths(run_cfg, run_name), "test")
+            print(f"Re-evaluated {run_name} on {fold['test']}", flush=True)
+
+
 def analyse(cfg: dict, prefix: str, seeds: list[int], workers: int) -> None:
     project_dir = Path(cfg["_project_dir"])
     paths = make_paths(cfg, f"{prefix}_analysis")
@@ -200,7 +220,7 @@ def analyse(cfg: dict, prefix: str, seeds: list[int], workers: int) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Rolling-origin evaluation of PPO and comparators on the NASA POWER series.")
-    parser.add_argument("command", choices=["folds", "grid", "train", "analyse"])
+    parser.add_argument("command", choices=["folds", "grid", "train", "reevaluate", "analyse"])
     parser.add_argument("--config", default="configs/experiment_castro_power.yaml")
     parser.add_argument("--prefix", default="rolling_power")
     parser.add_argument("--workers", type=int, default=10)
@@ -227,6 +247,8 @@ def main() -> None:
             ctypes.windll.kernel32.SetThreadExecutionState(0x80000001)
         log_path = Path(cfg["_project_dir"]) / "outputs" / f"{args.prefix}_run.log"
         run_training(cfg, args.prefix, seeds, log_path, reverse=args.reverse)
+    elif args.command == "reevaluate":
+        reevaluate(cfg, args.prefix, seeds)
     else:
         analyse(cfg, args.prefix, seeds, args.workers)
 
