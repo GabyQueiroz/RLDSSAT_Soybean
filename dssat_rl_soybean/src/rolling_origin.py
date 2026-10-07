@@ -42,11 +42,13 @@ def fold_config(cfg: dict, fold: dict, seed: int) -> dict:
     return run
 
 
-def run_training(cfg: dict, prefix: str, seeds: list[int], log_path: Path) -> None:
+def run_training(cfg: dict, prefix: str, seeds: list[int], log_path: Path, reverse: bool = False) -> None:
     project_dir = Path(cfg["_project_dir"])
     gen_dir = project_dir / "configs" / f"_generated_{prefix}"
     gen_dir.mkdir(parents=True, exist_ok=True)
     jobs = [(f, s) for f in folds(cfg) for s in seeds]
+    if reverse:
+        jobs = jobs[::-1]
     durations: list[float] = []
 
     def log(msg: str) -> None:
@@ -60,6 +62,14 @@ def run_training(cfg: dict, prefix: str, seeds: list[int], log_path: Path) -> No
         done = project_dir / "outputs" / run_name / "tables" / "policy_evaluation_test.csv"
         if done.exists():
             log(f"Skipping {run_name} (already evaluated).")
+            continue
+        # Two training processes may share the job list; a lock file marks a run already taken.
+        lock = project_dir / "outputs" / prefix / f"{fold['fold']}_seed_{seed}.lock"
+        lock.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            lock.open("x").close()
+        except FileExistsError:
+            log(f"Skipping {run_name} (taken by another process).")
             continue
         cfg_path = gen_dir / f"{fold['fold']}_seed_{seed}.yaml"
         cfg_path.write_text(yaml.safe_dump(fold_config(cfg, fold, seed), sort_keys=False, allow_unicode=True), encoding="utf-8")
@@ -81,6 +91,7 @@ def run_training(cfg: dict, prefix: str, seeds: list[int], log_path: Path) -> No
                     fh.write(line)
             code = proc.wait()
         if code != 0:
+            lock.unlink(missing_ok=True)
             log(f"{run_name} failed with return code {code}; see {run_log}.")
             raise SystemExit(code)
         durations.append(time.monotonic() - t0)
@@ -193,6 +204,7 @@ def main() -> None:
     parser.add_argument("--config", default="configs/experiment_castro_power.yaml")
     parser.add_argument("--prefix", default="rolling_power")
     parser.add_argument("--workers", type=int, default=10)
+    parser.add_argument("--reverse", action="store_true", help="Walk the job list from the last fold (second training process).")
     args = parser.parse_args()
     cfg = load_config(args.config)
     cfg["backend"] = "dssat"
@@ -208,7 +220,7 @@ def main() -> None:
                       paths.tables_dir / "candidate_grid_all_seasons.csv", args.workers)
     elif args.command == "train":
         log_path = Path(cfg["_project_dir"]) / "outputs" / f"{args.prefix}_run.log"
-        run_training(cfg, args.prefix, seeds, log_path)
+        run_training(cfg, args.prefix, seeds, log_path, reverse=args.reverse)
     else:
         analyse(cfg, args.prefix, seeds, args.workers)
 
