@@ -69,6 +69,7 @@ class SoybeanDSSATEnv(gym.Env):
         if self.obs_scaler is not None:
             mean, std = self.obs_scaler
             obs = (obs - mean) / std
+        obs = np.nan_to_num(obs, nan=0.0)
         if self.obs_noise_std > 0:
             obs = obs + self.rng.normal(0.0, self.obs_noise_std, size=obs.shape).astype(np.float32)
         return np.clip(obs, -5.0, 5.0).astype(np.float32)

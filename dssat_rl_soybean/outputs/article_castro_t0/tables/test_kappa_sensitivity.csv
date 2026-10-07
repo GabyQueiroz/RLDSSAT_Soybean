@@ -1,0 +1,16 @@
+kappa,policy,rule,reward,yield_kg_ha,irrigation_mm
+0.0,optimized_fixed_rule,off032_trig60_amt25_cap240,1.213095238095238,5095.0,50.0
+0.0,retrospective_oracle,,1.2288095238095238,5161.0,55.0
+0.0,"PPO (trained at 0.0015, re-scored)",,0.9669642857142857,4061.25,3.9
+0.0005,optimized_fixed_rule,off024_trig90_amt25_cap240,1.1548214285714284,4902.75,25.0
+0.0005,retrospective_oracle,,1.2107738095238096,5158.75,35.0
+0.0005,"PPO (trained at 0.0015, re-scored)",,0.9650142857142857,4061.25,3.9
+0.0015,optimized_fixed_rule,off024_trig90_amt15_cap240,1.1338690476190476,4904.0,22.5
+0.0015,retrospective_oracle,,1.1836607142857143,5136.75,26.25
+0.0015,"PPO (trained at 0.0015, re-scored)",,0.9611142857142856,4061.25,3.9
+0.003,optimized_fixed_rule,off000_trig150_amt25_cap80,0.9808928571428571,4119.75,0.0
+0.003,retrospective_oracle,,1.1492261904761905,5110.25,22.5
+0.003,"PPO (trained at 0.0015, re-scored)",,0.9552642857142857,4061.25,3.9
+0.006,optimized_fixed_rule,off000_trig9999_amt0_cap0,0.9808928571428571,4119.75,0.0
+0.006,retrospective_oracle,,1.0829166666666667,5020.75,18.75
+0.006,"PPO (trained at 0.0015, re-scored)",,0.9435642857142856,4061.25,3.9

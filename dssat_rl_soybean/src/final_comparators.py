@@ -117,7 +117,7 @@ def context_table(cfg: dict, project_dir: Path, years: list[int], scaler) -> pd.
     daily = load_weather(project_dir, cfg)
     seasons = build_year_weather_with_context(daily, years, cfg)
     mean, std = scaler
-    data = np.vstack([(s.features - mean) / std for s in seasons])
+    data = np.nan_to_num(np.vstack([(s.features - mean) / std for s in seasons]), nan=0.0)
     out = pd.DataFrame(data, columns=[f"c{i}" for i in range(data.shape[1])])
     out.insert(0, "year", [s.year for s in seasons])
     return out

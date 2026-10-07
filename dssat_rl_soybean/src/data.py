@@ -78,7 +78,7 @@ def load_weather(project_dir: Path, cfg: dict) -> pd.DataFrame:
     daily["temp_mean"] = daily["temp_mean"].fillna((daily["tmax"] + daily["tmin"]) / 2)
     daily["rain"] = daily["rain"].clip(lower=0)
     daily["srad"] = _fill_missing_srad(daily, cfg["dssat"]["latitude"])
-    return daily[["date", "year", "rain", "tmax", "tmin", "temp_mean", "srad"]]
+    return daily[["date", "year", "rain", "tmax", "tmin", "temp_mean", "srad", "rain_obs", "temp_obs", "srad_obs"]]
 
 
 def _fill_missing_rain(daily: pd.DataFrame) -> pd.Series:
@@ -172,7 +172,9 @@ def build_year_weather_with_context(daily: pd.DataFrame, years: list[int], cfg: 
                 ],
                 dtype=np.float32,
             )
-        result.append(YearWeather(year=year, daily=sim_daily, features=np.nan_to_num(features)))
+        if mode != "pre_season_enso":
+            features = np.nan_to_num(features)
+        result.append(YearWeather(year=year, daily=sim_daily, features=features))
     if not result:
         raise ValueError(f"Nenhum ano disponível na base climática para {years}.")
     return result
@@ -253,15 +255,26 @@ def _preseason_enso_features(daily: pd.DataFrame, year: int, cfg: dict) -> np.nd
         start = obs_end - timedelta(days=days - 1)
         return daily[(daily["date"] >= start) & (daily["date"] <= obs_end)]
 
+    min_coverage = decision_cfg.get("context_min_valid_day_share")
+    min_hours = {"rain_obs": 18, "temp_obs": 18, "srad_obs": 6}
+
+    def stat(days: int, column: str, obs_column: str, how: str) -> float:
+        w = window(days)
+        if min_coverage is not None and (w[obs_column] >= min_hours[obs_column]).sum() < min_coverage * days:
+            # Too few valid station days (same daily rule as the weather QC): the feature is treated as
+            # unknown and takes the training mean after scaling.
+            return np.nan
+        return float(w[column].sum() if how == "sum" else w[column].mean())
+
     oni = load_oni(str(_resolve(Path(cfg["_project_dir"]), cfg["data"]["oni_file"])))
     oni_mjj = float(oni.loc[year, "MJJ"])
     oni_fma = float(oni.loc[year, "FMA"])
     return np.array(
         [
-            float(window(30)["rain"].sum()),
-            float(window(90)["rain"].sum()),
-            float(window(30)["temp_mean"].mean()),
-            float(window(90)["srad"].mean()),
+            stat(30, "rain", "rain_obs", "sum"),
+            stat(90, "rain", "rain_obs", "sum"),
+            stat(30, "temp_mean", "temp_obs", "mean"),
+            stat(90, "srad", "srad_obs", "mean"),
             oni_mjj,
             oni_mjj - oni_fma,
         ],
@@ -271,9 +284,9 @@ def _preseason_enso_features(daily: pd.DataFrame, year: int, cfg: dict) -> np.nd
 
 def context_scaler(years: list[YearWeather]) -> tuple[np.ndarray, np.ndarray]:
     feats = np.vstack([y.features for y in years]).astype(np.float64)
-    std = feats.std(axis=0)
+    std = np.nanstd(feats, axis=0)
     std[std < 1e-6] = 1.0
-    return feats.mean(axis=0).astype(np.float32), std.astype(np.float32)
+    return np.nanmean(feats, axis=0).astype(np.float32), std.astype(np.float32)
 
 
 def save_scaler(path: Path, scaler: tuple[np.ndarray, np.ndarray]) -> None:

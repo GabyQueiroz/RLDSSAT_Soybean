@@ -1,0 +1,8 @@
+component,d_reward,d_yield_kg_ha
+fixed rule vs calendar (optimized fixed rule - rainfed Oct 15),0.1005357142857144,564.0
+context (contextual kNN - optimized fixed rule),-0.1389285714285714,-725.25
+algorithm (PPO - contextual kNN),-0.03382619047619051,-117.5
+adaptation (PPO - optimized fixed rule),-0.1727547619047619,-842.75
+remaining regret (oracle - PPO),0.2225464285714286,1075.5
+share of oracle gap over rainfed Oct 15 captured by PPO,-0.48041179964363384,
+share of oracle gap over rainfed Oct 15 captured by optimized fixed rule,0.6687784597109485,

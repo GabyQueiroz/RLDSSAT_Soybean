@@ -39,7 +39,7 @@ def _attach_observed(paths, cfg, out: pd.DataFrame, split: str) -> pd.DataFrame:
     return merged
 
 
-def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: int = 1) -> pd.DataFrame:
+def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: int = 1, tag: str = "") -> pd.DataFrame:
     daily = load_weather(paths.project_dir, cfg)
     years = build_year_weather_with_context(daily, cfg["data"][f"{split}_years"], cfg)
     runner = PyDSSATRunner(cfg, paths.project_dir) if cfg["backend"] == "dssat" else MockDSSATRunner(cfg)
@@ -75,7 +75,7 @@ def evaluate_policy(cfg, paths, split: str, model_path=None, episodes_per_year: 
             _, reward, _, _, info = env.step(action)
             rows.append({"split": split, "rep": rep, "reward": reward, **info})
     out = _attach_observed(paths, cfg, pd.DataFrame(rows), split)
-    out.to_csv(paths.tables_dir / f"policy_evaluation_{split}.csv", index=False, encoding="utf-8-sig")
+    out.to_csv(paths.tables_dir / f"policy_evaluation_{split}{tag}.csv", index=False, encoding="utf-8-sig")
     return out
 
 

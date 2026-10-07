@@ -1,0 +1,5 @@
+﻿split,rep,reward,year,failed,planting_offset_days,trigger_dryness,amount_mm,max_irrigation_mm,yield_kg_ha,irrigation_mm,rain_mm,planting_date,n_irrigation_events,harvest_window_end,observed_yield_kg_ha,yield_error_kg_ha,yield_abs_error_kg_ha,yield_abs_percent_error
+valid,0,1.215,2017,False,13,80,13.5,70.0,5103.0,0.0,1051.0,2017-09-28,0,2018-02-25,4000.0,1103.0,1103.0,27.575
+valid,0,1.266904761904762,2018,False,13,84,17.5,110.0,5321.0,0.0,650.0,2018-09-28,0,2019-02-25,3750.0,1571.0,1571.0,41.89333333333333
+valid,0,1.215,2019,False,20,83,18.0,110.0,5103.0,0.0,549.6,2019-10-05,0,2020-03-03,3700.0,1403.0,1403.0,37.91891891891892
+valid,0,1.2188095238095238,2020,False,2,95,11.5,100.0,5119.0,0.0,582.2153846153847,2020-09-17,0,2021-02-14,4050.0,1069.0,1069.0,26.395061728395063
