@@ -205,6 +205,7 @@ def main() -> None:
     parser.add_argument("--prefix", default="rolling_power")
     parser.add_argument("--workers", type=int, default=10)
     parser.add_argument("--reverse", action="store_true", help="Walk the job list from the last fold (second training process).")
+    parser.add_argument("--keep-awake", action="store_true", help="Prevent idle sleep while training (Windows).")
     args = parser.parse_args()
     cfg = load_config(args.config)
     cfg["backend"] = "dssat"
@@ -219,6 +220,11 @@ def main() -> None:
         evaluate_grid(cfg, paths.project_dir, list(range(first, last + 1)), candidate_grid(),
                       paths.tables_dir / "candidate_grid_all_seasons.csv", args.workers)
     elif args.command == "train":
+        if args.keep_awake and sys.platform == "win32":
+            import ctypes
+
+            # ES_CONTINUOUS | ES_SYSTEM_REQUIRED: no idle sleep while this process runs.
+            ctypes.windll.kernel32.SetThreadExecutionState(0x80000001)
         log_path = Path(cfg["_project_dir"]) / "outputs" / f"{args.prefix}_run.log"
         run_training(cfg, args.prefix, seeds, log_path, reverse=args.reverse)
     else:
