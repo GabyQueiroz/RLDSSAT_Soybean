@@ -32,6 +32,40 @@ def _resolve(project_dir: Path, path_value: str) -> Path:
 
 
 def load_weather(project_dir: Path, cfg: dict) -> pd.DataFrame:
+    if cfg["data"].get("weather_source", "inmet") == "nasa_power":
+        return load_weather_power(project_dir, cfg)
+    return load_weather_inmet(project_dir, cfg)
+
+
+def load_weather_power(project_dir: Path, cfg: dict) -> pd.DataFrame:
+    """Daily NASA POWER series (MERRA-2 temperature and corrected precipitation, CERES/GEWEX radiation).
+
+    The file is the unmodified CSV returned by the POWER daily point API. Days with a missing value
+    (-999) in any variable are dropped; the observation-count columns are set to 24 so that the
+    coverage rules written for the station series treat every POWER day as complete.
+    """
+    path = _resolve(project_dir, cfg["data"]["power_csv"])
+    lines = path.read_text(encoding="utf-8").splitlines()
+    header = next(i for i, line in enumerate(lines) if line.startswith("YEAR,"))
+    df = pd.read_csv(path, skiprows=header)
+    df = df.replace(-999.0, np.nan).dropna()
+    daily = pd.DataFrame(
+        {
+            "date": pd.to_datetime(df["YEAR"].astype(str), format="%Y") + pd.to_timedelta(df["DOY"] - 1, unit="D"),
+            "rain": df["PRECTOTCORR"].clip(lower=0),
+            "tmax": df["T2M_MAX"],
+            "tmin": df["T2M_MIN"],
+            "temp_mean": df["T2M"],
+            "srad": df["ALLSKY_SFC_SW_DWN"],
+        }
+    ).sort_values("date")
+    daily["year"] = daily["date"].dt.year
+    for col in ["rain_obs", "temp_obs", "srad_obs"]:
+        daily[col] = 24
+    return daily[["date", "year", "rain", "tmax", "tmin", "temp_mean", "srad", "rain_obs", "temp_obs", "srad_obs"]].reset_index(drop=True)
+
+
+def load_weather_inmet(project_dir: Path, cfg: dict) -> pd.DataFrame:
     path = _resolve(project_dir, cfg["data"]["weather_csv"])
     df = pd.read_csv(path, low_memory=False)
     df["data_hora"] = pd.to_datetime(df["data_hora"], errors="coerce")

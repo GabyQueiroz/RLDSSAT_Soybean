@@ -1,0 +1,2 @@
+variable,n,mean_station,mean_power,bias_station_minus_power,mae,rmse,pearson_r
+season_rain_sep_apr,10,978.2619267399268,1098.952,-120.69007326007329,236.5898754578755,341.77606592419886,0.2593327623766551
