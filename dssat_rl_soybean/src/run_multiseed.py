@@ -124,7 +124,7 @@ def main():
     overall_start = time.monotonic()
     for index, row in enumerate(manifest_rows, start=1):
         seed = row["seed"]
-        cmd = row["command"].replace("python -m", f"{sys.executable} -m", 1).split()
+        cmd = row["command"].replace("python -m", f"{sys.executable} -u -m", 1).split()
         if completed_durations:
             avg_seconds = sum(completed_durations) / len(completed_durations)
             remaining_seconds = avg_seconds * (len(manifest_rows) - index + 1)
