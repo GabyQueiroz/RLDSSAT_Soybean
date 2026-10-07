@@ -43,7 +43,7 @@ evaluation_design:
   test_seasons:
   - 2005
   - 2024
-  fold_test_length: 2
+  fold_test_length: 4
   validation_length: 5
   seeds:
   - 42

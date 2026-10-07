@@ -34,6 +34,24 @@ action bounds, irrigation rule, spin-up, objective (kappa = 0.0015 mm-1), PPO ar
 - Training budget per run: at least 8,192 and at most 24,576 steps; stop after 6 evaluations without improvement
   (evaluation every 2,048 steps on the 5 validation seasons).
 
+## Amendment 1 (2026-10-07, before any test-season result of this design was produced)
+
+The measured simulation rate on the workstation (about 1.5-4 training steps per second, because with 16-34 training
+seasons few DSSAT treatments repeat and the cache rarely applies) implied about 50 h for 30 runs. The test block of each
+fold was therefore extended from 2 to 4 seasons, keeping the same 20 test seasons and the same seeds:
+
+| fold | PPO training | checkpoint selection | test |
+|---|---|---|---|
+| f2005 | 1984-1999 | 2000-2004 | 2005-2008 |
+| f2009 | 1984-2003 | 2004-2008 | 2009-2012 |
+| f2013 | 1984-2007 | 2008-2012 | 2013-2016 |
+| f2017 | 1984-2011 | 2012-2016 | 2017-2020 |
+| f2021 | 1984-2015 | 2016-2020 | 2021-2024 |
+
+5 folds x 3 seeds = 15 runs. The f2005 / seed 42 run, whose training and validation seasons are identical in both
+versions, is kept and its selected checkpoint is evaluated on 2005-2008. Training, validation and the PPO
+configuration are unchanged.
+
 ## Reported outcomes
 
 Mean objective, yield, irrigation, P10 and CVaR10 by policy over the 20 test seasons; paired differences PPO minus
