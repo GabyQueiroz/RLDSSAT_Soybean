@@ -1,0 +1,71 @@
+[2026-10-07 11:44:21] Starting rolling_power/f2005_seed_42 (1/30): train 1984-1999, valid 2000-2004, test [2005, 2006].
+[2026-10-07 14:17:37] Run interrupted (machine on battery and suspended); restarted from f2005_seed_42.
+[2026-10-07 14:17:43] Starting rolling_power/f2005_seed_42 (1/30): train 1984-1999, valid 2000-2004, test [2005, 2006].
+[2026-10-07 15:36:56] Run stopped by the user (laptop moved); f2005_seed_42 discarded and will restart.
+[2026-10-07 16:11:15] Resumed with two training processes (forward and reverse job order).
+[2026-10-07 16:11:27] Starting rolling_power/f2023_seed_44 (1/30): train 1984-2017, valid 2018-2022, test [2023, 2024].
+[2026-10-07 16:11:32] Starting rolling_power/f2005_seed_42 (1/30): train 1984-1999, valid 2000-2004, test [2005, 2006].
+[2026-10-07 16:39:07] Both processes ended with the host session; partial runs discarded; relaunched outside the session.
+[2026-10-07 16:45:48] Starting rolling_power/f2005_seed_42 (1/30): train 1984-1999, valid 2000-2004, test [2005, 2006].
+[2026-10-07 16:45:52] Starting rolling_power/f2023_seed_44 (1/30): train 1984-2017, valid 2018-2022, test [2023, 2024].
+[2026-10-07 19:06:54] Finished rolling_power/f2005_seed_42 in 141 min.
+[2026-10-07 19:06:54] Skipping rolling_power/f2005_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2005_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2007_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2007_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2007_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2009_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2009_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2009_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2011_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2011_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2011_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2013_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2013_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2013_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2015_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2015_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2015_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2017_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2017_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2017_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2019_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2019_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2019_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2021_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2021_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2021_seed_44 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2023_seed_42 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2023_seed_43 (taken by another process).
+[2026-10-07 19:06:54] Skipping rolling_power/f2023_seed_44 (taken by another process).
+[2026-10-07 19:06:54] ROLLING TRAINING FINISHED
+[2026-10-07 20:50:55] Skipping rolling_power/f2005_seed_42 (already evaluated).
+[2026-10-07 20:50:55] Starting rolling_power/f2005_seed_43 (2/15): train 1984-1999, valid 2000-2004, test [2005, 2006, 2007, 2008].
+[2026-10-07 21:59:18] Finished rolling_power/f2005_seed_43 in 68 min.
+[2026-10-07 21:59:18] Starting rolling_power/f2005_seed_44 (3/15): train 1984-1999, valid 2000-2004, test [2005, 2006, 2007, 2008]. ETA 2026-10-08 12:48.
+[2026-10-07 23:05:53] Finished rolling_power/f2005_seed_44 in 66 min.
+[2026-10-07 23:05:53] Starting rolling_power/f2009_seed_42 (4/15): train 1984-2003, valid 2004-2008, test [2009, 2010, 2011, 2012]. ETA 2026-10-08 12:35.
+[2026-10-07 23:49:42] Finished rolling_power/f2009_seed_42 in 43 min.
+[2026-10-07 23:49:42] Starting rolling_power/f2009_seed_43 (5/15): train 1984-2003, valid 2004-2008, test [2009, 2010, 2011, 2012]. ETA 2026-10-08 10:45.
+[2026-10-08 00:37:46] Finished rolling_power/f2009_seed_43 in 48 min.
+[2026-10-08 00:37:46] Starting rolling_power/f2009_seed_44 (6/15): train 1984-2003, valid 2004-2008, test [2009, 2010, 2011, 2012]. ETA 2026-10-08 10:04.
+[2026-10-08 01:19:46] Finished rolling_power/f2009_seed_44 in 42 min.
+[2026-10-08 01:19:46] Starting rolling_power/f2013_seed_42 (7/15): train 1984-2007, valid 2008-2012, test [2013, 2014, 2015, 2016]. ETA 2026-10-08 09:23.
+[2026-10-08 02:06:54] Finished rolling_power/f2013_seed_42 in 47 min.
+[2026-10-08 02:06:54] Starting rolling_power/f2013_seed_43 (8/15): train 1984-2007, valid 2008-2012, test [2013, 2014, 2015, 2016]. ETA 2026-10-08 09:08.
+[2026-10-08 02:53:47] Finished rolling_power/f2013_seed_43 in 46 min.
+[2026-10-08 02:53:47] Starting rolling_power/f2013_seed_44 (9/15): train 1984-2007, valid 2008-2012, test [2013, 2014, 2015, 2016]. ETA 2026-10-08 08:56.
+[2026-10-08 03:41:10] Finished rolling_power/f2013_seed_44 in 47 min.
+[2026-10-08 03:41:10] Starting rolling_power/f2017_seed_42 (10/15): train 1984-2011, valid 2012-2016, test [2017, 2018, 2019, 2020]. ETA 2026-10-08 08:48.
+[2026-10-08 04:38:24] Finished rolling_power/f2017_seed_42 in 57 min.
+[2026-10-08 04:38:24] Starting rolling_power/f2017_seed_43 (11/15): train 1984-2011, valid 2012-2016, test [2017, 2018, 2019, 2020]. ETA 2026-10-08 08:58.
+[2026-10-08 06:12:08] Finished rolling_power/f2017_seed_43 in 93 min.
+[2026-10-08 06:12:09] Starting rolling_power/f2017_seed_44 (12/15): train 1984-2011, valid 2012-2016, test [2017, 2018, 2019, 2020]. ETA 2026-10-08 09:56.
+[2026-10-08 07:08:19] Finished rolling_power/f2017_seed_44 in 56 min.
+[2026-10-08 07:08:19] Starting rolling_power/f2021_seed_42 (13/15): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-08 09:56.
+[2026-10-08 08:20:27] Finished rolling_power/f2021_seed_42 in 72 min.
+[2026-10-08 08:20:27] Starting rolling_power/f2021_seed_43 (14/15): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-08 10:15.
+[2026-10-08 09:33:50] Finished rolling_power/f2021_seed_43 in 73 min.
+[2026-10-08 09:33:50] Starting rolling_power/f2021_seed_44 (15/15): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-08 10:32.
+[2026-10-08 11:23:08] Finished rolling_power/f2021_seed_44 in 109 min.
+[2026-10-08 11:23:08] ROLLING TRAINING FINISHED

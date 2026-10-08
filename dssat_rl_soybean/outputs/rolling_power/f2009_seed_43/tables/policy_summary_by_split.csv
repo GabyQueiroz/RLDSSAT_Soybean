@@ -1,0 +1,3 @@
+﻿split,reward_mean,yield_mean_kg_ha,yield_std_kg_ha,irrigation_mean_mm,mae_kg_ha,mape_percent,planting_offset_mean_days,n
+test,1.3708928571428571,5757.75,472.8363881936329,0.0,2541.5,80.64262679234893,31.25,4
+valid,1.2534571428571428,5602.2,321.77507672285617,53.6,2467.4,78.79165716711444,35.2,5
