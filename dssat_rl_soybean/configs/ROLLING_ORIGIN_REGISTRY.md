@@ -52,6 +52,18 @@ fold was therefore extended from 2 to 4 seasons, keeping the same 20 test season
 versions, is kept and its selected checkpoint is evaluated on 2005-2008. Training, validation and the PPO
 configuration are unchanged.
 
+## Amendment 2 (2026-10-08, after the results of the three-seed evaluation were produced)
+
+A methodological review required at least five training seeds per configuration. Seeds 45 and 46 are added to every
+fold with the same folds, configuration and stopping rule; the reported Experiment 2 results use seeds 42-46. Because
+this amendment was made after the three-seed results were known, both the three-seed and the five-seed summaries are
+kept in the repository.
+
+The review also required a productivity-water frontier with policies retrained for each water penalty. PPO is
+retrained in every fold with seed 42 for kappa = 0 and kappa = 0.006 mm-1 (prefixes rolling_power_k0 and
+rolling_power_k6), with all other settings unchanged; the fixed rule and the oracle are re-optimized for each kappa on
+the same candidate grid.
+
 ## Reported outcomes
 
 Mean objective, yield, irrigation, P10 and CVaR10 by policy over the 20 test seasons; paired differences PPO minus

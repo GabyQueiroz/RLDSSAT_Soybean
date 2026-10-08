@@ -14,7 +14,7 @@ import yaml
 
 from .config import load_config, make_paths
 from .data import build_year_weather_with_context, context_scaler, load_weather
-from .final_comparators import CONSTRUCTED, candidate_grid, contextual_knn, evaluate_grid, select_fixed_rule
+from .final_comparators import CONSTRUCTED, candidate_grid, contextual_knn, evaluate_grid, select_fixed_rule, with_kappa
 
 
 def folds(cfg: dict) -> list[dict]:
@@ -119,12 +119,15 @@ def reevaluate(cfg: dict, prefix: str, seeds: list[int]) -> None:
             print(f"Re-evaluated {run_name} on {fold['test']}", flush=True)
 
 
-def analyse(cfg: dict, prefix: str, seeds: list[int], workers: int) -> None:
+def analyse(cfg: dict, prefix: str, seeds: list[int], workers: int, grid_run: str = "rolling_power_analysis") -> None:
     project_dir = Path(cfg["_project_dir"])
     paths = make_paths(cfg, f"{prefix}_analysis")
     first, last = cfg["evaluation_design"]["seasons"]
     all_years = list(range(first, last + 1))
-    grid = evaluate_grid(cfg, project_dir, all_years, candidate_grid(), paths.tables_dir / "candidate_grid_all_seasons.csv", workers)
+    # The grid does not depend on the water penalty; it is simulated once and re-scored with the kappa of the run.
+    grid_dir = make_paths(cfg, grid_run).tables_dir
+    grid = evaluate_grid(cfg, project_dir, all_years, candidate_grid(), grid_dir / "candidate_grid_all_seasons.csv", workers)
+    grid = with_kappa(grid, cfg, float(cfg["reward"]["water_penalty_per_mm"]))
     daily = load_weather(project_dir, cfg)
 
     comp_rows, ppo_rows, ckpt_rows = [], [], []
@@ -226,10 +229,14 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=10)
     parser.add_argument("--reverse", action="store_true", help="Walk the job list from the last fold (second training process).")
     parser.add_argument("--keep-awake", action="store_true", help="Prevent idle sleep while training (Windows).")
+    parser.add_argument("--seeds", default=None, help="Comma-separated seeds; default: evaluation_design.seeds of the config.")
+    parser.add_argument("--kappa", type=float, default=None, help="Water penalty (mm-1) overriding reward.water_penalty_per_mm.")
     args = parser.parse_args()
     cfg = load_config(args.config)
     cfg["backend"] = "dssat"
-    seeds = [int(s) for s in cfg["evaluation_design"]["seeds"]]
+    if args.kappa is not None:
+        cfg["reward"]["water_penalty_per_mm"] = args.kappa
+    seeds = [int(s) for s in (args.seeds.split(",") if args.seeds else cfg["evaluation_design"]["seeds"])]
     if args.command == "folds":
         table = pd.DataFrame([{**f, "train": f"{f['train'][0]}-{f['train'][-1]} ({len(f['train'])})",
                                "valid": f"{f['valid'][0]}-{f['valid'][-1]}", "test": ",".join(map(str, f["test"]))} for f in folds(cfg)])

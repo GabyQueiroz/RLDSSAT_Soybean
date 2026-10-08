@@ -49,6 +49,8 @@ evaluation_design:
   - 42
   - 43
   - 44
+  - 45
+  - 46
   rule: For a fold whose test seasons start in s, PPO trains on 1984..s-6, selects
     the checkpoint on s-5..s-1 and is evaluated on s and s+1. Fixed and kNN rules
     are selected on 1984..s-1. Folds are defined before any run and are not changed
