@@ -192,6 +192,19 @@ def main() -> None:
                         "mean_yield_regret_kg_ha": float(np.mean(d)) if len(d) else np.nan})
     pd.DataFrame(reg).to_csv(out / "tables" / "yield_regret_common_budget.csv", index=False)
 
+    # Skill of each context variable over the 41 seasons (standardized with all seasons; ranks are scale-free).
+    seasons = build_year_weather_with_context(daily, sorted(grid["year"].unique()), cfg)
+    ctx_all = pd.DataFrame([s.features for s in seasons], columns=CONTEXT_NAMES, index=[s.year for s in seasons])
+    rf = grid[grid["candidate_id"].str.endswith("trig9999_amt0_cap0")]
+    best_off = rf.loc[rf.groupby("year")["yield_kg_ha"].idxmax()].set_index("year")["planting_offset_days"]
+    gain = grid[~grid["candidate_id"].isin(CONSTRUCTED)].groupby("year")["yield_kg_ha"].max() - rf.groupby("year")["yield_kg_ha"].max()
+    oct15 = grid[grid["candidate_id"] == "rainfed_oct15"].set_index("year")["yield_kg_ha"]
+    targets = pd.DataFrame({"best_rainfed_offset_days": best_off, "irrigation_gain_kg_ha": gain, "rainfed_oct15_yield_kg_ha": oct15})
+    joined = ctx_all.join(targets)
+    skill = pd.DataFrame([{"context_variable": f, "target": t, "spearman_rho": joined[f].corr(joined[t], method="spearman"), "n_seasons": len(joined)}
+                          for f in CONTEXT_NAMES for t in targets.columns])
+    skill.to_csv(out / "tables" / "context_skill_power.csv", index=False)
+
     # Three-seed versus five-seed summary.
     s3, s5 = tables.parent / "tables_3seeds", tables
     if (s3 / "paired_effects_summary.csv").exists():
