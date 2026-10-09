@@ -69,3 +69,43 @@
 [2026-10-08 09:33:50] Starting rolling_power/f2021_seed_44 (15/15): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-08 10:32.
 [2026-10-08 11:23:08] Finished rolling_power/f2021_seed_44 in 109 min.
 [2026-10-08 11:23:08] ROLLING TRAINING FINISHED
+[2026-10-08 16:19:12] Skipping rolling_power/f2005_seed_42 (already evaluated).
+[2026-10-08 16:19:12] Skipping rolling_power/f2005_seed_43 (already evaluated).
+[2026-10-08 16:19:12] Skipping rolling_power/f2005_seed_44 (already evaluated).
+[2026-10-08 16:19:12] Starting rolling_power/f2005_seed_45 (4/25): train 1984-1999, valid 2000-2004, test [2005, 2006, 2007, 2008].
+[2026-10-08 22:11:30] Skipping rolling_power/f2005_seed_42 (already evaluated).
+[2026-10-08 22:11:30] Skipping rolling_power/f2005_seed_43 (already evaluated).
+[2026-10-08 22:11:30] Skipping rolling_power/f2005_seed_44 (already evaluated).
+[2026-10-08 22:11:30] Starting rolling_power/f2005_seed_45 (4/25): train 1984-1999, valid 2000-2004, test [2005, 2006, 2007, 2008].
+[2026-10-08 23:41:40] Finished rolling_power/f2005_seed_45 in 90 min.
+[2026-10-08 23:41:40] Starting rolling_power/f2005_seed_46 (5/25): train 1984-1999, valid 2000-2004, test [2005, 2006, 2007, 2008]. ETA 2026-10-10 07:15.
+[2026-10-09 00:54:19] Finished rolling_power/f2005_seed_46 in 72 min.
+[2026-10-09 00:54:19] Skipping rolling_power/f2009_seed_42 (already evaluated).
+[2026-10-09 00:54:19] Skipping rolling_power/f2009_seed_43 (already evaluated).
+[2026-10-09 00:54:19] Skipping rolling_power/f2009_seed_44 (already evaluated).
+[2026-10-09 00:54:19] Starting rolling_power/f2009_seed_45 (9/25): train 1984-2003, valid 2004-2008, test [2009, 2010, 2011, 2012]. ETA 2026-10-09 23:58.
+[2026-10-09 01:36:12] Finished rolling_power/f2009_seed_45 in 41 min.
+[2026-10-09 01:36:12] Starting rolling_power/f2009_seed_46 (10/25): train 1984-2003, valid 2004-2008, test [2009, 2010, 2011, 2012]. ETA 2026-10-09 19:47.
+[2026-10-09 02:21:26] Finished rolling_power/f2009_seed_46 in 45 min.
+[2026-10-09 02:21:26] Skipping rolling_power/f2013_seed_42 (already evaluated).
+[2026-10-09 02:21:26] Skipping rolling_power/f2013_seed_43 (already evaluated).
+[2026-10-09 02:21:26] Skipping rolling_power/f2013_seed_44 (already evaluated).
+[2026-10-09 02:21:27] Starting rolling_power/f2013_seed_45 (14/25): train 1984-2007, valid 2008-2012, test [2013, 2014, 2015, 2016]. ETA 2026-10-09 14:51.
+[2026-10-09 03:25:37] Finished rolling_power/f2013_seed_45 in 64 min.
+[2026-10-09 03:25:37] Starting rolling_power/f2013_seed_46 (15/25): train 1984-2007, valid 2008-2012, test [2013, 2014, 2015, 2016]. ETA 2026-10-09 14:56.
+[2026-10-09 04:16:51] Finished rolling_power/f2013_seed_46 in 51 min.
+[2026-10-09 04:16:51] Skipping rolling_power/f2017_seed_42 (already evaluated).
+[2026-10-09 04:16:51] Skipping rolling_power/f2017_seed_43 (already evaluated).
+[2026-10-09 04:16:51] Skipping rolling_power/f2017_seed_44 (already evaluated).
+[2026-10-09 04:16:51] Starting rolling_power/f2017_seed_45 (19/25): train 1984-2011, valid 2012-2016, test [2017, 2018, 2019, 2020]. ETA 2026-10-09 11:23.
+[2026-10-09 05:13:02] Finished rolling_power/f2017_seed_45 in 56 min.
+[2026-10-09 05:13:02] Starting rolling_power/f2017_seed_46 (20/25): train 1984-2011, valid 2012-2016, test [2017, 2018, 2019, 2020]. ETA 2026-10-09 11:14.
+[2026-10-09 06:17:53] Finished rolling_power/f2017_seed_46 in 64 min.
+[2026-10-09 06:17:53] Skipping rolling_power/f2021_seed_42 (already evaluated).
+[2026-10-09 06:17:53] Skipping rolling_power/f2021_seed_43 (already evaluated).
+[2026-10-09 06:17:53] Skipping rolling_power/f2021_seed_44 (already evaluated).
+[2026-10-09 06:17:53] Starting rolling_power/f2021_seed_45 (24/25): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-09 08:19.
+[2026-10-09 07:10:03] Finished rolling_power/f2021_seed_45 in 52 min.
+[2026-10-09 07:10:03] Starting rolling_power/f2021_seed_46 (25/25): train 1984-2015, valid 2016-2020, test [2021, 2022, 2023, 2024]. ETA 2026-10-09 08:09.
+[2026-10-09 08:11:23] Finished rolling_power/f2021_seed_46 in 61 min.
+[2026-10-09 08:11:23] ROLLING TRAINING FINISHED

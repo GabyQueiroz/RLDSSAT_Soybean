@@ -1,0 +1,5 @@
+﻿policy,reward_mean,yield_mean_kg_ha,irrigation_mean_mm,yield_std_kg_ha
+early_sep25_moderate_irrig,1.3320238095238095,5594.5,99.0,138.3919554502115
+fixed_calendar_oct15_moderate_irrig,1.4151785714285714,5943.75,99.0,191.91556303055089
+late_nov10_moderate_irrig,1.3267261904761904,5572.25,100.5,130.03685375051683
+rainfed_calendar_oct15,1.3148809523809524,5522.5,0.0,513.0890111212025

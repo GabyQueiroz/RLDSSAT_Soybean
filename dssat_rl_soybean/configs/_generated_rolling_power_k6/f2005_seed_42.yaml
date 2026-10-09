@@ -1,0 +1,126 @@
+seed: 42
+backend: dssat
+data:
+  weather_csv: ../base_consolidada_saida/clima_castro_horario.csv
+  productivity_csv: ../base_consolidada_saida/produtividade_castro_ponta_grossa_longa.csv
+  oni_file: data/external/oni_psl_noaa.txt
+  city: Castro (PR)
+  crop_product: Soja (em grão)
+  train_years:
+  - 1984
+  - 1985
+  - 1986
+  - 1987
+  - 1988
+  - 1989
+  - 1990
+  - 1991
+  - 1992
+  - 1993
+  - 1994
+  - 1995
+  - 1996
+  - 1997
+  - 1998
+  - 1999
+  valid_years:
+  - 2000
+  - 2001
+  - 2002
+  - 2003
+  - 2004
+  test_years:
+  - 2005
+  - 2006
+  - 2007
+  - 2008
+  weather_source: nasa_power
+  power_csv: data/external/nasa_power/power_castro_daily_1981_2026.csv
+evaluation_design:
+  current_run_role: rolling_origin_nasa_power
+  environment: Castro_NASA_POWER
+  seasons:
+  - 1984
+  - 2024
+  test_seasons:
+  - 2005
+  - 2024
+  fold_test_length: 4
+  validation_length: 5
+  seeds:
+  - 42
+  - 43
+  - 44
+  - 45
+  - 46
+  rule: For a fold whose test seasons start in s, PPO trains on 1984..s-6, selects
+    the checkpoint on s-5..s-1 and is evaluated on s and s+1. Fixed and kNN rules
+    are selected on 1984..s-1. Folds are defined before any run and are not changed
+    after results are seen.
+agronomy:
+  planting_window_start: 09-15
+  planting_window_end: 12-20
+  season_length_days: 150
+  irrigation_check_days: 4
+  min_irrigation_event_mm: 5
+  trigger_range_mm:
+  - 10
+  - 150
+  max_single_irrigation_mm: 35
+  max_season_irrigation_mm: 240
+  min_season_cap_mm: 20
+  round_actions: true
+  soybean_cultivar: '990005'
+  plant_population_m2: 30
+  row_spacing_cm: 45
+  planting_depth_cm: 5
+simulation:
+  weather_start_month_day: 08-01
+  weather_end_month_day: 06-30
+  spinup_start_month_day: 08-01
+  initial_awc_fraction: 1.0
+decision:
+  context_mode: pre_season_enso
+  decision_month_day: 09-01
+  observations_end_offset_days: -1
+reward:
+  target_yield_kg_ha: 4200
+  water_penalty_per_mm: 0.006
+  failed_run_penalty: -2.0
+calibration:
+  enabled: false
+  model_path: outputs/calibration/yield_correction.json
+ppo:
+  total_timesteps: 24576
+  min_timesteps: 8192
+  eval_freq: 2048
+  patience_evals: 6
+  n_envs: 8
+  subproc_envs: true
+  n_steps: 64
+  batch_size: 128
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  learning_rate: 0.0003
+  clip_range: 0.2
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  net_arch:
+  - 32
+  - 32
+  log_std_init: -0.5
+  standardize_context: true
+  context_noise_std: 0.75
+dssat:
+  run_root: C:/DSSAT_RL_RUNS
+  keep_failed_runs: false
+  keep_success_runs: false
+  isolate_home_per_process: true
+  use_default_soil: true
+  soil_file: null
+  soil_id: null
+  latitude: -24.77999999
+  longitude: -50.04638888
+  elevation_m: 1016

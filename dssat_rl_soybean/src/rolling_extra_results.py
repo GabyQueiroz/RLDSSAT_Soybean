@@ -104,13 +104,13 @@ def main() -> None:
     }])
     change.to_csv(out / "tables" / "decision_change_summary.csv", index=False)
 
-    fig, axes = plt.subplots(1, 3, figsize=(10, 3.0), sharey=False)
+    fig, axes = plt.subplots(1, 3, figsize=(10, 3.0), sharey=True)
     for ax, (feat, label) in zip(axes, [("rain_90d", "90-day rainfall (standardized)"), ("oni_mjj", "ONI May-July (standardized)"),
                                         ("temp_30d", "30-day temperature (standardized)")]):
         sc = ax.scatter(act[feat], act["planting_offset_days"], c=act["irrigation_mm"], cmap="Blues", s=22, edgecolor="#52514e", linewidth=0.3,
                         vmin=0, vmax=max(1, act["irrigation_mm"].max()))
         ax.set_xlabel(label)
-        ax.set_ylabel("Sowing offset after Sep 15 (days)")
+    axes[0].set_ylabel("Sowing offset after Sep 15 (days)")
     fig.colorbar(sc, ax=axes, label="Seasonal irrigation (mm)", shrink=0.85)
     fig.savefig(out / "figures" / "fig_rolling_context_action.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
@@ -169,9 +169,10 @@ def main() -> None:
         g = front[front["policy"] == pol].sort_values("kappa")
         if g.empty:
             continue
-        ax.plot(g["irrigation_mm"], g["yield_kg_ha"], marker=marker, color=color, label=LABELS.get(pol, pol.capitalize()), linewidth=1.2)
+        ax.plot(g["irrigation_mm"], g["yield_kg_ha"], marker=marker, color=color, label=LABELS.get(pol, pol[0].upper() + pol[1:]), linewidth=1.2)
         for r in g.itertuples():
-            ax.annotate(f"$\\kappa$={r.kappa:g}", (r.irrigation_mm, r.yield_kg_ha), fontsize=6, xytext=(4, -8), textcoords="offset points")
+            dy = 6 if pol == "optimized fixed rule" and r.kappa > 0.005 else -8
+            ax.annotate(f"$\\kappa$={r.kappa:g}", (r.irrigation_mm, r.yield_kg_ha), fontsize=6, xytext=(4, dy), textcoords="offset points")
     r0 = front[front["policy"] == "rainfed Oct 15"].iloc[0]
     ax.scatter([0], [r0["yield_kg_ha"]], marker="s", color=COLORS["rainfed_oct15"], label="Rainfed Oct 15", zorder=4)
     ax.set_xlabel("Mean seasonal irrigation (mm)")
