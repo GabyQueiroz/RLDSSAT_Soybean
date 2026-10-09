@@ -1,0 +1,7 @@
+information,reward,yield_kg_ha,irrigation_mm
+fixed rule (no context),1.3076488095238097,5682.7,30.25
+"kNN, ONI only",1.2978630952380952,5625.85,27.75
+"kNN, station weather only",1.26975,5468.4,21.5
+"kNN, full context",1.2745535714285714,5505.9,24.25
+"PPO, full context",1.2897423809523811,5592.31,27.84
+retrospective oracle,1.3762857142857143,5878.05,15.5

@@ -1,0 +1,11 @@
+budget_mm,policy,pairs_within_budget,pairs_total,mean_yield_regret_kg_ha
+0,PPO,54,100,208.1851851851852
+0,optimized fixed rule,10,20,238.6
+25,PPO,64,100,238.59375
+25,optimized fixed rule,12,20,229.58333333333334
+50,PPO,72,100,281.125
+50,optimized fixed rule,13,20,249.23076923076923
+100,PPO,94,100,344.6595744680851
+100,optimized fixed rule,20,20,250.4
+260,PPO,100,100,361.94
+260,optimized fixed rule,20,20,271.55

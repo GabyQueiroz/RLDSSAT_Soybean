@@ -1,0 +1,2 @@
+n_season_seed,sowing_at_window_start,sowing_at_window_end,trigger_at_lower_bound,trigger_at_upper_bound,depth_below_event_minimum,depth_at_upper_bound,cap_at_lower_bound,cap_at_upper_bound,seasons_without_irrigation
+100,0.0,0.0,0.0,0.03,0.0,0.0,0.0,0.0,0.54
