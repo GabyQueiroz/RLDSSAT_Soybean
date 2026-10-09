@@ -342,6 +342,8 @@ class PyDSSATRunner:
                 verbose=False,
             )
             ok = True
+            # Raw text of the daily output files (e.g. SoilWat), kept for diagnostics.
+            self.last_output_files = dict(dssat.output_files)
             yld = float(result.get("harwt", result.get("HARWT", np.nan)))
             rain = float(result.get("rain", result.get("RAIN", daily["rain"].sum())))
             if sdate < planting_date:

@@ -95,7 +95,7 @@ def main() -> None:
         r = refs[refs["fold"] == fold["fold"]].iloc[0]
         for i, seed in enumerate(seeds):
             c = curves[(curves["fold"] == fold["fold"]) & (curves["seed"] == seed)]
-            ax.plot(c["timesteps"] / 1000, c["mean_reward"], color=SEED_SHADES[i * 2], marker="o", markersize=2, linewidth=1.2,
+            ax.plot(c["timesteps"] / 1000, c["mean_reward"], color=SEED_SHADES[i % len(SEED_SHADES)], marker="o", markersize=2, linewidth=1.2,
                     label=f"seed {seed}")
         ax.axhline(r["oracle_valid"], color=COLORS["retrospective_oracle"], linestyle=":", linewidth=1.0, label="Oracle")
         ax.axhline(r["rainfed_oct15_valid"], color=COLORS["rainfed_oct15"], linestyle="--", linewidth=1.0, label="Rainfed Oct 15")
@@ -147,7 +147,7 @@ def main() -> None:
                        color=COLORS[comp], label=LABELS[comp], edgecolor="white", linewidth=0.6, zorder=4)
     seed_means = ppo.groupby("seed")[["yield_kg_ha", "irrigation_mm"]].mean()
     for i, (seed, r) in enumerate(seed_means.iterrows()):
-        ax.scatter(r["irrigation_mm"], r["yield_kg_ha"], s=34, color=SEED_SHADES[i * 2], edgecolor="white", linewidth=0.6,
+        ax.scatter(r["irrigation_mm"], r["yield_kg_ha"], s=34, color=SEED_SHADES[i % len(SEED_SHADES)], edgecolor="white", linewidth=0.6,
                    zorder=5, label="PPO seeds" if i == 0 else None)
     ax.set_xlabel("Mean seasonal irrigation (mm)")
     ax.set_ylabel("Mean yield (kg ha$^{-1}$)")

@@ -102,9 +102,11 @@ def load_weather_inmet(project_dir: Path, cfg: dict) -> pd.DataFrame:
     )
     daily["date"] = pd.to_datetime(daily["date"])
     daily["year"] = daily["date"].dt.year
-    daily.loc[daily["rain_obs"] < 18, "rain"] = np.nan
-    daily.loc[daily["temp_obs"] < 18, ["tmax", "tmin", "temp_mean"]] = np.nan
-    daily.loc[daily["srad_obs"] < 6, "srad_kj_m2"] = np.nan
+    min_hours = int(cfg["data"].get("qc_min_hours_rain_temp", 18))
+    min_srad_hours = int(cfg["data"].get("qc_min_hours_srad", 6))
+    daily.loc[daily["rain_obs"] < min_hours, "rain"] = np.nan
+    daily.loc[daily["temp_obs"] < min_hours, ["tmax", "tmin", "temp_mean"]] = np.nan
+    daily.loc[daily["srad_obs"] < min_srad_hours, "srad_kj_m2"] = np.nan
     daily["rain"] = _fill_missing_rain(daily)
     daily["srad"] = daily["srad_kj_m2"].clip(lower=0) / 1000.0
     daily["tmax"] = daily["tmax"].fillna(daily["temp_mean"]).interpolate(limit_direction="both")
