@@ -1,0 +1,5 @@
+check_days,fixed_rule_reward,fixed_rule_yield_kg_ha,fixed_rule_irrigation_mm,selected_rules
+1,1.3121904761904761,5693.9,29.0,off032_trig90_amt15_cap80;off040_trig120_amt15_cap80
+4,1.3076488095238097,5682.7,30.25,off032_trig90_amt15_cap80;off040_trig90_amt15_cap80
+7,1.2913392857142858,5611.05,29.75,off032_trig90_amt35_cap80;off040_trig120_amt25_cap80
+12,1.2740892857142856,5510.25,25.25,off032_trig90_amt35_cap80;off040_trig150_amt25_cap240;off040_trig90_amt25_cap80
