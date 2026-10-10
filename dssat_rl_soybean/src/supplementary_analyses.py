@@ -189,20 +189,25 @@ def proxy_and_spinup(cfg_path: str, out: Path, workers: int) -> None:
     print(pd.DataFrame([s]).round(2).to_string(index=False))
 
 
+INTERVALS = (1, 3, 7, 12)
+
+
 def interval(cfg_path: str, out: Path, workers: int) -> None:
     cfg = load_config(cfg_path)
     cands = [c for c in candidate_grid() if c["planting_offset_days"] in (24, 32, 40) and c["candidate_id"] not in CONSTRUCTED]
     path = out / "inspection_interval_grid.csv"
-    if path.exists():
-        grid = pd.read_csv(path)
-    else:
-        jobs = [(cfg, y, cands, k) for k in (1, 7, 12) for y in SEASONS]
+    grid = pd.read_csv(path) if path.exists() else pd.DataFrame()
+    missing = [k for k in INTERVALS if grid.empty or k not in set(grid["check_days"])]
+    if missing:
+        jobs = [(cfg, y, cands, k) for k in missing for y in SEASONS]
         with ProcessPoolExecutor(max_workers=workers) as pool:
-            grid = pd.DataFrame([r for chunk in pool.map(_interval_job, jobs) for r in chunk])
+            new = pd.DataFrame([r for chunk in pool.map(_interval_job, jobs) for r in chunk])
+        grid = pd.concat([grid, new], ignore_index=True)
+    if grid.empty or 4 not in set(grid["check_days"]):
         main = pd.read_csv(Path(cfg["_project_dir"]) / "outputs" / "rolling_power_analysis" / "tables" / "candidate_grid_all_seasons.csv")
         main = main[main["candidate_id"].isin([c["candidate_id"] for c in cands])].assign(check_days=4)
         grid = pd.concat([grid, main[grid.columns.intersection(main.columns)]], ignore_index=True)
-        grid.to_csv(path, index=False)
+    grid.to_csv(path, index=False)
     rows = []
     for k, g in grid.groupby("check_days"):
         test_rows = []

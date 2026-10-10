@@ -23,6 +23,8 @@ from .rolling_origin import folds
 
 CONTEXT_NAMES = ["rain_30d", "rain_90d", "temp_30d", "srad_90d", "oni_mjj", "oni_change"]
 KAPPAS = {"rolling_power_k0": 0.0, "rolling_power": 0.0015, "rolling_power_k6": 0.006}
+# Grid-based rules are re-selected at more penalties than those used to retrain PPO.
+GRID_KAPPAS = [0.0, 0.0005, 0.001, 0.0015, 0.003, 0.006]
 BUDGETS = [0, 25, 50, 100, 260]
 
 
@@ -136,7 +138,8 @@ def main() -> None:
 
     # Productivity-water frontier over kappa.
     front = []
-    for prefix, kappa in KAPPAS.items():
+    prefix_of = {k: p for p, k in KAPPAS.items()}
+    for kappa in GRID_KAPPAS:
         g = with_kappa(grid, cfg, kappa)
         sel = []
         for f in fold_list:
@@ -147,8 +150,9 @@ def main() -> None:
         orc = g[g["year"].isin(fr["year"].unique()) & ~g["candidate_id"].isin(CONSTRUCTED)].sort_values("reward", ascending=False).drop_duplicates("year")
         front.append({"kappa": kappa, "policy": "optimized fixed rule", "yield_kg_ha": fr["yield_kg_ha"].mean(), "irrigation_mm": fr["irrigation_mm"].mean(), "reward": fr["reward"].mean(), "n": len(fr)})
         front.append({"kappa": kappa, "policy": "retrospective oracle", "yield_kg_ha": orc["yield_kg_ha"].mean(), "irrigation_mm": orc["irrigation_mm"].mean(), "reward": orc["reward"].mean(), "n": len(orc)})
+        prefix = prefix_of.get(kappa)
         p_path = outputs / f"{prefix}_analysis" / "tables" / "ppo_rows_test.csv"
-        if p_path.exists():
+        if prefix and p_path.exists():
             p = pd.read_csv(p_path)
             if prefix != "rolling_power":
                 p = p[p["seed"] == 42]
@@ -171,6 +175,8 @@ def main() -> None:
             continue
         ax.plot(g["irrigation_mm"], g["yield_kg_ha"], marker=marker, color=color, label=LABELS.get(pol, pol[0].upper() + pol[1:]), linewidth=1.2)
         for r in g.itertuples():
+            if r.kappa not in KAPPAS.values():
+                continue
             dy = 6 if pol == "optimized fixed rule" and r.kappa > 0.005 else -8
             ax.annotate(f"$\\kappa$={r.kappa:g}", (r.irrigation_mm, r.yield_kg_ha), fontsize=6, xytext=(4, dy), textcoords="offset points")
     r0 = front[front["policy"] == "rainfed Oct 15"].iloc[0]
