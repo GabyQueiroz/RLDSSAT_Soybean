@@ -276,7 +276,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     s = s[(s["valid_rain_day_share"] >= 0.9) & (s["days"] >= 240)]
     fig, ax = plt.subplots(figsize=(6.4, 5.8))
     ax.scatter(s["rain_station_mm"], s["rain_power_mm"], color=COLORS["PPO"], s=80, zorder=3)
-    shift = {2006: (-58, 8), 2011: (-40, -30), 2023: (-26, 10), 2018: (10, -14)}
+    shift = {2006: (-58, 8), 2011: (-64, -4), 2023: (-26, 10), 2018: (10, -14), 2008: (10, -16)}
     for r in s.itertuples():
         ax.annotate(str(r.season), (r.rain_station_mm, r.rain_power_mm), xytext=shift.get(r.season, (8, 4)), textcoords="offset points")
     lo = min(s["rain_station_mm"].min(), s["rain_power_mm"].min()) * 0.9
