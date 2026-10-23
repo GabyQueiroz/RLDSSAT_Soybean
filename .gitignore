@@ -42,3 +42,10 @@ dssat_rl_soybean/outputs/ppo_soja_castro_dssat/figures/yield_water_tradeoff_en.p
 
 # Local DSSAT run folders may contain temporary executable data
 DSSAT_RL_RUNS/
+
+# LaTeX sources are kept outside the repository
+*.tex
+*.bib
+*.bbl
+*.aux
+*.log
