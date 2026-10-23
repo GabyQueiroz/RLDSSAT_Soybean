@@ -54,7 +54,7 @@
 
 % ------------------------------------------------------------ pastel backgrounds
 \begin{scope}[on background layer]
-  \node[region=green, fit=(start)(weather)(soil)(spin)(t0)(which), inner xsep=14pt, inner ysep=24pt, yshift=22pt] (bgA) {};
+  \node[region=green, fit=(start)(weather)(soil)(spin)(t0)(which), inner xsep=14pt, inner ysep=34pt, yshift=32pt] (bgA) {};
   \node[region=blue, fit=(split)(genA)(schA)(upd), inner xsep=14pt, inner ysep=14pt, yshift=12pt] (bgB) {};
   \node[region=violet, fit=(eval)(genC)(schC)(rfC)(end), inner xsep=14pt, inner ysep=14pt, yshift=12pt] (bgC) {};
 \end{scope}
@@ -64,8 +64,8 @@
 
 % ------------------------------------------------------------ arrows: pre-season
 \draw[arrow] (start) -- (weather);
-\draw[arrow] (start.north) |- (5.0, 1.6) -| (sidra.north);
-\draw[arrow] (start.north) |- (5.0, 1.6) -| (soil.north);
+\draw[arrow] (start.north) |- (5.0, 1.9) -| (sidra.north);
+\draw[arrow] (start.north) |- (5.0, 1.9) -| (soil.north);
 \draw[arrow] (weather) -- (qc);
 \draw[darrow] (sidra) -- (verif);
 \draw[arrow] (soil) -- (cfg);
