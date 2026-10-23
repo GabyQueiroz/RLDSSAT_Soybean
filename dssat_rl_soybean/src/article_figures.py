@@ -29,8 +29,11 @@ from .rolling_origin import folds
 
 FONT = 18
 FOLD_SHADES = ["#0d3b73", "#1d5aa6", "#2a78d6", "#6aa3e6", "#a9c9f0"]
-SINGLE = (8.0, 6.0)      # one panel
-WIDE = (16.0, 6.5)       # season-by-season bar charts
+# Sizes are chosen so that every figure is included in the article with the same scale (\figscale = 0.43,
+# printed font of about 7.7 pt): two panels fit side by side and a wide figure fits the text width.
+PANEL = (5.4, 4.2)       # one panel of a multi-panel figure
+SINGLE = (7.2, 5.0)      # stand-alone figure
+WIDE = (12.4, 5.6)       # season-by-season bar charts
 
 
 def _style() -> None:
@@ -74,7 +77,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     ref_styles = [("retrospective_oracle", ":"), ("rainfed_oct15", "--"), ("optimized_fixed_rule", "-.")]
 
     # fig_learning_curves: (a) training episodes, (b) validation objective; shared legend
-    fig, ax = plt.subplots(figsize=SINGLE)
+    fig, ax = plt.subplots(figsize=PANEL)
     for i, seed in enumerate(seeds):
         s = scalars[(scalars["tag"] == "rollout/ep_rew_mean") & (scalars["seed"] == seed)]
         ax.plot(s["step"] / 1000, s["value"], color=SEED_SHADES[i])
@@ -82,7 +85,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     ax.set_ylabel("Mean episode objective, training")
     _save(fig, out, "fig_learning_curves_a")
 
-    fig, ax = plt.subplots(figsize=SINGLE)
+    fig, ax = plt.subplots(figsize=PANEL)
     for i, seed in enumerate(seeds):
         c = curves[curves["seed"] == seed]
         ax.plot(c["timesteps"] / 1000, c["mean_reward"], color=SEED_SHADES[i], marker="o", markersize=4)
@@ -101,13 +104,13 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     labels += ["Selected checkpoint"]
     handles += [Line2D([], [], color=COLORS[k], linestyle=ls, linewidth=1.6) for k, ls in ref_styles]
     labels += [LABELS[k] for k, _ in ref_styles]
-    _legend_file(handles, labels, out, "fig_learning_curves_legend", ncol=5)
+    _legend_file(handles, labels, out, "fig_learning_curves_legend", ncol=3)
 
     # fig_ppo_diagnostics: four panels and a legend
     tags = [("train/std", "Policy standard deviation"), ("train/entropy_loss", "Entropy loss"),
             ("train/approx_kl", "Approximate KL divergence"), ("train/explained_variance", "Explained variance")]
     for letter, (tag, ylabel) in zip("abcd", tags):
-        fig, ax = plt.subplots(figsize=SINGLE)
+        fig, ax = plt.subplots(figsize=PANEL)
         for i, seed in enumerate(seeds):
             s = scalars[(scalars["tag"] == tag) & (scalars["seed"] == seed)]
             ax.plot(s["step"] / 1000, s["value"], color=SEED_SHADES[i], linewidth=1.8)
@@ -120,7 +123,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     # fig_regularization_seed42: legend above the axes
     runs = {"Without regularization (noise 0.25, [64, 64])": ("dev_t0_seed42", "#eda100"),
             "Final configuration (noise 0.75, [32, 32])": ("ppo_castro_t0_seed_42", "#2a78d6")}
-    fig, ax = plt.subplots(figsize=(10.0, 6.0))
+    fig, ax = plt.subplots(figsize=(7.6, 5.0))
     for label, (run, color) in runs.items():
         c = pd.read_csv(outputs / run / "tables" / "validation_curve.csv").drop_duplicates("timesteps", keep="last")
         ax.plot(c["timesteps"] / 1000, c["mean_reward"], marker="o", markersize=5, color=color, label=label)
@@ -128,7 +131,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
         ax.axhline(refs[key], color=COLORS[key], linestyle=ls, linewidth=1.6, label=LABELS[key])
     ax.set_xlabel("Training steps (thousands)")
     ax.set_ylabel("Mean objective, validation")
-    _legend_above(ax, ncol=2)
+    _legend_above(ax, ncol=1)
     _save(fig, out, "fig_regularization_seed42")
 
     # fig_rainfed_sowing_response: legend in the lower-left corner
@@ -163,7 +166,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     pad = 0.05 * (yhi - ylo)
     for letter, fold in zip("abcde", fold_list):
         r = refs[refs["fold"] == fold["fold"]].iloc[0]
-        fig, ax = plt.subplots(figsize=SINGLE)
+        fig, ax = plt.subplots(figsize=PANEL)
         for i, seed in enumerate(seeds):
             c = curves[(curves["fold"] == fold["fold"]) & (curves["seed"] == seed)]
             ax.plot(c["timesteps"] / 1000, c["mean_reward"], color=SEED_SHADES[i % len(SEED_SHADES)], marker="o", markersize=4, linewidth=1.8)
@@ -180,12 +183,12 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
                 Line2D([], [], color=COLORS["rainfed_oct15"], linestyle="--"),
                 Line2D([], [], color=COLORS["optimized_fixed_rule"], linestyle="-.")]
     labels += ["Oracle", "Rainfed Oct 15", "Fixed rule (training seasons)"]
-    _legend_file(handles, labels, out, "fig_rolling_learning_curves_legend", ncol=4)
+    _legend_file(handles, labels, out, "fig_rolling_learning_curves_legend", ncol=3)
 
     # fig_rolling_training_diagnostics: two files and a separate legend
     for letter, (tag, ylabel) in zip("ab", [("rollout/ep_rew_mean", "Mean objective, training episodes"),
                                             ("train/std", "Policy standard deviation")]):
-        fig, ax = plt.subplots(figsize=SINGLE)
+        fig, ax = plt.subplots(figsize=PANEL)
         for fold, color in zip(fold_list, FOLD_SHADES):
             for seed in seeds:
                 s = scalars[(scalars["tag"] == tag) & (scalars["fold"] == fold["fold"]) & (scalars["seed"] == seed)]
@@ -194,7 +197,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
         ax.set_ylabel(ylabel)
         _save(fig, out, f"fig_rolling_training_diagnostics_{letter}")
     _legend_file([Line2D([], [], color=c, linewidth=3) for c in FOLD_SHADES],
-                 [f"Test {f['test'][0]}-{f['test'][-1]}" for f in fold_list], out, "fig_rolling_training_diagnostics_legend", ncol=5)
+                 [f"Test {f['test'][0]}-{f['test'][-1]}" for f in fold_list], out, "fig_rolling_training_diagnostics_legend", ncol=3)
 
     # fig_rolling_paired_yield: legend above the axes, outside the plot
     paired = pd.read_csv(ana / "paired_effects_seed_season.csv")
@@ -210,7 +213,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     ax.set_xticks(range(len(years)), [str(y) for y in years], rotation=45)
     ax.set_xlabel("Test season (sowing year)")
     ax.set_ylabel("PPO minus comparator (kg ha$^{-1}$)")
-    _legend_above(ax, ncol=4)
+    _legend_above(ax, ncol=2)
     _save(fig, out, "fig_rolling_paired_yield")
 
     # fig_rolling_irrigation_by_season: legend above, centred, outside the plot
@@ -224,8 +227,8 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
         ax.bar(x + (j - 1.5) * width, irr[comp].reindex(years), width=width * 0.9, color=COLORS[comp], label=LABELS[comp])
     ax.set_xticks(x, [f"{y} (+{g:.0f})" for y, g in zip(years, gain)], rotation=60, ha="right", rotation_mode="anchor")
     ax.set_ylabel("Seasonal irrigation (mm)")
-    ax.set_xlabel("Test season (irrigation gain of the best grid rule over the best rainfed rule, kg ha$^{-1}$)")
-    _legend_above(ax, ncol=4)
+    ax.set_xlabel("Test season (irrigation gain, kg ha$^{-1}$)")
+    _legend_above(ax, ncol=2)
     _save(fig, out, "fig_rolling_irrigation_by_season")
 
     # fig_rolling_context_action: three files, colour bar above each panel
@@ -237,7 +240,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     ymin, ymax = act["planting_offset_days"].min() - 3, act["planting_offset_days"].max() + 3
     for letter, (feat, label) in zip("abc", [("rain_90d", "90-day rainfall (standardized)"), ("oni_mjj", "ONI May-July (standardized)"),
                                              ("temp_30d", "30-day temperature (standardized)")]):
-        fig, ax = plt.subplots(figsize=(8.0, 7.0))
+        fig, ax = plt.subplots(figsize=(5.4, 5.2))
         sc = ax.scatter(act[feat], act["planting_offset_days"], c=act["irrigation_mm"], cmap="Blues", s=70, edgecolor="#52514e",
                         linewidth=0.5, vmin=0, vmax=vmax)
         ax.set_ylim(ymin, ymax)
@@ -250,7 +253,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
 
     # fig_rolling_water_frontier
     front = pd.read_csv(art / "water_frontier_by_kappa.csv")
-    fig, ax = plt.subplots(figsize=(10.0, 7.0))
+    fig, ax = plt.subplots(figsize=(7.6, 5.6))
     styles = {"optimized fixed rule": ("D", COLORS["optimized_fixed_rule"], "Optimized fixed rule"),
               "retrospective oracle": ("P", COLORS["retrospective_oracle"], "Retrospective oracle"),
               "PPO retrained (seed 42)": ("o", COLORS["PPO"], "PPO retrained (seed 42)")}
@@ -274,7 +277,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     # fig_power_vs_inmet_season_rain
     s = pd.read_csv(outputs / "power_station_agreement" / "tables" / "power_vs_station_season_rain.csv")
     s = s[(s["valid_rain_day_share"] >= 0.9) & (s["days"] >= 240)]
-    fig, ax = plt.subplots(figsize=(8.0, 7.5))
+    fig, ax = plt.subplots(figsize=(6.4, 5.8))
     ax.scatter(s["rain_station_mm"], s["rain_power_mm"], color=COLORS["PPO"], s=80, zorder=3)
     shift = {2018: (8, -20), 2023: (-62, 6), 2011: (-62, 6)}
     for r in s.itertuples():
