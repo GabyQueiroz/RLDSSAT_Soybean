@@ -82,7 +82,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
         s = scalars[(scalars["tag"] == "rollout/ep_rew_mean") & (scalars["seed"] == seed)]
         ax.plot(s["step"] / 1000, s["value"], color=SEED_SHADES[i])
     ax.set_xlabel("Training steps (thousands)")
-    ax.set_ylabel("Mean episode objective, training")
+    ax.set_ylabel("Training objective")
     _save(fig, out, "fig_learning_curves_a")
 
     fig, ax = plt.subplots(figsize=PANEL)
@@ -95,7 +95,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     for key, ls in ref_styles:
         ax.axhline(refs[key], color=COLORS[key], linestyle=ls, linewidth=1.6)
     ax.set_xlabel("Training steps (thousands)")
-    ax.set_ylabel("Mean objective, validation")
+    ax.set_ylabel("Validation objective")
     _save(fig, out, "fig_learning_curves_b")
 
     handles = [Line2D([], [], color=SEED_SHADES[i]) for i in range(len(seeds))]
@@ -130,7 +130,7 @@ def exp1_figures(outputs: Path, out: Path) -> None:
     for key, ls in [("rainfed_oct15", "--"), ("optimized_fixed_rule", "-.")]:
         ax.axhline(refs[key], color=COLORS[key], linestyle=ls, linewidth=1.6, label=LABELS[key])
     ax.set_xlabel("Training steps (thousands)")
-    ax.set_ylabel("Mean objective, validation")
+    ax.set_ylabel("Validation objective")
     _legend_above(ax, ncol=1)
     _save(fig, out, "fig_regularization_seed42")
 
@@ -186,7 +186,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     _legend_file(handles, labels, out, "fig_rolling_learning_curves_legend", ncol=3)
 
     # fig_rolling_training_diagnostics: two files and a separate legend
-    for letter, (tag, ylabel) in zip("ab", [("rollout/ep_rew_mean", "Mean objective, training episodes"),
+    for letter, (tag, ylabel) in zip("ab", [("rollout/ep_rew_mean", "Training objective"),
                                             ("train/std", "Policy standard deviation")]):
         fig, ax = plt.subplots(figsize=PANEL)
         for fold, color in zip(fold_list, FOLD_SHADES):
@@ -257,21 +257,18 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     styles = {"optimized fixed rule": ("D", COLORS["optimized_fixed_rule"], "Optimized fixed rule"),
               "retrospective oracle": ("P", COLORS["retrospective_oracle"], "Retrospective oracle"),
               "PPO retrained (seed 42)": ("o", COLORS["PPO"], "PPO retrained (seed 42)")}
-    offsets = {("optimized fixed rule", 0.006): (30, 14), ("PPO retrained (seed 42)", 0.006): (30, -16),
-               ("optimized fixed rule", 0.0): (-30, -28), ("retrospective oracle", 0.0): (-30, -28)}
     for pol, (marker, color, label) in styles.items():
         g = front[front["policy"] == pol].sort_values("kappa")
         ax.plot(g["irrigation_mm"], g["yield_kg_ha"], marker=marker, color=color, label=label, markersize=10)
-        for r in g.itertuples():
-            if r.kappa in (0.0, 0.0015, 0.006):
-                ax.annotate(f"$\\kappa$={r.kappa:g}", (r.irrigation_mm, r.yield_kg_ha), xytext=offsets.get((pol, r.kappa), (10, -22)),
-                            textcoords="offset points")
+        if pol.startswith("PPO"):
+            for r in g.itertuples():
+                ax.annotate(f"$\\kappa$={r.kappa:g}", (r.irrigation_mm, r.yield_kg_ha), xytext=(12, -8), textcoords="offset points")
     r0 = front[front["policy"] == "rainfed Oct 15"].iloc[0]
     ax.scatter([0], [r0["yield_kg_ha"]], marker="s", s=110, color=COLORS["rainfed_oct15"], label="Rainfed Oct 15", zorder=4)
     ax.set_xlabel("Mean seasonal irrigation (mm)")
     ax.set_ylabel("Mean yield (kg ha$^{-1}$)")
     ax.set_xlim(-8, 135)
-    ax.legend(loc="lower right", frameon=False)
+    _legend_above(ax, ncol=2)
     _save(fig, out, "fig_rolling_water_frontier")
 
     # fig_power_vs_inmet_season_rain
@@ -279,7 +276,7 @@ def exp2_figures(cfg: dict, project: Path, outputs: Path, out: Path) -> None:
     s = s[(s["valid_rain_day_share"] >= 0.9) & (s["days"] >= 240)]
     fig, ax = plt.subplots(figsize=(6.4, 5.8))
     ax.scatter(s["rain_station_mm"], s["rain_power_mm"], color=COLORS["PPO"], s=80, zorder=3)
-    shift = {2018: (8, -20), 2023: (-62, 6), 2011: (-62, 6)}
+    shift = {2006: (-58, 8), 2011: (-40, -30), 2023: (-26, 10), 2018: (10, -14)}
     for r in s.itertuples():
         ax.annotate(str(r.season), (r.rain_station_mm, r.rain_power_mm), xytext=shift.get(r.season, (8, 4)), textcoords="offset points")
     lo = min(s["rain_station_mm"].min(), s["rain_power_mm"].min()) * 0.9
