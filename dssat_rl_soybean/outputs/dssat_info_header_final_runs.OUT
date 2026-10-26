@@ -1,0 +1,106 @@
+*INFO DETAIL FILE
+
+******************************************************************************
+
+*DSSAT Cropping System Model Ver. 4.8.0.028 -develop  OCT 08, 2026 20:22:39
+
+*RUN   1        : DSSATTools                CRGRO048 CAST9901    1
+ MODEL          : CRGRO048 - Soybean
+ EXPERIMENT     : CAST9901 SB
+ DATA PATH      :
+ TREATMENT  1   : DSSATTools                CRGRO048
+  
+
+ IPFLD   YEAR DOY =    0   0
+ Plastic mulch cover albedo =   0.00                                           
+
+ CSM     YEAR DOY = 1999 213
+ RNMODE = C                                                                    
+ PATHEX =                                                                      
+ FILEX  = CAST9901.SBX                                                         
+ FILEB  =                                                                      
+ FILEIO = DSSAT48.INP                                                          
+ MODEL  = CRGRO048                                                             
+ TRTNUM =     1                                                                
+
+ SOILDYN  YEAR DOY = 1999 213
+ The soil file has missing or invalid data.                                    
+ Default values have been used for these variables:                            
+   pH, CEC, STONES, ADCOEF                                                     
+ These defaults may or may not be important to your results.                   
+
+ RETC  YEAR DOY = 1999 213
+ Soil RETC parameters:                                                         
+  LYR DS  SWCN   WCR    Hb Lambd  Alpha     m     n Texture                    
+   1   5-99.00 0.060   3.1 0.202  0.013 0.200 1.250 Clay                       
+   2  15-99.00 0.060   3.1 0.202  0.013 0.200 1.250 Clay                       
+   3  30-99.00 0.066   4.2 0.188  0.011 0.184 1.225 Clay                       
+   4  45-99.00 0.073   4.4 0.166  0.011 0.164 1.197 Clay                       
+   5  60-99.00 0.073   4.4 0.166  0.011 0.164 1.197 Clay                       
+   6  90-99.00 0.076   5.9 0.160  0.009 0.158 1.188 Clay                       
+   7 120-99.00 0.078   7.4 0.157  0.007 0.154 1.183 Clay                       
+   8 150-99.00 0.079   8.2 0.155  0.007 0.153 1.181 Clay                       
+
+ SOILDYN  YEAR DOY = 1999 213
+ Soil ID: CASTRO0001                                                           
+ CASTRO DEFAULT                                                                
+ -99                                                                           
+   SALB SWCON    CN  DMOD  SLPF SMPX                                           
+   0.13  0.50  65.0  1.00  1.00 -99                                            
+ Soil layer distribution method: 1                                             
+      DS DLAYR    LL   DUL   SAT  Root    BD    OC  CLAY  SILT  SAND           
+ LYR  cm    cm  frac  frac  frac  Grow g/cm3     %     %     %     %    pH     
+   1   5     5 0.180 0.320 0.480 1.000  1.18  2.20  60.0  25.0  15.0   7.0     
+   2  15    10 0.180 0.320 0.480 1.000  1.18  2.20  60.0  25.0  15.0   7.0     
+   3  30    15 0.200 0.340 0.470 0.800  1.22  1.80  62.0  24.0  14.0   7.0     
+   4  45    15 0.220 0.350 0.460 0.550  1.27  1.30  65.0  22.0  13.0   7.0     
+   5  60    15 0.220 0.350 0.460 0.550  1.27  1.30  65.0  22.0  13.0   7.0     
+   6  90    30 0.230 0.360 0.450 0.300  1.32  0.90  66.0  21.0  13.0   7.0     
+   7 120    30 0.237 0.367 0.443 0.200  1.35  0.70  67.3  20.3  12.4   7.0     
+   8 150    30 0.240 0.370 0.440 0.150  1.36  0.60  68.0  20.0  12.0   7.0     
+
+ SOILDYN  YEAR DOY = 1999 213
+ Additional soil properties                                                    
+                Convert                                                        
+    Cation Adsrp  ppm /  SLCF                                                  
+   L  Exch  Coef  kg/ha     %                                                  
+   1  15.5   0.0   1.69   0.0                                                  
+   2  15.5   0.0   0.85   0.0                                                  
+   3  15.5   0.0   0.55   0.0                                                  
+   4  15.5   0.0   0.52   0.0                                                  
+   5  15.5   0.0   0.52   0.0                                                  
+   6  15.5   0.0   0.25   0.0                                                  
+   7  15.5   0.0   0.25   0.0                                                  
+   8  15.5   0.0   0.25   0.0                                                  
+
+ IPWTH   YEAR DOY = 1999 213
+ C:\DSSAT_RL_RUNS\run_10940_1791501755115109000\Weather\CAST9902.WTH           
+ Found daily weather data headers for:                                         
+   SRAD           Col   9 -  13                                                
+   TMAX           Col  15 -  19                                                
+   TMIN           Col  21 -  25                                                
+   RAIN           Col  27 -  31                                                
+   DEWP           Col  33 -  37                                                
+   WIND           Col  39 -  43                                                
+   PAR            Col  45 -  49                                                
+   RHUM           Col  57 -  61                                                
+
+ CO2VAL  YEAR DOY = 1999 213
+  781 CO2 data points read from file.                                          
+ C:\DSSAT_RL_RUNS\homes\p10940\DSSAT048\StandardData\CO2048.WDA                
+
+ SOMINI  YEAR DOY = 1999 213
+ Initial SOM fractions (fraction of total soil organic matter):                
+                      SAND   TOC  FOMC  SOMC  SOM1  SOM2  SOM3                 
+  Lyr Dep Texture       %     %     %     %   frac  frac  frac Method          
+   1   5 Clay         15.0 2.200 0.000 2.200 0.019 0.370 0.611 Regression eqn  
+   2  15 Clay         15.0 2.200 0.000 2.200 0.019 0.370 0.611 Regression eqn  
+   3  30 Clay         14.0 1.800 0.000 1.800 0.012 0.233 0.755 Regression eqn  
+   4  45 Clay         13.0 1.300 0.000 1.300 0.001 0.019 0.980 Regression eqn  
+   5  60 Clay         13.0 1.300 0.000 1.300 0.001 0.019 0.980 Regression eqn  
+   6  90 Clay         13.0 0.900 0.000 0.900 0.001 0.019 0.980 Regression eqn  
+   7 120 Clay         12.4 0.700 0.000 0.700 0.001 0.019 0.980 Regression eqn  
+   8 150 Clay         12.0 0.600 0.000 0.600 0.001 0.019 0.980 Regression eqn  
+
+ ENDRUN  YEAR DOY = 2000  75
+ Normal end of run        1                                                    
